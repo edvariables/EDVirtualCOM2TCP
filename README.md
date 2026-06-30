@@ -10,4 +10,4 @@ https://sourceforge.net/projects/com0com/files/hub4com /.../hub4com-...-386.zip
 
 ---------
 ED
-admin@edvariables.ovh
+admin@edvariables.net
