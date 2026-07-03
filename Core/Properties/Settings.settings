@@ -1,0 +1,30 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="EDVirtualCOM2TCP.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="IP_Address" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">192.168.1.127</Value>
+    </Setting>
+    <Setting Name="IP_Port" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">23</Value>
+    </Setting>
+    <Setting Name="COM_num" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">3</Value>
+    </Setting>
+    <Setting Name="com0com_path" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">%ProgramFiles(x86)%\com0com</Value>
+    </Setting>
+    <Setting Name="hub4com_path" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">hub4com</Value>
+    </Setting>
+    <Setting Name="hub4com_options" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">--create-filter=escparse,com,parse   --create-filter=pinmap,com,pinmap:"--rts=cts --dtr=dsr" --create-filter=linectl,com,lc:"--br=local --lc=local" --add-filters=0:com --create-filter=telnet,tcp,telnet:" --comport=client"   --create-filter=pinmap,tcp,pinmap:"--rts=cts --dtr=dsr --break=break" --create-filter=linectl,tcp,lc:"--br=remote --lc=remote" --octs=off </Value>
+    </Setting>
+    <Setting Name="hub4com_download" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://sourceforge.net/projects/com0com/files/hub4com</Value>
+    </Setting>
+    <Setting Name="com0com_download" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://sourceforge.net/projects/com0com/files/latest/download</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

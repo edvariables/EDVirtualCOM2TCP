@@ -1,0 +1,2021 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<EDV>
+    <Version Major="1" Minor="472" Build="0" Revision="134">1.472.0.134</Version>
+    <!--.COM2TCP-->
+    <VAR ShortName="COM2TCP" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Domain">
+        <!--.COM2TCP.COMx-->
+        <VAR ShortName="COMx" ClassName="Serial@EDVIO" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Boolean" Control="EDV.EDVIO.CtrlStream@EDVIO.DLL">
+            <Value><![CDATA[False]]></Value>
+        </VAR>
+        <!--.COM2TCP.edvAppli-->
+        <VAR ShortName="edvAppli" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Boolean" SaveLocation="V">
+            <Meta><![CDATA[<DESIGNER.LASTPRESENTATION>Window</DESIGNER.LASTPRESENTATION>]]></Meta>
+        </VAR>
+        <!--.COM2TCP.TCP-->
+        <VAR ShortName="TCP" ClassName="TCP@EDVIO" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Boolean" Control="EDV.EDVIO.CtrlStream@EDVIO.DLL">
+            <Value><![CDATA[False]]></Value>
+        </VAR>
+        <!--.COM2TCP.Visual-->
+        <VAR ShortName="Visual" ClassName="VarVisual" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Visual">
+            <Meta><![CDATA[<DESIGNER.LASTPRESENTATION>Window</DESIGNER.LASTPRESENTATION>]]></Meta>
+        </VAR>
+        <DOM ShortName="COMx">
+            <!--.COM2TCP.COMx.Number-->
+            <VAR ShortName="Number" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Byte">
+                <Value><![CDATA[6]]></Value>
+            </VAR>
+            <!--.COM2TCP.COMX.Received-->
+            <VAR ShortName="Received" ClassName="" AutoReset="0" Securized="0" ReadOnly="1" ValueType="Text" />
+            <!--.COM2TCP.COMX.Send-->
+            <VAR ShortName="Send" ClassName="" AutoReset="1" Securized="0" ReadOnly="0" ValueType="Text" />
+            <!--.COM2TCP.COMX.Settings-->
+            <VAR ShortName="Settings" ClassName="SerialSettings@EDVIO" AutoReset="0" Securized="0" ReadOnly="1" ValueType="String">
+                <Script><![CDATA["COM" + Number + ",9600,8,n,1"]]></Script>
+            </VAR>
+            <!--.COM2TCP.COMX.Status-->
+            <VAR ShortName="Status" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="String">
+                <Value><![CDATA[Closed]]></Value>
+            </VAR>
+        </DOM>
+        <DOM ShortName="edvAppli">
+            <!--.COM2TCP.edvAppli.ApplicationId-->
+            <VAR ShortName="ApplicationId" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String">
+                <Value><![CDATA[COM2TCP]]></Value>
+            </VAR>
+            <!--.COM2TCP.edvAppli.Data-->
+            <VAR ShortName="Data" ClassName="VarDataTable" AutoReset="0" Securized="1" ReadOnly="0" ValueType="DataTable">
+                <Value><![CDATA[<?xml version="1.0" encoding="utf-16"?><DataTable><Schema><xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata"><xs:element name="XML"><xs:complexType><xs:sequence><xs:element name="IdParam" msdata:Caption="" type="xs:string" /><xs:element name="Value" msdata:Caption="" type="xs:string" minOccurs="0" /><xs:element name="Visual" msdata:Caption="" type="xs:boolean" minOccurs="0" /><xs:element name="Title" msdata:Caption="" type="xs:string" minOccurs="0" /><xs:element name="UserLevel" msdata:Caption="" type="xs:int" minOccurs="0" /><xs:element name="Category" msdata:Caption="" type="xs:string" minOccurs="0" /><xs:element name="SortIndex" msdata:Caption="" type="xs:double" minOccurs="0" /><xs:element name="Unit" msdata:Caption="" type="xs:string" minOccurs="0" /><xs:element name="Error" msdata:Caption="" type="xs:string" minOccurs="0" /></xs:sequence></xs:complexType></xs:element><xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:MainDataTable="XML" msdata:UseCurrentLocale="true"><xs:complexType><xs:choice minOccurs="0" maxOccurs="unbounded"><xs:element ref="XML" /></xs:choice></xs:complexType><xs:unique name="Constraint1" msdata:PrimaryKey="true"><xs:selector xpath=".//XML" /><xs:field xpath="IdParam" /></xs:unique></xs:element></xs:schema></Schema><Data /></DataTable>]]></Value>
+                <Meta><![CDATA[<DESIGNER.LASTPRESENTATION>Window</DESIGNER.LASTPRESENTATION>]]></Meta>
+            </VAR>
+            <!--.COM2TCP.edvAppli.DataSource-->
+            <VAR ShortName="DataSource" ClassName="VarDataSource" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Text">
+                <Script><![CDATA[switch (:DBType)
+{
+case "Oracle":
+	"Provider=OraOLEDB.Oracle;Data Source=" + :DBName + ";User Id=" + :DBUser + ";Password=" + :DBPassword + ";Persist Security Info=true";
+	break;
+case "SQLServer":
+	"Provider=sqloledb;Data Source=" + :DBServer + ";Initial Catalog=" + :DBName + ";Integrated Security=SSPI;User Id=" + :DBUser + "; Password=" + :DBPassword + ";";
+	break;
+case "EDV":
+	"Provider=EDV;Data Source=" + :DBName + ";User Id=" + :DBUser + ";Password=" + :DBPassword;
+	break;
+case "EDVServer":
+	"Provider=EDVServer;Server=" + :DBServer + ";User Id=" + :DBUser + ";Password=" + :DBPassword 
+		+ "; edvar=" + :DBName + ";";
+	break;
+case "XML":
+	"Provider=XML;Data Source=" + :DBName;
+	break;
+case "MySQL":
+	"Provider=MSDASQL;DRIVER={MySQL ODBC 5.1 Driver};SERVER=" + :DBServer + ";PORT=3306;DATABASE=" + :DBName + "; OPTION=19035;UID=" + :DBUser + ";PWD=" + :DBPassword;
+	break;
+case "Access":
+	"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + :DBName + ";User Id=" + :DBUser + ";Password=" + :DBPassword;
+	break;
+case "TextFile":
+	"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=\"" + :DBName + "\";Extended Properties='text;HDR=Yes;FMT=Delimited';";
+	break;
+case "Excel":
+	"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + :DBName + ";Extended Properties=\"Excel 8.0;HDR=Yes;\";";
+	break;
+case "FileSystem":
+	"Provider=FileSystem;ServerSide=" + :DBServer + ";FilePattern=" + :DBName;
+	break;
+case "FTP":
+	"Provider=FTP;Server=" + :DBServer + ";User=" + :DBUser + ";Password=" + :DBPassword + ";FilePattern=" + :DBName;
+	break;
+default:
+	"Internal";
+}]]></Script>
+            </VAR>
+            <!--.COM2TCP.edvAppli.EDVClient-->
+            <VAR ShortName="EDVClient" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Object" />
+            <!--.COM2TCP.edvAppli.EDVVisual-->
+            <VAR ShortName="EDVVisual" ClassName="VarFile" AutoReset="0" Securized="1" ReadOnly="1" ValueType="File">
+                <Script><![CDATA[.{Sys}.Path.Bin + "\\EDVVisual.exe"]]></Script>
+            </VAR>
+            <!--.COM2TCP.edvAppli.Errors-->
+            <VAR ShortName="Errors" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Text" SaveLocation="V" />
+            <!--.COM2TCP.edvAppli.jsc-->
+            <VAR ShortName="jsc" ClassName="" AutoReset="1" Securized="1" ReadOnly="0" ValueType="Boolean">
+                <Meta><![CDATA[<DESIGNER.LASTPRESENTATION>Window</DESIGNER.LASTPRESENTATION>]]></Meta>
+            </VAR>
+            <!--.COM2TCP.edvAppli.Log-->
+            <VAR ShortName="Log" ClassName="VarLog" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String" SaveLocation="V" Control="EDVCtrlLog" />
+            <!--.COM2TCP.edvAppli.Midnight-->
+            <VAR ShortName="Midnight" ClassName="EDVDelay@EDVFunctions" AutoReset="1" Securized="1" ReadOnly="1" ValueType="Boolean" />
+            <!--.COM2TCP.edvAppli.OnLoad-->
+            <VAR ShortName="OnLoad" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Null">
+                <Script><![CDATA[when(..:Checking && ..){//edvAppli passe à true lors du chargement du fichier edvars du fait de l'existance d'un script OnLoad
+	edvInfo = "Chargement de " + ..:Domain;
+	if(Save.Local.Exists)
+		edvClient.OpenVarsFile(Save.Local, ".");
+	Data.Open;
+
+	:Done = true;
+}
+null;]]></Script>
+            </VAR>
+            <!--.COM2TCP.edvAppli.Save-->
+            <VAR ShortName="Save" ClassName="" AutoReset="1" Securized="1" ReadOnly="0" ValueType="Boolean" />
+            <!--.COM2TCP.edvAppli.Session-->
+            <VAR ShortName="Session" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Boolean">
+                <Script><![CDATA[edvSender.NameUpper.StartsWith(".{CLIENTS}.")]]></Script>
+            </VAR>
+            <!--.COM2TCP.edvAppli.Title-->
+            <VAR ShortName="Title" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String">
+                <Value><![CDATA[Application Modèle edvAppli]]></Value>
+            </VAR>
+            <!--.COM2TCP.edvAppli.Update-->
+            <VAR ShortName="Update" ClassName="" AutoReset="1" Securized="1" ReadOnly="0" ValueType="Boolean" />
+            <!--.COM2TCP.edvAppli.Url-->
+            <VAR ShortName="Url" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="String">
+                <Script><![CDATA[..:Domain + "edv"
+/*
+var path = edvTools.Domain(edvTools.ParentName(edvSender.Name)) + "Visual.";
+var appli = ..ApplicationId;
+var isSession = path.StartsWith(".{CLIENTS}");
+if(isSession)
+	"/edv/" + appli + "/" + path.Substring(path.IndexOf(".",12)) + "edvsess";
+else
+	"/edv/" + appli + "/" + path + "edvmaster";
+*/]]></Script>
+            </VAR>
+            <!--.COM2TCP.edvAppli.User-->
+            <VAR ShortName="User" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Object" SaveLocation="V" />
+            <!--.COM2TCP.edvAppli.Version-->
+            <VAR ShortName="Version" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="String">
+                <Script><![CDATA[:Major + "." + :Minor + "." + :Build + "." + :Revision]]></Script>
+            </VAR>
+            <!--.COM2TCP.edvAppli.Visual-->
+            <VAR ShortName="Visual" ClassName="VarVisual" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Visual">
+                <Meta><![CDATA[<DESIGNER.LASTPRESENTATION>Window</DESIGNER.LASTPRESENTATION>]]></Meta>
+            </VAR>
+            <DOM ShortName="Data">
+                <!--.COM2TCP.edvAppli.Data.Model-->
+                <VAR ShortName="Model" ClassName="VarDataTable" AutoReset="0" Securized="1" ReadOnly="0" ValueType="DataTable">
+                    <Value><![CDATA[<?xml version="1.0" encoding="utf-16"?><DataTable><Schema><xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata"><xs:element name="Internal" msdata:CaseSensitive="False"><xs:complexType><xs:sequence><xs:element name="IdParam" msdata:Caption="" type="xs:string" /><xs:element name="Value" msdata:Caption="" type="xs:string" minOccurs="0" /><xs:element name="Visual" msdata:Caption="" type="xs:boolean" minOccurs="0" /><xs:element name="Title" msdata:Caption="" type="xs:string" minOccurs="0" /><xs:element name="UserLevel" msdata:Caption="" type="xs:int" minOccurs="0" /><xs:element name="Category" msdata:Caption="" type="xs:string" minOccurs="0" /><xs:element name="SortIndex" type="xs:int" minOccurs="0" /><xs:element name="Unit" msdata:Caption="" type="xs:string" minOccurs="0" /><xs:element name="Error" msdata:Caption="" type="xs:string" minOccurs="0" /></xs:sequence></xs:complexType></xs:element><xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:MainDataTable="Internal" msdata:UseCurrentLocale="true"><xs:complexType><xs:choice minOccurs="0" maxOccurs="unbounded"><xs:element ref="Internal" /></xs:choice></xs:complexType><xs:unique name="Constraint1" msdata:PrimaryKey="true"><xs:selector xpath=".//Internal" /><xs:field xpath="IdParam" /></xs:unique></xs:element></xs:schema></Schema><Data><DocumentElement /></Data></DataTable>]]></Value>
+                </VAR>
+                <!--.COM2TCP.edvAppli.Data.Open-->
+                <VAR ShortName="Open" ClassName="" AutoReset="1" Securized="1" ReadOnly="0" ValueType="Boolean" />
+                <!--.COM2TCP.edvAppli.Data.Save-->
+                <VAR ShortName="Save" ClassName="" AutoReset="1" Securized="1" ReadOnly="0" ValueType="Boolean" />
+                <!--.COM2TCP.edvAppli.Data.Source-->
+                <VAR ShortName="Source" ClassName="VarDataSource" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Text">
+                    <Script><![CDATA["Provider=XML;Data Source=" + :DBName;]]></Script>
+                </VAR>
+                <!--.COM2TCP.edvAppli.Data.Validate-->
+                <VAR ShortName="Validate" ClassName="" AutoReset="1" Securized="1" ReadOnly="0" ValueType="Boolean" />
+                <DOM ShortName="Model">
+                    <!--.COM2TCP.edvAppli.Data.Model.Save-->
+                    <VAR ShortName="Save" ClassName="" AutoReset="1" Securized="1" ReadOnly="0" ValueType="Boolean">
+                        <!--.COM2TCP.edvAppli.Data.Model.Save.OnChanging-->
+                        <VAR ShortName="OnChanging" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Null">
+                            <Script><![CDATA[when(..)
+{
+	var varRef = ..edvAppli:Object;
+	var domain = varRef.Domain.ToUpper();
+	var lModelTable = ...;
+	var variables = edvClient.GetVariables(..edvAppli:Domain);
+	lModelTable.CaseSensitive = false;
+	for(var lVar in variables.Values)
+		if (EDV.SaveLocation.ContainsLocation(lVar.SaveLocation, EDV.SaveLocation.Application)
+		//&& (edvInfo = domain + " / " + lVar.Name + " / " + relName) != ""
+		){
+			var relName = edvTools.GetRelativeName(varRef.Name, lVar.Name);
+			if(lModelTable.Select("IdParam = '" + lVar.Name + "'"
+				+ " OR IdParam = '" + relName.ToUpper() + "'"
+				).Length == 0) {
+					//edvInfo = "	add " + typeof(relName);
+					var newRow = lModelTable.NewRow();
+					newRow[0] = relName;
+					newRow[1] = lVar.ValueType == EDVType.Password ? "" : lVar.Value;
+					newRow["SortIndex"] = 9999;
+					lModelTable.Rows.Add(newRow);
+				}
+		}
+/*	var lVarRoot = ..edvAppli:Parent;
+	var lModelTable = ...;
+
+	for(var lVar in edvClient.GetVariables(..edvAppli:Domain).Values)
+		if (EDV.SaveLocation.ContainsLocation(lVar.SaveLocation, EDV.SaveLocation.Application)
+		&& lModelTable.Select("IdParam = '" + lVar.Name + "'"
+			+ " OR IdParam = '" + lVar.Name.Substring(lVarRoot.Name.Length+1) + "'").Length == 0) {
+				var newRow = lModelTable.NewRow();
+				newRow[0] = lVar.Name.Substring(lVarRoot.Name.Length+1);
+				newRow[1] = lVar.Value;
+				newRow["SortIndex"] = 999;
+				lModelTable.Rows.Add(newRow);
+
+		}*/
+
+	var rows = lModelTable.Select("", "SortIndex");
+	lModelTable = lModelTable.Clone();
+	for(var row in rows.GetEnumerator()){
+		var newRow = lModelTable.NewRow();
+		newRow.ItemArray = row.ItemArray;
+		lModelTable.Rows.Add(newRow);
+	}
+	... = lModelTable;
+}
+]]></Script>
+                        </VAR>
+                    </VAR>
+                </DOM>
+                <DOM ShortName="Open">
+                    <!--.COM2TCP.edvAppli.Data.Open.OnChanged-->
+                    <VAR ShortName="OnChanged" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Null">
+                        <Script><![CDATA[when(..:Changed) {
+	edvInfo = :Name + " : Chargement des paramètres généraux.";
+	var dataTable = ...;
+	var lVarRoot =..edvAppli:Parent;
+	if (lVarRoot != null){
+		for(var lRow : DataRow in dataTable.Select("", "SortIndex").GetEnumerator()) {
+			var lVarName = lRow["IdParam"];
+			var lVar = null;
+
+			if(lVarName.StartsWith(":"))
+				lVar = lVarRoot["edvAppli." + lVarName.Substring(1)];
+			else
+				lVar = lVarRoot[lVarName];
+			if (lVar != null){
+				if(!lRow.IsNull("Value"))
+					lVar.Value = lRow["Value"];
+				lRow["Error"] = DBNull.Value;
+			}
+			else {
+				edvInfo = :Name + " : la donnée sauvegardée '" + lVarName + "' ne correspond à aucune variable.";
+				lRow["Error"] = "introuvable";
+			}
+		}
+	}
+}
+null;]]></Script>
+                    </VAR>
+                    <!--.COM2TCP.edvAppli.Data.Open.OnChanging-->
+                    <VAR ShortName="OnChanging" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Null">
+                        <Script><![CDATA[when(..:Changing){
+	var dataTable = ...;
+	if (!dataTable.Columns.Contains("SortIndex"))
+		dataTable.Columns.Add("SortIndex", Int32);
+	if (!dataTable.Columns.Contains("Unit"))
+		dataTable.Columns.Add("Unit", String);
+	if (!dataTable.Columns.Contains("Error"))
+		dataTable.Columns.Add("Error", String);
+
+	var modelTable = ..Model;
+	var rows;
+	for(var modelRow in modelTable.Rows) {
+		if((rows = dataTable.Select("IdParam='" + modelRow["IdParam"] + "'")).Length==0) {
+			var newRow = dataTable.NewRow();
+			for(var column in dataTable.Columns)
+				newRow[column] = modelRow[column.ColumnName];
+			dataTable.Rows.Add(newRow);
+		}
+		else {
+			rows[0]["Visual"] = modelRow["Visual"];
+			rows[0]["Title"] = modelRow["Title"];
+			rows[0]["UserLevel"] = modelRow["UserLevel"];
+			rows[0]["Category"] = modelRow["Category"];
+			rows[0]["SortIndex"] = modelRow["SortIndex"];
+			rows[0]["Unit"] = modelRow["Unit"];
+		}
+	}
+
+	/*//set sorted table
+	var rows = dataTable.Select("", "SortIndex");
+	dataTable = dataTable.Clone();
+	for(var row in rows.GetEnumerator()){
+		var newRow = dataTable.NewRow();
+		newRow.ItemArray = row.ItemArray;
+		dataTable.Rows.Add(newRow);
+	}
+	... = dataTable;
+	*/
+}
+null;
+]]></Script>
+                    </VAR>
+                    <!--.COM2TCP.edvAppli.Data.Open.OnChecking-->
+                    <VAR ShortName="OnChecking" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Null">
+                        <Script><![CDATA[when(..:Checking)
+	if(..Source.DBName == ""){
+		.. = false;
+	}
+null;]]></Script>
+                    </VAR>
+                    <DOM ShortName="OnChanged">
+                        <!--.COM2TCP.edvAppli.Data.Open.OnChanged._Script-->
+                        <VAR ShortName="_Script" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Code">
+                            <Value><![CDATA[when(..:Changed) {
+	edvInfo = :Name + " : Chargement des paramètres généraux.";
+	var dataTable = ...;
+	var lVarRoot =..edvAppli:Parent;
+	if (lVarRoot != null){
+		for(var lRow : DataRow in dataTable.Select("", "SortIndex").GetEnumerator()) {
+			var lVarName = lRow["IdParam"];
+			var lVar = null;
+
+			if(lVarName.StartsWith(":"))
+				lVar = lVarRoot["edvAppli." + lVarName.Substring(1)];
+			else
+				lVar = lVarRoot[lVarName];
+			if (lVar != null){
+				if(!lRow.IsNull("Value"))
+					lVar.Value = lRow["Value"];
+				lRow["Error"] = DBNull.Value;
+			}
+			else {
+				edvInfo = :Name + " : la donnée sauvegardée '" + lVarName + "' ne correspond à aucune variable.";
+				lRow["Error"] = "introuvable";
+			}
+		}
+	}
+}
+null;]]></Value>
+                        </VAR>
+                    </DOM>
+                </DOM>
+                <DOM ShortName="Save">
+                    <!--.COM2TCP.edvAppli.Data.Save.OnChanging-->
+                    <VAR ShortName="OnChanging" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Null">
+                        <Script><![CDATA[when(..){
+	edvInfo = :Name + " : Enregistrement des paramètres généraux";
+	var lVarRoot, lVar;
+	if ((lVarRoot = ..edvAppli:Parent) != null) {
+		var lDataTable = ...;
+		for(var lRow in lDataTable.Rows) {
+			if(lRow["IdParam"].StartsWith(":"))
+				lVar = lVarRoot["edvAppli." + lRow["IdParam"].Substring(1)];
+			else
+				lVar = lVarRoot[lRow["IdParam"]];
+			if (lVar != null){
+				lRow["Value"] = lVar.Value;
+				lRow["Error"] = DBNull.Value;
+			}
+			else {
+				edvError = :Name + "\t\t\tLe paramètre " + lRow["IdParam"] + " n'existe pas en référence à " + lVarRoot.Name;
+				lRow["Error"] = "introuvable";
+			}
+		}
+		..Validate;
+	}
+}
+]]></Script>
+                    </VAR>
+                </DOM>
+                <DOM ShortName="Source">
+                    <!--.COM2TCP.edvAppli.Data.Source.DBName-->
+                    <VAR ShortName="DBName" ClassName="" AutoReset="0" Securized="0" ReadOnly="1" ValueType="String" SaveLocation=".">
+                        <Script><![CDATA[var lsFile = ..Save.File;//Fichier .edvars d'où est chargé l'application
+if (lsFile != "" && !lsFile.StartsWith("\t\t\tATTENTION")) lsFile.substring(0, lsFile.length-".edvars".length) + ".Params.xml";
+else "";]]></Script>
+                    </VAR>
+                    <!--.COM2TCP.edvAppli.Data.Source.DBPassword-->
+                    <VAR ShortName="DBPassword" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Password" SaveLocation=".">
+                        <Value Crypt="True"><![CDATA[rNr53jbT76+skz8oFAbAfg==]]></Value>
+                    </VAR>
+                    <!--.COM2TCP.edvAppli.Data.Source.DBServer-->
+                    <VAR ShortName="DBServer" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="String" SaveLocation=".">
+                        <Value><![CDATA[test]]></Value>
+                    </VAR>
+                    <!--.COM2TCP.edvAppli.Data.Source.DBType-->
+                    <VAR ShortName="DBType" ClassName="VarSelection" AutoReset="0" Securized="0" ReadOnly="0" ValueType="String" SaveLocation=".">
+                        <Value><![CDATA[XML]]></Value>
+                    </VAR>
+                    <!--.COM2TCP.edvAppli.Data.Source.DBUser-->
+                    <VAR ShortName="DBUser" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="String" SaveLocation=".">
+                        <Value><![CDATA[convergence]]></Value>
+                    </VAR>
+                    <DOM ShortName="DBType">
+                        <!--.COM2TCP.edvAppli.Data.Source.DBType.InsertAuto-->
+                        <VAR ShortName="InsertAuto" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Boolean">
+                            <Value><![CDATA[False]]></Value>
+                        </VAR>
+                        <!--.COM2TCP.edvAppli.Data.Source.DBType.InValues-->
+                        <VAR ShortName="InValues" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Boolean">
+                            <Value><![CDATA[True]]></Value>
+                        </VAR>
+                        <!--.COM2TCP.edvAppli.Data.Source.DBType.Values-->
+                        <VAR ShortName="Values" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Text">
+                            <Value><![CDATA[Internal
+EDV
+XML
+SQLite
+Oracle
+SQLServer
+Access
+TextFile
+MySQL
+Excel
+FileSystem
+FTP
+EDVars
+EDVServer
+EDVar
+INI
+Regex]]></Value>
+                        </VAR>
+                    </DOM>
+                </DOM>
+            </DOM>
+            <DOM ShortName="DataSource">
+                <!--.COM2TCP.edvAppli.DataSource.DBName-->
+                <VAR ShortName="DBName" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="String" SaveLocation=".">
+                    <Value><![CDATA[galaxie]]></Value>
+                </VAR>
+                <!--.COM2TCP.edvAppli.DataSource.DBPassword-->
+                <VAR ShortName="DBPassword" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Password" SaveLocation=".">
+                    <Value Crypt="True"><![CDATA[rNr53jbT76+skz8oFAbAfg==]]></Value>
+                </VAR>
+                <!--.COM2TCP.edvAppli.DataSource.DBServer-->
+                <VAR ShortName="DBServer" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="String" SaveLocation=".">
+                    <Value><![CDATA[test]]></Value>
+                </VAR>
+                <!--.COM2TCP.edvAppli.DataSource.DBType-->
+                <VAR ShortName="DBType" ClassName="VarSelection" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Selection" SaveLocation=".">
+                    <Value><![CDATA[Internal]]></Value>
+                </VAR>
+                <!--.COM2TCP.edvAppli.DataSource.DBUser-->
+                <VAR ShortName="DBUser" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="String" SaveLocation=".">
+                    <Value><![CDATA[convergence]]></Value>
+                </VAR>
+                <DOM ShortName="DBType">
+                    <!--.COM2TCP.edvAppli.DataSource.DBType.InsertAuto-->
+                    <VAR ShortName="InsertAuto" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Boolean">
+                        <Value><![CDATA[False]]></Value>
+                    </VAR>
+                    <!--.COM2TCP.edvAppli.DataSource.DBType.InValues-->
+                    <VAR ShortName="InValues" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Boolean">
+                        <Value><![CDATA[True]]></Value>
+                    </VAR>
+                    <!--.COM2TCP.edvAppli.DataSource.DBType.Values-->
+                    <VAR ShortName="Values" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Text">
+                        <Value><![CDATA[Internal
+EDV
+EDVServer
+XML
+Oracle
+SQLServer
+Access
+TextFile
+MySQL
+Excel
+FileSystem
+FTP]]></Value>
+                    </VAR>
+                </DOM>
+            </DOM>
+            <DOM ShortName="EDVVisual">
+                <!--.COM2TCP.edvAppli.EDVVisual._Designer-->
+                <VAR ShortName="_Designer" ClassName="VarVisual" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Visual" />
+                <!--.COM2TCP.edvAppli.EDVVisual.Arguments-->
+                <VAR ShortName="Arguments" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Code">
+                    <Value><![CDATA[<?
+if(:Address != "") 			echo("Address:=" + :Address + " ");
+if(:Port != 0) 				echo("Port:=" + :Port + " ");
+if(:Open.Always && :Open != "") 	echo("OpenIf:=Always ");
+else					echo("OpenIf:=NotExists ");
+if(:Open != "") 			echo("Open:=" + :Open + " ");
+if(:OpenInSession >= 0) 		echo("OpenInSession:=" + :OpenInSession + " ");
+if(:Close) 				echo("Close:=1" + " ");
+if(:Url != "") 				echo("Url:=" + :Url + " ");
+if(:Var != "") 				echo("Var:=" + :Var + " ");
+if(:Visual != "") 			echo("Visual:=" + :Visual + " ");
+?>]]></Value>
+                </VAR>
+                <!--.COM2TCP.edvAppli.EDVVisual.CreateDesktopShortCut-->
+                <VAR ShortName="CreateDesktopShortCut" ClassName="" AutoReset="1" Securized="1" ReadOnly="0" ValueType="Boolean" />
+                <!--.COM2TCP.edvAppli.EDVVisual.Open-->
+                <VAR ShortName="Open" ClassName="" AutoReset="1" Securized="1" ReadOnly="0" ValueType="Boolean" />
+                <DOM ShortName="_Designer">
+                    <!--.COM2TCP.edvAppli.EDVVisual._Designer.WIN-->
+                    <VAR ShortName="WIN" ClassName="WinForm@EDVVisual" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Boolean">
+                        <Value><![CDATA[False]]></Value>
+                        <!--.COM2TCP.edvAppli.EDVVisual._Designer.WIN.Height-->
+                        <VAR ShortName="Height" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Integer">
+                            <Value><![CDATA[115]]></Value>
+                        </VAR>
+                        <!--.COM2TCP.edvAppli.EDVVisual._Designer.WIN.Text-->
+                        <VAR ShortName="Text" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String">
+                            <Value><![CDATA[Name]]></Value>
+                        </VAR>
+                        <!--.COM2TCP.edvAppli.EDVVisual._Designer.WIN.TextAuto-->
+                        <VAR ShortName="TextAuto" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Boolean">
+                            <Value><![CDATA[False]]></Value>
+                        </VAR>
+                        <!--.COM2TCP.edvAppli.EDVVisual._Designer.WIN.Width-->
+                        <VAR ShortName="Width" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Integer">
+                            <Value><![CDATA[303]]></Value>
+                        </VAR>
+                        <!--.COM2TCP.edvAppli.EDVVisual._Designer.WIN.WindowStartPosition-->
+                        <VAR ShortName="WindowStartPosition" ClassName="FormStartPosition@System.Windows.Forms" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Object">
+                            <Value><![CDATA[Manual]]></Value>
+                        </VAR>
+                        <!--.COM2TCP.edvAppli.EDVVisual._Designer.WIN.WindowState-->
+                        <VAR ShortName="WindowState" ClassName="FormWindowState@System.Windows.Forms" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Object">
+                            <Value><![CDATA[Normal]]></Value>
+                        </VAR>
+                        <DOM ShortName="ctrlAlways">
+                            <!--.COM2TCP.edvAppli.EDVVisual._Designer.WIN.ctrlAlways.@-->
+                            <VAR ShortName="@" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="VariableName">
+                                <Value><![CDATA[Arguments.Open.Always]]></Value>
+                            </VAR>
+                            <!--.COM2TCP.edvAppli.EDVVisual._Designer.WIN.ctrlAlways._ClassName-->
+                            <VAR ShortName="_ClassName" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String">
+                                <Value><![CDATA[EDVCtrlVar]]></Value>
+                            </VAR>
+                            <!--.COM2TCP.edvAppli.EDVVisual._Designer.WIN.ctrlAlways.Bounds-->
+                            <VAR ShortName="Bounds" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Object">
+                                <Value><![CDATA[{X=31,Y=44,Width=60,Height=16}]]></Value>
+                            </VAR>
+                        </DOM>
+                        <DOM ShortName="ctrlCreateDesktopShortCut">
+                            <!--.COM2TCP.edvAppli.EDVVisual._Designer.WIN.ctrlCreateDesktopShortCut.@-->
+                            <VAR ShortName="@" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="VariableName">
+                                <Value><![CDATA[CreateDesktopShortCut]]></Value>
+                            </VAR>
+                            <!--.COM2TCP.edvAppli.EDVVisual._Designer.WIN.ctrlCreateDesktopShortCut._ClassName-->
+                            <VAR ShortName="_ClassName" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String">
+                                <Value><![CDATA[EDVCtrlVar]]></Value>
+                            </VAR>
+                            <!--.COM2TCP.edvAppli.EDVVisual._Designer.WIN.ctrlCreateDesktopShortCut.Bounds-->
+                            <VAR ShortName="Bounds" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Object">
+                                <Value><![CDATA[{X=115,Y=70,Width=141,Height=16}]]></Value>
+                            </VAR>
+                        </DOM>
+                        <DOM ShortName="ctrlEDVVisual">
+                            <!--.COM2TCP.edvAppli.EDVVisual._Designer.WIN.ctrlEDVVisual.@-->
+                            <VAR ShortName="@" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="VariableName">
+                                <Value><![CDATA[..EDVVisual]]></Value>
+                            </VAR>
+                            <!--.COM2TCP.edvAppli.EDVVisual._Designer.WIN.ctrlEDVVisual._ClassName-->
+                            <VAR ShortName="_ClassName" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String">
+                                <Value><![CDATA[EDVCtrlVar]]></Value>
+                            </VAR>
+                            <!--.COM2TCP.edvAppli.EDVVisual._Designer.WIN.ctrlEDVVisual.Bounds-->
+                            <VAR ShortName="Bounds" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Object">
+                                <Value><![CDATA[{X=3,Y=2,Width=75,Height=16}]]></Value>
+                            </VAR>
+                        </DOM>
+                        <DOM ShortName="ctrlOpen">
+                            <!--.COM2TCP.edvAppli.EDVVisual._Designer.WIN.ctrlOpen.@-->
+                            <VAR ShortName="@" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="VariableName">
+                                <Value><![CDATA[Arguments.Open]]></Value>
+                            </VAR>
+                            <!--.COM2TCP.edvAppli.EDVVisual._Designer.WIN.ctrlOpen._ClassName-->
+                            <VAR ShortName="_ClassName" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String">
+                                <Value><![CDATA[EDVCtrlVar]]></Value>
+                            </VAR>
+                            <!--.COM2TCP.edvAppli.EDVVisual._Designer.WIN.ctrlOpen.Bounds-->
+                            <VAR ShortName="Bounds" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Object">
+                                <Value><![CDATA[{X=19,Y=24,Width=283,Height=16}]]></Value>
+                            </VAR>
+                        </DOM>
+                        <DOM ShortName="ctrlOpen1">
+                            <!--.COM2TCP.edvAppli.EDVVisual._Designer.WIN.ctrlOpen1.@-->
+                            <VAR ShortName="@" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="VariableName">
+                                <Value><![CDATA[Open]]></Value>
+                            </VAR>
+                            <!--.COM2TCP.edvAppli.EDVVisual._Designer.WIN.ctrlOpen1._ClassName-->
+                            <VAR ShortName="_ClassName" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String">
+                                <Value><![CDATA[EDVCtrlVar]]></Value>
+                            </VAR>
+                            <!--.COM2TCP.edvAppli.EDVVisual._Designer.WIN.ctrlOpen1.Bounds-->
+                            <VAR ShortName="Bounds" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Object">
+                                <Value><![CDATA[{X=15,Y=98,Width=49,Height=16}]]></Value>
+                            </VAR>
+                        </DOM>
+                        <DOM ShortName="ctrlShortCutName">
+                            <!--.COM2TCP.edvAppli.EDVVisual._Designer.WIN.ctrlShortCutName.@-->
+                            <VAR ShortName="@" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="VariableName">
+                                <Value><![CDATA[CreateDesktopShortCut.ShortCutName]]></Value>
+                            </VAR>
+                            <!--.COM2TCP.edvAppli.EDVVisual._Designer.WIN.ctrlShortCutName._ClassName-->
+                            <VAR ShortName="_ClassName" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String">
+                                <Value><![CDATA[EDVCtrlText]]></Value>
+                            </VAR>
+                            <!--.COM2TCP.edvAppli.EDVVisual._Designer.WIN.ctrlShortCutName.Bounds-->
+                            <VAR ShortName="Bounds" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Object">
+                                <Value><![CDATA[{X=189,Y=90,Width=100,Height=13}]]></Value>
+                            </VAR>
+                        </DOM>
+                        <DOM ShortName="ctrlShortCutName1">
+                            <!--.COM2TCP.edvAppli.EDVVisual._Designer.WIN.ctrlShortCutName1.@-->
+                            <VAR ShortName="@" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="VariableName">
+                                <Value><![CDATA[CreateDesktopShortCut.ShortCutName]]></Value>
+                            </VAR>
+                            <!--.COM2TCP.edvAppli.EDVVisual._Designer.WIN.ctrlShortCutName1._ClassName-->
+                            <VAR ShortName="_ClassName" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String">
+                                <Value><![CDATA[EDVCtrlVar]]></Value>
+                            </VAR>
+                            <!--.COM2TCP.edvAppli.EDVVisual._Designer.WIN.ctrlShortCutName1.Bounds-->
+                            <VAR ShortName="Bounds" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Object">
+                                <Value><![CDATA[{X=129,Y=90,Width=54,Height=14}]]></Value>
+                            </VAR>
+                        </DOM>
+                        <DOM ShortName="ctrlSub">
+                            <!--.COM2TCP.edvAppli.EDVVisual._Designer.WIN.ctrlSub.@-->
+                            <VAR ShortName="@" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="VariableName">
+                                <Value><![CDATA[Arguments.Visual.Sub]]></Value>
+                            </VAR>
+                            <!--.COM2TCP.edvAppli.EDVVisual._Designer.WIN.ctrlSub._ClassName-->
+                            <VAR ShortName="_ClassName" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String">
+                                <Value><![CDATA[EDVCtrlText]]></Value>
+                            </VAR>
+                            <!--.COM2TCP.edvAppli.EDVVisual._Designer.WIN.ctrlSub.Bounds-->
+                            <VAR ShortName="Bounds" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Object">
+                                <Value><![CDATA[{X=17,Y=68,Width=50,Height=20}]]></Value>
+                            </VAR>
+                        </DOM>
+                    </VAR>
+                </DOM>
+                <DOM ShortName="Arguments">
+                    <!--.COM2TCP.edvAppli.EDVVisual.Arguments.Address-->
+                    <VAR ShortName="Address" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String" />
+                    <!--.COM2TCP.edvAppli.EDVVisual.Arguments.Close-->
+                    <VAR ShortName="Close" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Boolean">
+                        <Value><![CDATA[False]]></Value>
+                    </VAR>
+                    <!--.COM2TCP.edvAppli.EDVVisual.Arguments.Open-->
+                    <VAR ShortName="Open" ClassName="VarFile" AutoReset="0" Securized="1" ReadOnly="1" ValueType="File">
+                        <Script><![CDATA[..edvAppli.Save.File]]></Script>
+                    </VAR>
+                    <!--.COM2TCP.edvAppli.EDVVisual.Arguments.OpenInSession-->
+                    <VAR ShortName="OpenInSession" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Integer">
+                        <Value><![CDATA[-1]]></Value>
+                        <Meta><![CDATA[<DESIGNER.LASTPRESENTATION>HTML</DESIGNER.LASTPRESENTATION>]]></Meta>
+                    </VAR>
+                    <!--.COM2TCP.edvAppli.EDVVisual.Arguments.Port-->
+                    <VAR ShortName="Port" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Integer">
+                        <Value><![CDATA[0]]></Value>
+                    </VAR>
+                    <!--.COM2TCP.edvAppli.EDVVisual.Arguments.Url-->
+                    <VAR ShortName="Url" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String">
+                        <Meta><![CDATA[<DESIGNER.LASTPRESENTATION>Window</DESIGNER.LASTPRESENTATION>]]></Meta>
+                    </VAR>
+                    <!--.COM2TCP.edvAppli.EDVVisual.Arguments.Var-->
+                    <VAR ShortName="Var" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="VariableName" />
+                    <!--.COM2TCP.edvAppli.EDVVisual.Arguments.Visual-->
+                    <VAR ShortName="Visual" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="VariableName">
+                        <Script><![CDATA[..edvAppli:Domain + :Sub]]></Script>
+                    </VAR>
+                    <DOM ShortName="Open">
+                        <!--.COM2TCP.edvAppli.EDVVisual.Arguments.Open.Always-->
+                        <VAR ShortName="Always" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Boolean">
+                            <Value><![CDATA[False]]></Value>
+                        </VAR>
+                    </DOM>
+                    <DOM ShortName="Visual">
+                        <!--.COM2TCP.edvAppli.EDVVisual.Arguments.Visual.Sub-->
+                        <VAR ShortName="Sub" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="VariableName">
+                            <Value><![CDATA[Visual]]></Value>
+                        </VAR>
+                    </DOM>
+                </DOM>
+                <DOM ShortName="CreateDesktopShortCut">
+                    <!--.COM2TCP.edvAppli.EDVVisual.CreateDesktopShortCut.AllUsers-->
+                    <VAR ShortName="AllUsers" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Boolean">
+                        <Value><![CDATA[True]]></Value>
+                    </VAR>
+                    <!--.COM2TCP.edvAppli.EDVVisual.CreateDesktopShortCut.OnChanging-->
+                    <VAR ShortName="OnChanging" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Null">
+                        <Script><![CDATA[when(..:Changing)
+{
+	var exeFile = ...;
+	var linkName : String = ShortCutName;
+
+	var Shell = new ActiveXObject("WScript.Shell");
+	var DesktopPath = Shell.SpecialFolders(AllUsers ? "AllUsersDesktop" : "Desktop");
+	var link = Shell.CreateShortcut(DesktopPath + "\\"+  linkName + ".lnk");
+	link.Arguments = edvcode(..Arguments:Name);
+	link.Description = "";
+	//link.HotKey = "CTRL+ALT+SHIFT+X";
+	link.IconLocation = exeFile + ", 0";
+	link.TargetPath = exeFile;
+	link.WindowStyle = 1;
+	link.WorkingDirectory = Path.GetDirectoryName(exeFile);
+	link.Save();
+
+}
+null;]]></Script>
+                    </VAR>
+                    <!--.COM2TCP.edvAppli.EDVVisual.CreateDesktopShortCut.ShortCutName-->
+                    <VAR ShortName="ShortCutName" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="String">
+                        <Script><![CDATA[..edvAppli.Title]]></Script>
+                    </VAR>
+                </DOM>
+            </DOM>
+            <DOM ShortName="Errors">
+                <!--.COM2TCP.edvAppli.Errors.Check-->
+                <VAR ShortName="Check" ClassName="" AutoReset="1" Securized="1" ReadOnly="0" ValueType="Boolean">
+                    <Meta><![CDATA[<DESIGNER.LASTPRESENTATION>Window</DESIGNER.LASTPRESENTATION>]]></Meta>
+                    <!--.COM2TCP.edvAppli.Errors.Check.OnChanging-->
+                    <VAR ShortName="OnChanging" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Null">
+                        <Script><![CDATA[when(..:Changing
+&& !edvSender.NameUpper.StartsWith(DOM.MODELS.ToUpper())) {
+	var step;
+	try {
+		step = "Création du dataSource pour la source de données";
+		var cx = edv.Data(..DataSource);
+
+		step = "Connexion à la source de données";
+		cx.connection();
+
+		cx.close();
+	}
+	catch(ex){
+		edvError = :Name + (... = step + " : " + ex);
+	}
+}
+null;]]></Script>
+                    </VAR>
+                </VAR>
+            </DOM>
+            <DOM ShortName="Html">
+                <!--.COM2TCP.edvAppli.Html.Head-->
+                <VAR ShortName="Head" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Code">
+                    <Value><![CDATA[<script>
+	edv.Appli.Enabled = true;
+</script>
+<?if (..User.NeedLogin 
+  && (..User == null || !..User.Login)){
+	echo(..User.Login.Visual.HTML);
+}?>
+]]></Value>
+                    <Meta><![CDATA[<DESIGNER.LASTPRESENTATION>Window</DESIGNER.LASTPRESENTATION><SCRIPTER.SCRIPTTYPE>JS</SCRIPTER.SCRIPTTYPE>]]></Meta>
+                </VAR>
+            </DOM>
+            <DOM ShortName="jsc">
+                <!--.COM2TCP.edvAppli.jsc.OnChanging-->
+                <VAR ShortName="OnChanging" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Null">
+                    <Script><![CDATA[when(..:Changing || (..Save:Changed && Reset)) {
+	//Assembly
+	var file = ..Save.File;
+	if(file) {
+		if(Reset)//delete dll for a new Compilation
+			for(var ext in {"dll":1, "pdb":1, "js":1, "log":1})
+				if(File.Exists(file + "." + ext))
+					File.Delete(file + "." + ext);
+		edvInfo = .{Library}.EDV.jsc.Server.SetScript({
+			"master" : true
+			, "root" : ..Save.Domains
+			, "assembly" : file + ".dll"
+			, "uid" : (..Version).Replace(".", "_")
+		});
+	}
+}
+null;
+]]></Script>
+                </VAR>
+                <!--.COM2TCP.edvAppli.jsc.Reset-->
+                <VAR ShortName="Reset" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Boolean" SaveLocation="V" />
+            </DOM>
+            <DOM ShortName="Log">
+                <!--.COM2TCP.edvAppli.Log.AddDate-->
+                <VAR ShortName="AddDate" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Boolean">
+                    <Value><![CDATA[True]]></Value>
+                </VAR>
+                <!--.COM2TCP.edvAppli.Log.Destination-->
+                <VAR ShortName="Destination" ClassName="VarSelection" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Selection">
+                    <Value><![CDATA[Console + Queue]]></Value>
+                </VAR>
+                <!--.COM2TCP.edvAppli.Log.Html-->
+                <VAR ShortName="Html" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Code">
+                    <Value><![CDATA[<?=edv.{Library}.EDVServer.VarLog.Html(edvjs.Extend(arguments, {erase : (...:Domain)}), edvSender, arguments)?>
+<?=edv.{Library}.EDVServer.VarLog.Html({}, .{Sys}.Error:Object, edvClient)?>]]></Value>
+                    <Meta><![CDATA[<DESIGNER.LASTPRESENTATION>Window</DESIGNER.LASTPRESENTATION>]]></Meta>
+                </VAR>
+                <!--.COM2TCP.edvAppli.Log.LogQueue-->
+                <VAR ShortName="LogQueue" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Object" SaveLocation="V" Control="EDVCtrlLog" />
+                <DOM ShortName="AddDate">
+                    <!--.COM2TCP.edvAppli.Log.AddDate.Format-->
+                    <VAR ShortName="Format" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String">
+                        <Value><![CDATA[HH:mm:ss.fff]]></Value>
+                    </VAR>
+                </DOM>
+                <DOM ShortName="DESTINATION">
+                    <!--.COM2TCP.EDVAPPLI.LOG.DESTINATION.Values-->
+                    <VAR ShortName="Values" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Text">
+                        <Value><![CDATA[Console
+Console + File=
+Console + Queue]]></Value>
+                    </VAR>
+                </DOM>
+                <DOM ShortName="LogQueue">
+                    <!--.COM2TCP.edvAppli.Log.LogQueue.Clear-->
+                    <VAR ShortName="Clear" ClassName="" AutoReset="1" Securized="1" ReadOnly="0" ValueType="Boolean" />
+                    <!--.COM2TCP.edvAppli.Log.LogQueue.Reduce-->
+                    <VAR ShortName="Reduce" ClassName="EDVDelay@EDVFunctions" AutoReset="1" Securized="1" ReadOnly="1" ValueType="Boolean" />
+                    <DOM ShortName="Clear">
+                        <!--.COM2TCP.edvAppli.Log.LogQueue.Clear.OnChanging-->
+                        <VAR ShortName="OnChanging" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Null">
+                            <Script><![CDATA[when(..:Changing)
+{
+	if(... != null)
+		... = new Queue();
+}
+null;]]></Script>
+                        </VAR>
+                    </DOM>
+                    <DOM ShortName="Reduce">
+                        <!--.COM2TCP.edvAppli.Log.LogQueue.Reduce.OnChanging-->
+                        <VAR ShortName="OnChanging" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Null">
+                            <Script><![CDATA[when(..:Changing)
+{
+	var logQueue;
+	if ((logQueue = ...) != null) {
+		var count : int = logQueue.Count;
+		for(; count > 128; count--)
+			logQueue.Dequeue();
+	}
+}
+null;]]></Script>
+                        </VAR>
+                        <!--.COM2TCP.EDVAPPLI.LOG.LOGQUEUE.REDUCE.Period-->
+                        <VAR ShortName="Period" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Double">
+                            <Value><![CDATA[86400000]]></Value>
+                        </VAR>
+                        <!--.COM2TCP.edvAppli.Log.LogQueue.Reduce.Repeat-->
+                        <VAR ShortName="Repeat" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Boolean">
+                            <Value><![CDATA[True]]></Value>
+                        </VAR>
+                        <!--.COM2TCP.EDVAPPLI.LOG.LOGQUEUE.REDUCE.Start-->
+                        <VAR ShortName="Start" ClassName="" AutoReset="1" Securized="0" ReadOnly="0" ValueType="Boolean" />
+                        <DOM ShortName="Repeat">
+                            <!--.COM2TCP.edvAppli.Log.LogQueue.Reduce.Repeat.OnChanging-->
+                            <VAR ShortName="OnChanging" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Null">
+                                <Script><![CDATA[when(..)
+{
+	..Start;
+}
+null;]]></Script>
+                            </VAR>
+                        </DOM>
+                    </DOM>
+                </DOM>
+            </DOM>
+            <DOM ShortName="Midnight">
+                <!--.COM2TCP.edvAppli.Midnight.LastTime-->
+                <VAR ShortName="LastTime" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="DateTime" SaveLocation="V" />
+                <!--.COM2TCP.edvAppli.Midnight.OnChanging-->
+                <VAR ShortName="OnChanging" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Null">
+                    <Script><![CDATA[when(..:Changing){
+	LastTime = DateTime.Now;
+	try {
+		//Action
+
+		//Reset à 1H du mat
+		Period = (24 - DateTime.Now.Hour + 1) * 3600 * 1000;
+		Start;
+	}
+	catch(ex){
+		edvError = :Name + " : " + ex;
+		Period = 10000;
+		Start;
+	}
+}
+null;]]></Script>
+                </VAR>
+                <!--.COM2TCP.EDVAPPLI.MIDNIGHT.Period-->
+                <VAR ShortName="Period" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Double">
+                    <Value><![CDATA[61200000]]></Value>
+                </VAR>
+                <!--.COM2TCP.EDVAPPLI.MIDNIGHT.Start-->
+                <VAR ShortName="Start" ClassName="" AutoReset="1" Securized="0" ReadOnly="0" ValueType="Boolean" />
+            </DOM>
+            <DOM ShortName="OnLoad">
+                <!--.COM2TCP.edvAppli.OnLoad.Done-->
+                <VAR ShortName="Done" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Boolean" SaveLocation="V" />
+            </DOM>
+            <DOM ShortName="Save">
+                <!--.COM2TCP.edvAppli.Save.Backup-->
+                <VAR ShortName="Backup" ClassName="" AutoReset="1" Securized="1" ReadOnly="0" ValueType="Boolean" />
+                <!--.COM2TCP.edvAppli.Save.Domains-->
+                <VAR ShortName="Domains" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Text">
+                    <Script><![CDATA["^" + Regex.Escape(edvTools.ParentName(edvTools.ParentName(me.Parent.Domain)))
+ + "($|\\.(?!\\{LOCAL}\\.))"
+]]></Script>
+                </VAR>
+                <!--.COM2TCP.edvAppli.Save.File-->
+                <VAR ShortName="File" ClassName="VarFile" AutoReset="0" Securized="1" ReadOnly="1" ValueType="File" SaveLocation="V">
+                    <Script><![CDATA[when(:Scripting && edvClient != null)
+{
+	var lsFile : String;
+	if ((lsFile = edvClient.OpeningVarsFile) != null && lsFile != "" && !lsFile.StartsWith("<"))
+		lsFile;
+	else if(!:IsSys){
+		edvInfo ="\t\t\tATTENTION : le fichier d'application n'est pas défini pour " + ..edvAppli:Domain;
+	}
+}]]></Script>
+                </VAR>
+                <!--.COM2TCP.edvAppli.Save.Local-->
+                <VAR ShortName="Local" ClassName="VarFile" AutoReset="0" Securized="1" ReadOnly="1" ValueType="File" SaveLocation="V">
+                    <Script><![CDATA[if(File.Exists)
+	Path.GetDirectoryName(File) + "\\" + Path.GetFileNameWithoutExtension(File) + ".local.edvars";
+else
+	"";]]></Script>
+                </VAR>
+                <!--.COM2TCP.edvAppli.Save.OnChanging-->
+                <VAR ShortName="OnChanging" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Null">
+                    <Script><![CDATA[when(..){
+	..Data.Save;
+
+	var root = Domains;
+
+	var fileName : String;
+	var variables : VariableList;
+
+	fileName = File;
+	variables = edvars(root, -1);
+	edvClient.SaveToVarsFile(fileName, VariableList(variables), new VariableListOptions(variables.Root));
+
+	var varLocal;
+	if((varLocal = edvSender[root + ".{Local}"]) != null){
+		fileName = Local;
+		variables = edvars(varLocal.Name, -1);
+		edvClient.SaveToVarsFile(fileName, VariableList(variables), new VariableListOptions(variables.Root));
+	}
+
+	edvInfo = root + " est enregistré dans " + File;
+}
+null;]]></Script>
+                </VAR>
+                <!--.COM2TCP.edvAppli.Save.OnChecking-->
+                <VAR ShortName="OnChecking" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Null">
+                    <Script><![CDATA[when(..:Checking){
+	var varLog = edvar(..:Domain + "log");
+	if(varLog != null) varLog.Value = :Name;
+
+	if (File == "") {
+		edvError = "Impossible d'enregistrer l'application car le fichier d'origine est inconnu";
+		.. = false;
+	}
+	else {
+		Backup;
+	}
+}
+null;]]></Script>
+                </VAR>
+                <DOM ShortName="Backup">
+                    <!--.COM2TCP.edvAppli.Save.Backup.OnChanging-->
+                    <VAR ShortName="OnChanging" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Null">
+                        <Script><![CDATA[when(..:Changing)
+{	//Crée une sauvegarde dans le même répertoire en ajoutant un
+	var lsFileSrc : String = ..File;
+	if (lsFileSrc != "" && File.Exists(lsFileSrc))
+	{
+		var lsDir : String = .{SYS}.Path.Backup;
+		if (Directory.Exists(lsDir) && lsFileSrc != "" && File.Exists(lsFileSrc))
+		{
+			var lsFileDest : String = String.Format("{0}\\{1}.{2}.edvars", lsDir, Path.GetFileNameWithoutExtension(lsFileSrc), DateTime.Now.ToString("yyMMdd.HHmmss.fff"));
+			edvInfo = "Copie de sauvegarde dans " + lsFileDest;
+			File.Copy(lsFileSrc, lsFileDest);
+		}
+	}
+}
+null;]]></Script>
+                    </VAR>
+                </DOM>
+                <DOM ShortName="File">
+                    <!--.COM2TCP.edvAppli.Save.File.Exists-->
+                    <VAR ShortName="Exists" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Boolean">
+                        <Value><![CDATA[True]]></Value>
+                        <!--.COM2TCP.edvAppli.Save.File.Exists.OnChanging-->
+                        <VAR ShortName="OnChanging" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Null">
+                            <Script><![CDATA[when(..:Changing || :Scripting)
+{
+	..Save:ReadOnly = !(..);
+}
+null;]]></Script>
+                        </VAR>
+                    </VAR>
+                </DOM>
+                <DOM ShortName="Local">
+                    <!--.COM2TCP.edvAppli.Save.Local.Exists-->
+                    <VAR ShortName="Exists" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Boolean">
+                        <Value><![CDATA[False]]></Value>
+                    </VAR>
+                </DOM>
+            </DOM>
+            <DOM ShortName="Session">
+                <!--.COM2TCP.edvAppli.Session.Clone-->
+                <VAR ShortName="Clone" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Boolean">
+                    <Value><![CDATA[False]]></Value>
+                </VAR>
+                <!--.COM2TCP.edvAppli.Session.Forbidden-->
+                <VAR ShortName="Forbidden" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Boolean">
+                    <Value><![CDATA[False]]></Value>
+                </VAR>
+                <!--.COM2TCP.edvAppli.Session.OnChecking-->
+                <VAR ShortName="OnChecking" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Null">
+                    <Script><![CDATA[when(edvSender.NameUpper.StartsWith(".{CLIENTS}.") && .. && Forbidden) {
+	..Errors += edvInfo = :Name + " - Clone interdit";
+	..edvAppli = false;
+	.. = false;
+	var varAppli = ..edvAppli:Parent;
+	if (varAppli != null && varAppli.ValueType == EDVType.Boolean)
+		varAppli.Value = false;
+}
+null;]]></Script>
+                </VAR>
+                <DOM ShortName="Clone">
+                    <!--.COM2TCP.edvAppli.Session.Clone.OnScripting-->
+                    <VAR ShortName="OnScripting" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Null">
+                        <Script><![CDATA[when(:Scripting || ..) {
+	if(edvSender.NameUpper.StartsWith(".{CLIENTS}")){
+		var varSource = edvar(edvTools.EnsureIsVariable(..edvAppli:Domain).Substring(edvSender.NameUpper.IndexOf(".", 12)));
+		if(varSource == null)
+			edvReturn(edvError = :Name + " - Impossible de trouver "  + edvTools.EnsureIsVariable(..edvAppli:Domain).Substring(edvSender.NameUpper.IndexOf(".", 12)));
+		edvInfo = edvSender.NameUpper + newline + " CLONE(" + varSource.Name +  "  ,  " +  ..edvAppli:Domain + ")";
+		edvClient.Clone(varSource.Name + ".", ..edvAppli:Domain);
+
+		var variable;
+		variable = ..edvAppli["..Visual.Html"];
+		if(variable != null)
+			variable.Name = Regex.Replace(variable.Name, Regex.Escape(varSource.NameUpper), varSource.Name, RegexOptions.IgnoreCase);
+
+		variable = ..edvAppli["..Log"];
+		if(variable != null && edvClient != null)
+			edvClient.Variable(variable.Name.Substring(edvClient.DomClient.Length)).Value = "Connexion de " + edvClient.ToString();
+	}
+}
+null;]]></Script>
+                    </VAR>
+                </DOM>
+            </DOM>
+            <DOM ShortName="Update">
+                <!--.COM2TCP.edvAppli.Update.EDVVisual-->
+                <VAR ShortName="EDVVisual" ClassName="VarFile" AutoReset="0" Securized="1" ReadOnly="1" ValueType="File">
+                    <Script><![CDATA[.{Sys}.Path.Bin + "\\EDVVisual.exe"]]></Script>
+                </VAR>
+                <!--.COM2TCP.edvAppli.Update.OnChanging-->
+                <VAR ShortName="OnChanging" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Null">
+                    <Script><![CDATA[/*when(..:Changing)
+{
+	..Visual.WIN.Close;
+	..Data.Save;
+	..BBSacs = false;
+	
+	var varUpdate = edvClient.Variable(..BBSacs:Domain + "edvUpdate", EDVType.Boolean);
+	varUpdate.Asynchron = true;
+	var varScript = edvClient.Variable(..BBSacs:Domain + "edvUpdate.OnChanging", EDVType.Boolean);
+	varScript.Script = "when(..){"
+			+"\n edvInfo = 'début de la mise à jour';"
+			+"\n var file = ..BBSacs.Global.SaveAppli.File;"
+			+"\n edvClient.Remove(..BBSacs:NameUpper);"
+			+"//\n edvClient.OpenVarsFile(file, DOM.ROOT)"
+			+"//\n edvInfo = \"Application rechargée\";"
+			+"\n edvClient.Remove(..:Name)"
+			+"\n}null;";
+	varUpdate.Value = true;
+}
+null;]]></Script>
+                </VAR>
+                <DOM ShortName="EDVVisual">
+                    <!--.COM2TCP.edvAppli.Update.EDVVisual.Arguments-->
+                    <VAR ShortName="Arguments" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String" />
+                    <!--.COM2TCP.edvAppli.Update.EDVVisual.Open-->
+                    <VAR ShortName="Open" ClassName="" AutoReset="1" Securized="1" ReadOnly="0" ValueType="Boolean" />
+                </DOM>
+            </DOM>
+            <DOM ShortName="User">
+                <!--.COM2TCP.edvAppli.User.Data-->
+                <VAR ShortName="Data" ClassName="VarDataTable" AutoReset="0" Securized="1" ReadOnly="0" ValueType="DataTable">
+                    <Value><![CDATA[<?xml version="1.0" encoding="utf-16"?><DataTable><Schema><xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata"><xs:element name="XML"><xs:complexType><xs:sequence><xs:element name="IdParam" msdata:Caption="" type="xs:string" /><xs:element name="Value" msdata:Caption="" type="xs:string" minOccurs="0" /><xs:element name="Visual" msdata:Caption="" type="xs:boolean" minOccurs="0" /><xs:element name="Title" msdata:Caption="" type="xs:string" minOccurs="0" /><xs:element name="UserLevel" msdata:Caption="" type="xs:int" minOccurs="0" /><xs:element name="Category" msdata:Caption="" type="xs:string" minOccurs="0" /><xs:element name="SortIndex" type="xs:int" minOccurs="0" /><xs:element name="Unit" msdata:Caption="" type="xs:string" minOccurs="0" /></xs:sequence></xs:complexType></xs:element><xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:MainDataTable="XML" msdata:UseCurrentLocale="true"><xs:complexType><xs:choice minOccurs="0" maxOccurs="unbounded"><xs:element ref="XML" /></xs:choice></xs:complexType><xs:unique name="Constraint1" msdata:PrimaryKey="true"><xs:selector xpath=".//XML" /><xs:field xpath="IdParam" /></xs:unique></xs:element></xs:schema></Schema><Data /></DataTable>]]></Value>
+                    <Meta><![CDATA[<DESIGNER.LASTPRESENTATION>Window</DESIGNER.LASTPRESENTATION>]]></Meta>
+                </VAR>
+                <!--.COM2TCP.edvAppli.User.Id-->
+                <VAR ShortName="Id" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String">
+                    <Value><![CDATA[admin]]></Value>
+                </VAR>
+                <!--.COM2TCP.edvAppli.User.Login-->
+                <VAR ShortName="Login" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Boolean" SaveLocation="V" />
+                <!--.COM2TCP.edvAppli.User.Name-->
+                <VAR ShortName="Name" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String" SaveLocation="V" />
+                <!--.COM2TCP.edvAppli.User.NeedLogin-->
+                <VAR ShortName="NeedLogin" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Boolean">
+                    <Value><![CDATA[True]]></Value>
+                </VAR>
+                <!--.COM2TCP.edvAppli.User.Users-->
+                <VAR ShortName="Users" ClassName="VarLink" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Link" />
+                <!--.COM2TCP.edvAppli.User.Visual-->
+                <VAR ShortName="Visual" ClassName="VarVisual" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Visual">
+                    <Meta><![CDATA[<DESIGNER.LASTPRESENTATION>HTML</DESIGNER.LASTPRESENTATION>]]></Meta>
+                </VAR>
+                <DOM ShortName="Data">
+                    <!--.COM2TCP.edvAppli.User.Data._Description-->
+                    <VAR ShortName="_Description" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Code">
+                        <Value><![CDATA[<pre class="edvDescription"><?=..:Name?>
+Gère les variables dont le SaveLocation est positionné sur User.
+- Les données sont enregistrées dans des fichiers <code>&lt;?=..edvAppli.Save.File?&gt;</code>.user.<code>&lt;?=..User.Id?&gt;</code>.xml.
+- Open quand User.Id <> ""
+- Save depuis User.Login.OnChecking, à la déconnexion
+</pre>]]></Value>
+                        <Meta><![CDATA[<DESIGNER.LASTPRESENTATION>Window</DESIGNER.LASTPRESENTATION>]]></Meta>
+                    </VAR>
+                    <!--.COM2TCP.edvAppli.User.Data.Model-->
+                    <VAR ShortName="Model" ClassName="VarDataTable" AutoReset="0" Securized="1" ReadOnly="0" ValueType="DataTable">
+                        <Value><![CDATA[<?xml version="1.0" encoding="utf-16"?><DataTable><Schema><xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata"><xs:element name="Internal"><xs:complexType><xs:sequence><xs:element name="IdParam" msdata:Caption="" type="xs:string" /><xs:element name="Value" msdata:Caption="" type="xs:string" minOccurs="0" /><xs:element name="Visual" msdata:Caption="" type="xs:boolean" minOccurs="0" /><xs:element name="Title" msdata:Caption="" type="xs:string" minOccurs="0" /><xs:element name="UserLevel" msdata:Caption="" type="xs:int" minOccurs="0" /><xs:element name="Category" msdata:Caption="" type="xs:string" minOccurs="0" /><xs:element name="SortIndex" type="xs:int" minOccurs="0" /><xs:element name="Unit" msdata:Caption="" type="xs:string" minOccurs="0" /></xs:sequence></xs:complexType></xs:element><xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:MainDataTable="Internal" msdata:UseCurrentLocale="true"><xs:complexType><xs:choice minOccurs="0" maxOccurs="unbounded"><xs:element ref="Internal" /></xs:choice></xs:complexType><xs:unique name="Constraint1" msdata:PrimaryKey="true"><xs:selector xpath=".//Internal" /><xs:field xpath="IdParam" /></xs:unique></xs:element></xs:schema></Schema><Data><DocumentElement /></Data></DataTable>]]></Value>
+                    </VAR>
+                    <!--.COM2TCP.edvAppli.User.Data.Open-->
+                    <VAR ShortName="Open" ClassName="" AutoReset="1" Securized="1" ReadOnly="1" ValueType="Boolean">
+                        <Script><![CDATA[..Id != ""]]></Script>
+                    </VAR>
+                    <!--.COM2TCP.edvAppli.User.Data.Save-->
+                    <VAR ShortName="Save" ClassName="" AutoReset="1" Securized="1" ReadOnly="0" ValueType="Boolean" />
+                    <!--.COM2TCP.edvAppli.User.Data.Source-->
+                    <VAR ShortName="Source" ClassName="VarDataSource" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Text">
+                        <Script><![CDATA["Provider=XML;Data Source=" + :DBName]]></Script>
+                    </VAR>
+                    <!--.COM2TCP.edvAppli.User.Data.Validate-->
+                    <VAR ShortName="Validate" ClassName="" AutoReset="1" Securized="1" ReadOnly="0" ValueType="Boolean" />
+                    <DOM ShortName="Model">
+                        <!--.COM2TCP.edvAppli.User.Data.Model.Save-->
+                        <VAR ShortName="Save" ClassName="" AutoReset="1" Securized="1" ReadOnly="0" ValueType="Boolean">
+                            <!--.COM2TCP.edvAppli.User.Data.Model.Save.OnChanging-->
+                            <VAR ShortName="OnChanging" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Null">
+                                <Script><![CDATA[when(..)
+{
+	var lVarRoot = ..edvAppli:Parent;
+	var lModelTable = ...;
+
+	for(var lVar in edvClient.GetVariables(..edvAppli:Domain).Values)
+		if (EDV.SaveLocation.ContainsLocation(lVar.SaveLocation, EDV.SaveLocation.User)
+		&& lModelTable.Select("IdParam = '" + lVar.Name + "'"
+			+ " OR IdParam = '" + lVar.Name.Substring(lVarRoot.Name.Length+1) + "'").Length == 0) {
+				var newRow = lModelTable.NewRow();
+				newRow[0] = lVar.Name.Substring(lVarRoot.Name.Length+1);
+				newRow[1] = lVar.Value;
+				newRow["SortIndex"] = 999;
+				lModelTable.Rows.Add(newRow);
+
+		}
+
+	var rows = lModelTable.Select("", "SortIndex");
+	lModelTable = lModelTable.Clone();
+	for(var row in rows.GetEnumerator()){
+		var newRow = lModelTable.NewRow();
+		newRow.ItemArray = row.ItemArray;
+		lModelTable.Rows.Add(newRow);
+	}
+	... = lModelTable;
+}
+]]></Script>
+                            </VAR>
+                        </VAR>
+                    </DOM>
+                    <DOM ShortName="Open">
+                        <!--.COM2TCP.edvAppli.User.Data.Open.OnChanged-->
+                        <VAR ShortName="OnChanged" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Null">
+                            <Script><![CDATA[when(..:Changed) {
+	edvInfo = :Name + " : Chargement des paramètres de l'utilisateur.";
+	var dataTable = ...;
+	var lVarRoot =..edvAppli:Parent;
+	if (lVarRoot != null){
+		for(var lRow : DataRow in dataTable.Select("", "SortIndex").GetEnumerator()) {
+			var lVarName = lRow["IdParam"];
+			var lVar = null;
+
+			lVar = lVarRoot[lVarName];
+			if (lVar != null){
+				if(!lRow.IsNull("Value"))
+					lVar.Value = lRow["Value"];
+			}
+			else
+				edvInfo = :Name + " : la donnée sauvegardée '" + lVarName + "' ne correspond à aucune variable.";
+		}
+	}
+}
+null;]]></Script>
+                        </VAR>
+                        <!--.COM2TCP.edvAppli.User.Data.Open.OnChanging-->
+                        <VAR ShortName="OnChanging" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Null">
+                            <Script><![CDATA[when(..:Changing) {
+	var dataTable = ...;
+	if (!dataTable.Columns.Contains("SortIndex"))
+		dataTable.Columns.Add("SortIndex", Int32);
+	if (!dataTable.Columns.Contains("Unit"))
+		dataTable.Columns.Add("Unit", String);
+
+	var modelTable = ..Model;
+	var rows;
+	for(var modelRow in modelTable.Rows) {
+		if((rows = dataTable.Select("IdParam='" + modelRow["IdParam"] + "'")).Length==0) {
+			var newRow = dataTable.NewRow();
+			for(var column in dataTable.Columns)
+				newRow[column] = modelRow[column.ColumnName];
+			dataTable.Rows.Add(newRow);
+		}
+		else {
+			rows[0]["Visual"] = modelRow["Visual"];
+			rows[0]["Title"] = modelRow["Title"];
+			rows[0]["UserLevel"] = modelRow["UserLevel"];
+			rows[0]["Category"] = modelRow["Category"];
+			rows[0]["SortIndex"] = modelRow["SortIndex"];
+			rows[0]["Unit"] = modelRow["Unit"];
+		}
+	}
+
+	/*//set sorted table
+	var rows = dataTable.Select("", "SortIndex");
+	dataTable = dataTable.Clone();
+	for(var row in rows.GetEnumerator()){
+		var newRow = dataTable.NewRow();
+		newRow.ItemArray = row.ItemArray;
+		dataTable.Rows.Add(newRow);
+	}
+	... = dataTable;
+	*/
+}
+null;
+]]></Script>
+                        </VAR>
+                        <!--.COM2TCP.edvAppli.User.Data.Open.OnChecking-->
+                        <VAR ShortName="OnChecking" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Null">
+                            <Script><![CDATA[when(..:Checking)
+	if(..Source.DBName == "" || !File.Exists(..Source.DBName)){
+		.. = false;
+	}
+null;]]></Script>
+                        </VAR>
+                        <DOM ShortName="OnChanged">
+                            <!--.COM2TCP.edvAppli.User.Data.Open.OnChanged._Script-->
+                            <VAR ShortName="_Script" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Code">
+                                <Value><![CDATA[when(..:Changed) {
+	edvInfo = :Name + " : Chargement des paramètres de l'utilisateur.";
+	var dataTable = ...;
+	var lVarRoot =..edvAppli:Parent;
+	if (lVarRoot != null){
+		for(var lRow : DataRow in dataTable.Select("", "SortIndex").GetEnumerator()) {
+			var lVarName = lRow["IdParam"];
+			var lVar = null;
+
+			lVar = lVarRoot[lVarName];
+			if (lVar != null){
+				if(!lRow.IsNull("Value"))
+					lVar.Value = lRow["Value"];
+			}
+			else
+				edvInfo = :Name + " : la donnée sauvegardée '" + lVarName + "' ne correspond à aucune variable.";
+		}
+	}
+}
+null;]]></Value>
+                            </VAR>
+                        </DOM>
+                    </DOM>
+                    <DOM ShortName="Save">
+                        <!--.COM2TCP.edvAppli.User.Data.Save.OnChanging-->
+                        <VAR ShortName="OnChanging" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Null">
+                            <Script><![CDATA[when(..){
+	edvInfo = :Name + " : Enregistrement des paramètres de l'utilisateur.";
+	var lVarRoot;
+	if ((lVarRoot = ..edvAppli:Parent) != null) {
+		var lDataTable = ...;
+		for(var lRow in lDataTable.Rows) {
+			var lVar = lVarRoot[lRow["IdParam"]];
+			if (lVar != null)
+				lRow["Value"] = lVar.Value;
+			else
+				edvError = :Name + "\t\t\tLe paramètre " + lRow["IdParam"] + " n'existe pas en référence à " + lVarRoot.Name;
+		}
+		..Validate;
+	}
+}
+]]></Script>
+                        </VAR>
+                    </DOM>
+                    <DOM ShortName="Source">
+                        <!--.COM2TCP.edvAppli.User.Data.Source.DBName-->
+                        <VAR ShortName="DBName" ClassName="" AutoReset="0" Securized="0" ReadOnly="1" ValueType="String" SaveLocation=".">
+                            <Script><![CDATA[var lsFile = ..Save.File;//Fichier .edvars d'où est chargé l'application
+if (lsFile != "" && !lsFile.StartsWith("\t\t\tATTENTION")) lsFile.substring(0, lsFile.length-".edvars".length) + ".user." + ..Id + ".xml";
+else "";
+]]></Script>
+                        </VAR>
+                        <!--.COM2TCP.edvAppli.User.Data.Source.DBPassword-->
+                        <VAR ShortName="DBPassword" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Password" SaveLocation=".">
+                            <Value Crypt="True"><![CDATA[rNr53jbT76+skz8oFAbAfg==]]></Value>
+                        </VAR>
+                        <!--.COM2TCP.edvAppli.User.Data.Source.DBServer-->
+                        <VAR ShortName="DBServer" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="String" SaveLocation=".">
+                            <Value><![CDATA[test]]></Value>
+                        </VAR>
+                        <!--.COM2TCP.edvAppli.User.Data.Source.DBType-->
+                        <VAR ShortName="DBType" ClassName="VarSelection" AutoReset="0" Securized="0" ReadOnly="0" ValueType="String" SaveLocation=".">
+                            <Value><![CDATA[XML]]></Value>
+                        </VAR>
+                        <!--.COM2TCP.edvAppli.User.Data.Source.DBUser-->
+                        <VAR ShortName="DBUser" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="String" SaveLocation=".">
+                            <Value><![CDATA[convergence]]></Value>
+                        </VAR>
+                        <DOM ShortName="DBType">
+                            <!--.COM2TCP.edvAppli.User.Data.Source.DBType.InsertAuto-->
+                            <VAR ShortName="InsertAuto" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Boolean">
+                                <Value><![CDATA[False]]></Value>
+                            </VAR>
+                            <!--.COM2TCP.edvAppli.User.Data.Source.DBType.InValues-->
+                            <VAR ShortName="InValues" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Boolean">
+                                <Value><![CDATA[True]]></Value>
+                            </VAR>
+                            <!--.COM2TCP.edvAppli.User.Data.Source.DBType.Values-->
+                            <VAR ShortName="Values" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Text">
+                                <Value><![CDATA[Internal
+EDV
+XML
+SQLite
+Oracle
+SQLServer
+Access
+TextFile
+MySQL
+Excel
+FileSystem
+FTP
+EDVars
+EDVServer
+EDVar
+INI
+Regex]]></Value>
+                            </VAR>
+                        </DOM>
+                    </DOM>
+                </DOM>
+                <DOM ShortName="Login">
+                    <!--.COM2TCP.edvAppli.User.Login.Check-->
+                    <VAR ShortName="Check" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Code">
+                        <Value><![CDATA[<?//requested from page
+if (arguments){
+	var user;
+	var users = ..Users:Object;
+	var apps = ["EDVServer", ..ApplicationId];
+	
+	if (arguments.UserKey && arguments.UserKey != ""
+	&& (user = users["GetUser"].Value(arguments.UserKey, arguments.Password, apps, edvClient)) != null) {
+		UserKey = arguments.UserKey;
+		..User = user;
+		..User.Name = user.Name;
+		..User.Id = user.IdUser;
+		
+		.. = true;
+		
+		var logName = edvTools.NameWithoutDomClient(..Log:Name);//Master log if in client session
+		edvClient.Variable(logName).Value 	= "Connexion de " + edvClient.ToString() 
+			+ " - " + edvjs.json(edvjs.Extend({}, user, {password: "********"});			
+
+		echo("Ok");
+	}
+	else {
+		echo("Identifiant ou mot de passe incorrecte.");
+	}
+}	
+else 
+	echo("Recherche inconnue.");
+?>]]></Value>
+                        <Meta><![CDATA[<DESIGNER.LASTPRESENTATION>Window</DESIGNER.LASTPRESENTATION>]]></Meta>
+                    </VAR>
+                    <!--.COM2TCP.edvAppli.User.Login.OnChecking-->
+                    <VAR ShortName="OnChecking" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Null">
+                        <Script><![CDATA[when(..:Checking && !..) {
+	if(..Id)
+		..Data.Save;
+	... = null;
+	..Id = "";
+	..Name = "";
+}
+null;]]></Script>
+                    </VAR>
+                    <!--.COM2TCP.edvAppli.User.Login.UserKey-->
+                    <VAR ShortName="UserKey" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String" SaveLocation="VX" />
+                    <!--.COM2TCP.edvAppli.User.Login.Visual-->
+                    <VAR ShortName="Visual" ClassName="VarVisual" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Visual">
+                        <Meta><![CDATA[<DESIGNER.LASTPRESENTATION>HTML</DESIGNER.LASTPRESENTATION>]]></Meta>
+                        <!--.COM2TCP.edvAppli.User.Login.Visual.HTML-->
+                        <VAR ShortName="HTML" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Code">
+                            <Value><![CDATA[<div id="dlgUserLogin" title="<?=..Title?> : Connexion">
+	<table>
+	<tr><td>Utilisateur :<td><INPUT id="UserLogin-UserKey" value="<?=unescape((arguments && arguments.UserKey) ? arguments.UserKey : ..UserKey)?>"
+		onkeypress="if (getKeyPress(event)==13) UserLoginCheck();"
+			size="18">
+	<tr><td>Mot de passe :<td><INPUT id="UserLogin-Password" value="" type="password"
+		onkeypress="if (getKeyPress(event)==13) UserLoginCheck();"
+		size="12">
+	</table>
+</div>
+
+<script>
+$(document).ready(function() {
+	edv.Appli.Enabled = false;
+	$("#dlgUserLogin").dialog({ 
+		autoOpen: true,
+		modal: true,
+		buttons: { "Ok": function() { UserLoginCheck(); } },
+		open: function(event, ui) {
+			if (<?=!..Login?>) 
+				$(this.parentNode).children(".ui-dialog-titlebar").children(".ui-dialog-titlebar-close").hide();
+			},
+		closeOnEscape: false,
+		resizable: false,
+		width : 400
+	});
+});
+
+function UserLoginCheck(){
+	var userKey = document.getElementById("UserLogin-UserKey").value;
+	if (userKey == ""){
+		alert("Veuillez saisir l'identifiant de connexion.");
+		return false;
+	}
+	var password = document.getElementById("UserLogin-Password").value;
+	if(!password){
+		$("#UserLogin-Password").focus();
+		return;
+	}
+	edv.Wait.Show();
+	var check = edvGetVar("<?=..Check:Name?>",'edvargs={UserKey: "' + userKey + '", Password: "' + password + '"}', undefined, "code");
+	
+	if (check == "Ok"){
+		document.location.href = "<?=(arguments && arguments.Url) ? arguments.Url : ..Url?>";
+		return true;
+	}
+	edv.Wait.Hide();
+	alert(check);
+	return false;
+}	
+</script>]]></Value>
+                            <Meta><![CDATA[<DESIGNER.LASTPRESENTATION>Window</DESIGNER.LASTPRESENTATION>]]></Meta>
+                        </VAR>
+                        <!--.COM2TCP.edvAppli.User.Login.Visual.WIN-->
+                        <VAR ShortName="WIN" ClassName="WinForm@EDVVisual" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Boolean">
+                            <Value><![CDATA[True]]></Value>
+                        </VAR>
+                        <DOM ShortName="HTML">
+                            <!--.COM2TCP.edvAppli.User.Login.Visual.HTML.CSS-->
+                            <VAR ShortName="CSS" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Code">
+                                <Value><![CDATA[<?=edv.{Web}.CSS(edvSender)?>]]></Value>
+                            </VAR>
+                            <!--.COM2TCP.edvAppli.User.Login.Visual.HTML.Head-->
+                            <VAR ShortName="Head" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Code">
+                                <Value><![CDATA[<?=edv.{Web}.HEAD(edvSender)?>
+<?=..edvAppli.HTML.Head?>]]></Value>
+                            </VAR>
+                            <!--.COM2TCP.edvAppli.User.Login.Visual.HTML.Main-->
+                            <VAR ShortName="Main" ClassName="VarVisual" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Visual">
+                                <!--.COM2TCP.edvAppli.User.Login.Visual.HTML.Main.HTML-->
+                                <VAR ShortName="HTML" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Code">
+                                    <Value><![CDATA[<?=edv.{Web}.Main(edvSender)?><?/*remplacez par 'edv.{Web}.Main.Value', surlignez tout puis F9 pour avoir le script*/?>]]></Value>
+                                </VAR>
+                            </VAR>
+                        </DOM>
+                        <DOM ShortName="WIN">
+                            <!--.COM2TCP.edvAppli.User.Login.Visual.WIN.CTRLLABEL1-->
+                            <VAR ShortName="CTRLLABEL1" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Object" />
+                            <!--.COM2TCP.edvAppli.User.Login.Visual.WIN.CTRLTEXTBOX1-->
+                            <VAR ShortName="CTRLTEXTBOX1" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Object" />
+                            <!--.COM2TCP.edvAppli.User.Login.Visual.WIN.Font-->
+                            <VAR ShortName="Font" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String">
+                                <Value><![CDATA[[Font:Name=Microsoft Sans Serif,Size=9,Bold=False,Italic=False,Underline=False,Strikeout=False]]]></Value>
+                            </VAR>
+                            <!--.COM2TCP.edvAppli.User.Login.Visual.WIN.Height-->
+                            <VAR ShortName="Height" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Integer">
+                                <Value><![CDATA[82]]></Value>
+                            </VAR>
+                            <!--.COM2TCP.edvAppli.User.Login.Visual.WIN.Width-->
+                            <VAR ShortName="Width" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Integer">
+                                <Value><![CDATA[206]]></Value>
+                            </VAR>
+                            <!--.COM2TCP.EDVAPPLI.USER.LOGIN.VISUAL.WIN.WindowStartPosition-->
+                            <VAR ShortName="WindowStartPosition" ClassName="FormStartPosition@System.Windows.Forms" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Object">
+                                <Value><![CDATA[Manual]]></Value>
+                            </VAR>
+                            <!--.COM2TCP.EDVAPPLI.USER.LOGIN.VISUAL.WIN.WindowState-->
+                            <VAR ShortName="WindowState" ClassName="FormWindowState@System.Windows.Forms" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Object">
+                                <Value><![CDATA[Normal]]></Value>
+                            </VAR>
+                            <DOM ShortName="ctrlLabel">
+                                <!--.COM2TCP.edvAppli.User.Login.Visual.WIN.ctrlLabel.@-->
+                                <VAR ShortName="@" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String" />
+                                <!--.COM2TCP.edvAppli.User.Login.Visual.WIN.ctrlLabel._ClassName-->
+                                <VAR ShortName="_ClassName" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String">
+                                    <Value><![CDATA[System.Windows.Forms.Label]]></Value>
+                                </VAR>
+                                <!--.COM2TCP.edvAppli.User.Login.Visual.WIN.ctrlLabel.Bounds-->
+                                <VAR ShortName="Bounds" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Object">
+                                    <Value><![CDATA[{X=0,Y=4,Width=47,Height=15}]]></Value>
+                                </VAR>
+                                <!--.COM2TCP.edvAppli.User.Login.Visual.WIN.ctrlLabel.Text-->
+                                <VAR ShortName="Text" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String">
+                                    <Value><![CDATA[Nom :]]></Value>
+                                </VAR>
+                            </DOM>
+                            <DOM ShortName="CTRLLABEL1">
+                                <!--.COM2TCP.edvAppli.User.Login.Visual.WIN.CTRLLABEL1.@-->
+                                <VAR ShortName="@" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String" />
+                                <!--.COM2TCP.edvAppli.User.Login.Visual.WIN.CTRLLABEL1._ClassName-->
+                                <VAR ShortName="_ClassName" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String">
+                                    <Value><![CDATA[System.Windows.Forms.Label]]></Value>
+                                </VAR>
+                                <!--.COM2TCP.edvAppli.User.Login.Visual.WIN.CTRLLABEL1.Bounds-->
+                                <VAR ShortName="Bounds" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Object">
+                                    <Value><![CDATA[{X=0,Y=32,Width=96,Height=17}]]></Value>
+                                </VAR>
+                                <!--.COM2TCP.edvAppli.User.Login.Visual.WIN.CTRLLABEL1.Text-->
+                                <VAR ShortName="Text" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String">
+                                    <Value><![CDATA[Mot de passe :]]></Value>
+                                </VAR>
+                            </DOM>
+                            <DOM ShortName="ctrlLinkLabel">
+                                <!--.COM2TCP.edvAppli.User.Login.Visual.WIN.ctrlLinkLabel.@-->
+                                <VAR ShortName="@" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String" />
+                                <!--.COM2TCP.edvAppli.User.Login.Visual.WIN.ctrlLinkLabel._ClassName-->
+                                <VAR ShortName="_ClassName" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String">
+                                    <Value><![CDATA[System.Windows.Forms.LinkLabel]]></Value>
+                                </VAR>
+                                <!--.COM2TCP.edvAppli.User.Login.Visual.WIN.ctrlLinkLabel.Bounds-->
+                                <VAR ShortName="Bounds" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Object">
+                                    <Value><![CDATA[{X=66,Y=66,Width=66,Height=15}]]></Value>
+                                </VAR>
+                                <!--.COM2TCP.edvAppli.User.Login.Visual.WIN.ctrlLinkLabel.Text-->
+                                <VAR ShortName="Text" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String">
+                                    <Value><![CDATA[Connexion]]></Value>
+                                </VAR>
+                            </DOM>
+                            <DOM ShortName="ctrlTextBox">
+                                <!--.COM2TCP.edvAppli.User.Login.Visual.WIN.ctrlTextBox.@-->
+                                <VAR ShortName="@" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String" />
+                                <!--.COM2TCP.edvAppli.User.Login.Visual.WIN.ctrlTextBox._ClassName-->
+                                <VAR ShortName="_ClassName" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String">
+                                    <Value><![CDATA[System.Windows.Forms.TextBox]]></Value>
+                                </VAR>
+                                <!--.COM2TCP.edvAppli.User.Login.Visual.WIN.ctrlTextBox.Bounds-->
+                                <VAR ShortName="Bounds" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Object">
+                                    <Value><![CDATA[{X=100,Y=1,Width=100,Height=21}]]></Value>
+                                </VAR>
+                                <!--.COM2TCP.edvAppli.User.Login.Visual.WIN.ctrlTextBox.Text-->
+                                <VAR ShortName="Text" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String" />
+                            </DOM>
+                            <DOM ShortName="CTRLTEXTBOX1">
+                                <!--.COM2TCP.edvAppli.User.Login.Visual.WIN.CTRLTEXTBOX1.@-->
+                                <VAR ShortName="@" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String" />
+                                <!--.COM2TCP.edvAppli.User.Login.Visual.WIN.CTRLTEXTBOX1._ClassName-->
+                                <VAR ShortName="_ClassName" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String">
+                                    <Value><![CDATA[System.Windows.Forms.TextBox]]></Value>
+                                </VAR>
+                                <!--.COM2TCP.edvAppli.User.Login.Visual.WIN.CTRLTEXTBOX1.Bounds-->
+                                <VAR ShortName="Bounds" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Object">
+                                    <Value><![CDATA[{X=100,Y=28,Width=100,Height=21}]]></Value>
+                                </VAR>
+                                <!--.COM2TCP.edvAppli.User.Login.Visual.WIN.CTRLTEXTBOX1.PasswordChar-->
+                                <VAR ShortName="PasswordChar" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String">
+                                    <Value><![CDATA[*]]></Value>
+                                </VAR>
+                                <!--.COM2TCP.edvAppli.User.Login.Visual.WIN.CTRLTEXTBOX1.Text-->
+                                <VAR ShortName="Text" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String" />
+                            </DOM>
+                        </DOM>
+                    </VAR>
+                </DOM>
+                <DOM ShortName="USERS">
+                    <!--.COM2TCP.EDVAPPLI.USER.USERS.@-->
+                    <VAR ShortName="@" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="VariableName">
+                        <Value><![CDATA[.{Sys}.Users]]></Value>
+                    </VAR>
+                </DOM>
+                <DOM ShortName="Visual">
+                    <!--.COM2TCP.edvAppli.User.Visual.HTML-->
+                    <VAR ShortName="HTML" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Code">
+                        <Value><![CDATA[<?if(..User.Name != "") {
+?><a href="" class="imgEDVTypeEDV" onclick="$('#dlgEditUser').dialog('open');return false;">&nbsp;&nbsp;&nbsp;Utilisateur <?=..Name?></a>
+<form id="dlgEditUser" class="EDVVisual" method="post" name="<?=..:Name?>" title="<?=..Name?> (<?=..Id?>)">
+	<pre><?=edvjs.json(..User)?></pre>
+	
+	</fieldset>
+	
+</form>
+</div>
+
+<script type="text/javascript">
+
+	$(document).ready(function() {
+		edv.Appli.Enabled = false;
+	    	$("#dlgEditUser").dialog({ 
+					autoOpen: true,
+					modal: true,
+					buttons: { "Ok": function() {$("#dlgEditUser").dialog('close'); }
+					},
+					closeOnEscape: true,
+					resizable: true,
+					width : 500
+					}
+		);
+	});
+	
+</script>
+<?}?>]]></Value>
+                        <Meta><![CDATA[<DESIGNER.LASTPRESENTATION>Window</DESIGNER.LASTPRESENTATION>]]></Meta>
+                        <!--.COM2TCP.edvAppli.User.Visual.HTML.A-->
+                        <VAR ShortName="A" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Code">
+                            <Value><![CDATA[<?=edv.{HTML}.ICON({EDVType: 'EDV'})?><a href="#utilisateur" onclick="edv.HTMLElement.Replace(this,'<?=..:Name?>',null,null,'code');return false;"><?=..User.Name?></a>]]></Value>
+                            <Meta><![CDATA[<SCRIPTER.SCRIPTTYPE>HTML</SCRIPTER.SCRIPTTYPE><DESIGNER.LASTPRESENTATION>Window</DESIGNER.LASTPRESENTATION>]]></Meta>
+                        </VAR>
+                        <!--.COM2TCP.edvAppli.User.Visual.HTML.CSS-->
+                        <VAR ShortName="CSS" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Code">
+                            <Value><![CDATA[<?=edv.{Web}.CSS(edvSender)?>]]></Value>
+                        </VAR>
+                        <!--.COM2TCP.edvAppli.User.Visual.HTML.Head-->
+                        <VAR ShortName="Head" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Code">
+                            <Value><![CDATA[<?=edv.{Web}.HEAD(edvSender)?>
+<?=..edvAppli.HTML.Head({Url : ...:Name+".edvvisual"})?>
+]]></Value>
+                        </VAR>
+                        <!--.COM2TCP.edvAppli.User.Visual.HTML.Main-->
+                        <VAR ShortName="Main" ClassName="VarVisual" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Visual">
+                            <!--.COM2TCP.edvAppli.User.Visual.HTML.Main.HTML-->
+                            <VAR ShortName="HTML" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Code">
+                                <Value><![CDATA[<?=edv.{Web}.Main(edvSender)?><?/*remplacez par 'edv.{Web}.Main.Value', surlignez tout puis F9 pour avoir le script*/?>]]></Value>
+                            </VAR>
+                        </VAR>
+                    </VAR>
+                </DOM>
+            </DOM>
+            <DOM ShortName="Version">
+                <!--.COM2TCP.edvAppli.Version.Build-->
+                <VAR ShortName="Build" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Integer">
+                    <Value><![CDATA[0]]></Value>
+                </VAR>
+                <!--.COM2TCP.edvAppli.Version.Major-->
+                <VAR ShortName="Major" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Integer">
+                    <Value><![CDATA[1]]></Value>
+                </VAR>
+                <!--.COM2TCP.edvAppli.Version.Minor-->
+                <VAR ShortName="Minor" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Integer">
+                    <Value><![CDATA[0]]></Value>
+                </VAR>
+                <!--.COM2TCP.edvAppli.Version.Revision-->
+                <VAR ShortName="Revision" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Integer">
+                    <Value><![CDATA[12]]></Value>
+                    <!--.COM2TCP.edvAppli.Version.Revision.OnSaving-->
+                    <VAR ShortName="OnSaving" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Null">
+                        <Script><![CDATA[when(..Save:Checking)
+{
+	..+=1;
+}
+else when(..Major:Changing || ..Minor:Changing || ..Build:Changing)
+	.. = 0;
+null;]]></Script>
+                    </VAR>
+                </VAR>
+            </DOM>
+            <DOM ShortName="Visual">
+                <!--.COM2TCP.edvAppli.Visual.HTML-->
+                <VAR ShortName="HTML" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Code">
+                    <Value><![CDATA[<?var value;
+if(value = ..edvAppli.Errors){
+	?><pre class="edvError"><?=edvTools.EscapeHtml(value)?></pre>
+<?}
+var varRoot = ..edvAppli:Parent;
+if(varRoot==null) varRoot = edvClient.Variable(edvTools.ParentName(..edvAppli:Name), EDVType.Domain);
+?>
+<a class="edvAppliSave" onclick="alert(edvGet('<?=VAR.INFO?>','<?=varRoot.Name?>.edvAppli.Save=true'));return false;">
+	Enregistrer l'application</a>
+
+<form class="EDVVisual" method="post" name="frmAppliParams" action="?">
+
+<fieldset><legend>Paramètres</legend>
+<input type="hidden" name="edvroot" value="<?=varRoot == null ? "" : varRoot.Name?>">
+
+<ol class="params">
+<?
+var lCategory = null;
+for(var lRow in ..Data:Select("Visual", "SortIndex, Category, Title, IdParam")) {
+	var category = lRow.IsNull("Category") ? "" : lRow["Category"];
+	if (lCategory != category){
+		if (lCategory != null) echo("</ol></li>");
+		lCategory = category;
+		?><li><ol class="sub"><h3><?=category?></h3>
+		<?
+	}
+	var text = lRow["Title"];
+	if (text == null || text == "")
+		text = lRow["IdParam"];
+	var varProp = varRoot[lRow["IdParam"]];
+	?><li>
+	<label class="edvicon imgEDVType<?=edvTools.ImageKeyOfVar(varProp)?>"><?=text?> : </label>
+	<span><?=edv.HTML.INPUT(varProp)?>
+	<?=edv.{HTML}.edvar(varRoot[lRow["IdParam"]])?><?
+	if(!lRow.IsNull("Unit") && lRow["Unit"] != "") {?>&nbsp;<?=edvTools.EscapeHtml(lRow["Unit"])?><?}
+	?></span><?
+}
+if (lCategory != null) echo("</ol>");
+?><br/>
+	<li class="edvimg EDVTypeFile"><a class="submit" href="?"
+		onclick="edv.Wait.Show();edvSubmit(document.forms['frmAppliParams']);">Enregistrer</a>
+</ol>
+
+</fieldset>
+</form>
+
+<div style="padding-left:10px; border-top : 1px solid gray">
+	
+	<br/><br/><u>Notes : </u>
+	<ul>
+	<li></li>
+	</ul>
+	
+	<code>
+		Fichier d'origine : <?=..Save.File?>
+		<br/>Source des paramètres : <?=..Data.Source?>
+	</code>
+	
+	<br/><br/>
+	<div id="divLog" name="<?=..Log.Html:Name?>"></div>
+</div>
+<script>
+	edvGetHtml("divLog")
+	edv.Wait.Hide();
+</script>
+
+]]></Value>
+                    <Meta><![CDATA[<DESIGNER.LASTPRESENTATION>Window</DESIGNER.LASTPRESENTATION>]]></Meta>
+                </VAR>
+                <!--.COM2TCP.edvAppli.Visual.WIN-->
+                <VAR ShortName="WIN" ClassName="WinForm@EDVVisual" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Boolean">
+                    <Value><![CDATA[False]]></Value>
+                </VAR>
+                <DOM ShortName="HTML">
+                    <!--.COM2TCP.edvAppli.Visual.HTML.CSS-->
+                    <VAR ShortName="CSS" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Code">
+                        <Value><![CDATA[<?=edv.{Web}.CSS(edvSender)?>
+<style>
+	#MainInner {
+		padding-left : 10%;
+		padding-right : 5%;
+	}
+
+	ol.params, ol.params ol.sub {
+		padding-left : 0px;
+		margin : 0px 0px 0px 0.5em;
+		list-style : none;
+		list-style : none;
+	}
+	ol.sub h3 {
+		padding : 0px;
+		margin: 0px;
+	}
+	ol.params ol.sub li {
+		clear:both;
+		margin-left : 1em;
+	}
+	ol.params label {
+		float : left;
+		min-width : 10em;
+	}
+	ol.params a.submit {
+		background-color : white; 
+		margin : 1em;
+		padding: 3px;
+		margin-top : -3px;
+		font-size : larger
+	}
+
+	a.edvAppliSave {
+		color:darkblue;
+		position:absolute;
+		right:1em;
+		top:0px;
+		font-size:smaller;
+	}
+</style>
+]]></Value>
+                        <Meta><![CDATA[<DESIGNER.LASTPRESENTATION>Window</DESIGNER.LASTPRESENTATION>]]></Meta>
+                    </VAR>
+                    <!--.COM2TCP.edvAppli.Visual.HTML.Head-->
+                    <VAR ShortName="Head" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Code">
+                        <Value><![CDATA[<?=edv.{Web}.HEAD(edvSender)?>
+<?=..edvAppli.HTML.Head({Url : ...:Name+".edvvisual"})?>]]></Value>
+                        <Meta><![CDATA[<DESIGNER.LASTPRESENTATION>Window</DESIGNER.LASTPRESENTATION>]]></Meta>
+                    </VAR>
+                    <!--.COM2TCP.edvAppli.Visual.HTML.Main-->
+                    <VAR ShortName="Main" ClassName="VarVisual" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Visual">
+                        <!--.COM2TCP.edvAppli.Visual.HTML.Main.HTML-->
+                        <VAR ShortName="HTML" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Code">
+                            <Value><![CDATA[<?=edv.{Web}.Main(edvSender, arguments, edvClient)?><?/*remplacez par 'edv.{Web}.Main.Value', surlignez tout puis F9 pour avoir le script*/?>
+]]></Value>
+                        </VAR>
+                    </VAR>
+                </DOM>
+                <DOM ShortName="WIN">
+                    <!--.COM2TCP.edvAppli.Visual.WIN.Height-->
+                    <VAR ShortName="Height" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Integer">
+                        <Value><![CDATA[232]]></Value>
+                    </VAR>
+                    <!--.COM2TCP.edvAppli.Visual.WIN.OnShown-->
+                    <VAR ShortName="OnShown" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Code">
+                        <Value><![CDATA[edvctrl(":ctrlHTML").Size = edvWinForm.Size;
+edvctrl(":ctrlHTML").Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right
+]]></Value>
+                        <Meta><![CDATA[<SCRIPTER.SCRIPTTYPE>Script</SCRIPTER.SCRIPTTYPE>]]></Meta>
+                    </VAR>
+                    <!--.COM2TCP.edvAppli.Visual.WIN.Show-->
+                    <VAR ShortName="Show" ClassName="ShowWin@EDVVisual" AutoReset="1" Securized="1" ReadOnly="0" ValueType="Boolean" Control="EDV.EDVVisual.CtrlShowWin@EDVVisual.exe" />
+                    <!--.COM2TCP.edvAppli.Visual.WIN.Width-->
+                    <VAR ShortName="Width" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Integer">
+                        <Value><![CDATA[271]]></Value>
+                    </VAR>
+                    <!--.COM2TCP.EDVAPPLI.VISUAL.WIN.WindowStartPosition-->
+                    <VAR ShortName="WindowStartPosition" ClassName="FormStartPosition@System.Windows.Forms" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Object">
+                        <Value><![CDATA[Manual]]></Value>
+                    </VAR>
+                    <!--.COM2TCP.EDVAPPLI.VISUAL.WIN.WindowState-->
+                    <VAR ShortName="WindowState" ClassName="FormWindowState@System.Windows.Forms" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Object">
+                        <Value><![CDATA[Normal]]></Value>
+                    </VAR>
+                    <DOM ShortName="ctrlHTML">
+                        <!--.COM2TCP.edvAppli.Visual.WIN.ctrlHTML.@-->
+                        <VAR ShortName="@" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String">
+                            <Value><![CDATA[:HTML]]></Value>
+                        </VAR>
+                        <!--.COM2TCP.edvAppli.Visual.WIN.ctrlHTML._ClassName-->
+                        <VAR ShortName="_ClassName" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="String">
+                            <Value><![CDATA[EDVCtrlWebBrowser]]></Value>
+                        </VAR>
+                        <!--.COM2TCP.edvAppli.Visual.WIN.ctrlHTML.Bounds-->
+                        <VAR ShortName="Bounds" ClassName="" AutoReset="0" Securized="1" ReadOnly="0" ValueType="Object">
+                            <Value><![CDATA[{X=1,Y=2,Width=270,Height=231}]]></Value>
+                        </VAR>
+                    </DOM>
+                </DOM>
+            </DOM>
+        </DOM>
+        <DOM ShortName="TCP">
+            <!--.COM2TCP.TCP.Received-->
+            <VAR ShortName="Received" ClassName="" AutoReset="0" Securized="0" ReadOnly="1" ValueType="Text">
+                <Value><![CDATA[00);]]></Value>
+            </VAR>
+            <!--.COM2TCP.TCP.Send-->
+            <VAR ShortName="Send" ClassName="" AutoReset="1" Securized="0" ReadOnly="0" ValueType="Text" />
+            <!--.COM2TCP.TCP.Settings-->
+            <VAR ShortName="Settings" ClassName="TCPSettings@EDVIO" AutoReset="0" Securized="0" ReadOnly="0" ValueType="String">
+                <Value><![CDATA[127.0.0.1:4441:True]]></Value>
+            </VAR>
+            <!--.COM2TCP.TCP.Status-->
+            <VAR ShortName="Status" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="String">
+                <Value><![CDATA[Disconnected]]></Value>
+            </VAR>
+            <!--.COM2TCP.TCP.Tutorials-->
+            <VAR ShortName="Tutorials" ClassName="VarFile" AutoReset="0" Securized="0" ReadOnly="1" ValueType="File">
+                <Script><![CDATA[.{Sys}.Path.Scripts + "\\Tutorials\\EDVIO.TcpBridge.edvars"]]></Script>
+            </VAR>
+            <DOM ShortName="SETTINGS">
+                <!--.COM2TCP.TCP.SETTINGS.Address-->
+                <VAR ShortName="Address" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="String">
+                    <Value><![CDATA[127.0.0.1]]></Value>
+                </VAR>
+                <!--.COM2TCP.TCP.SETTINGS.Listener-->
+                <VAR ShortName="Listener" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Boolean">
+                    <Value><![CDATA[True]]></Value>
+                </VAR>
+                <!--.COM2TCP.TCP.SETTINGS.Port-->
+                <VAR ShortName="Port" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Integer">
+                    <Value><![CDATA[4441]]></Value>
+                </VAR>
+            </DOM>
+            <DOM ShortName="Tutorials">
+                <!--.COM2TCP.TCP.Tutorials.Open-->
+                <VAR ShortName="Open" ClassName="" AutoReset="1" Securized="0" ReadOnly="0" ValueType="Boolean" />
+            </DOM>
+        </DOM>
+        <DOM ShortName="Visual">
+            <!--.COM2TCP.Visual.WIN-->
+            <VAR ShortName="WIN" ClassName="WinForm@EDVVisual" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Boolean">
+                <Value><![CDATA[False]]></Value>
+                <!--.COM2TCP.Visual.WIN.btnCloseAll-->
+                <VAR ShortName="btnCloseAll" ClassName="" AutoReset="1" Securized="0" ReadOnly="0" ValueType="Boolean" />
+                <!--.COM2TCP.Visual.WIN.btnOpenAll-->
+                <VAR ShortName="btnOpenAll" ClassName="" AutoReset="1" Securized="0" ReadOnly="0" ValueType="Boolean" />
+                <!--.COM2TCP.Visual.WIN.Height-->
+                <VAR ShortName="Height" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Integer">
+                    <Value><![CDATA[474]]></Value>
+                </VAR>
+                <!--.COM2TCP.Visual.WIN.Width-->
+                <VAR ShortName="Width" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Integer">
+                    <Value><![CDATA[1247]]></Value>
+                </VAR>
+                <!--.COM2TCP.Visual.WIN.WindowStartPosition-->
+                <VAR ShortName="WindowStartPosition" ClassName="FormStartPosition@System.Windows.Forms" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Object">
+                    <Value><![CDATA[Manual]]></Value>
+                </VAR>
+                <!--.COM2TCP.Visual.WIN.WindowState-->
+                <VAR ShortName="WindowState" ClassName="FormWindowState@System.Windows.Forms" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Object">
+                    <Value><![CDATA[Normal]]></Value>
+                </VAR>
+                <DOM ShortName="btnCloseAll">
+                    <!--.COM2TCP.Visual.WIN.btnCloseAll.@-->
+                    <VAR ShortName="@" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="VariableName" />
+                    <!--.COM2TCP.Visual.WIN.btnCloseAll._ClassName-->
+                    <VAR ShortName="_ClassName" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="String">
+                        <Value><![CDATA[EDVCtrlButton]]></Value>
+                    </VAR>
+                    <!--.COM2TCP.Visual.WIN.btnCloseAll.Bounds-->
+                    <VAR ShortName="Bounds" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Object">
+                        <Value><![CDATA[{X=160,Y=3,Width=75,Height=23}]]></Value>
+                    </VAR>
+                    <!--.COM2TCP.Visual.WIN.btnCloseAll.OnChanging-->
+                    <VAR ShortName="OnChanging" ClassName="" AutoReset="0" Securized="0" ReadOnly="1" ValueType="Null">
+                        <Script><![CDATA[when(..:Changing) {
+	..TCP = false;
+	..COMX = false;
+}
+null;]]></Script>
+                    </VAR>
+                    <!--.COM2TCP.Visual.WIN.btnCloseAll.Text-->
+                    <VAR ShortName="Text" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="String">
+                        <Value><![CDATA[Tout fermer]]></Value>
+                    </VAR>
+                </DOM>
+                <DOM ShortName="btnOpenAll">
+                    <!--.COM2TCP.Visual.WIN.btnOpenAll.@-->
+                    <VAR ShortName="@" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="VariableName" />
+                    <!--.COM2TCP.Visual.WIN.btnOpenAll._ClassName-->
+                    <VAR ShortName="_ClassName" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="String">
+                        <Value><![CDATA[EDVCtrlButton]]></Value>
+                    </VAR>
+                    <!--.COM2TCP.Visual.WIN.btnOpenAll.Bounds-->
+                    <VAR ShortName="Bounds" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Object">
+                        <Value><![CDATA[{X=244,Y=3,Width=75,Height=23}]]></Value>
+                    </VAR>
+                    <!--.COM2TCP.Visual.WIN.btnOpenAll.OnChanging-->
+                    <VAR ShortName="OnChanging" ClassName="" AutoReset="0" Securized="0" ReadOnly="1" ValueType="Null">
+                        <Script><![CDATA[when(..:Changing) {
+	..TCP = true;
+	..COMx = true;
+}
+null;]]></Script>
+                    </VAR>
+                    <!--.COM2TCP.Visual.WIN.btnOpenAll.Text-->
+                    <VAR ShortName="Text" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="String">
+                        <Value><![CDATA[Tout ouvrir]]></Value>
+                    </VAR>
+                </DOM>
+                <DOM ShortName="ctrlCOMx">
+                    <!--.COM2TCP.Visual.WIN.ctrlCOMx.@-->
+                    <VAR ShortName="@" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="VariableName">
+                        <Value><![CDATA[COMx]]></Value>
+                    </VAR>
+                    <!--.COM2TCP.Visual.WIN.ctrlCOMx._ClassName-->
+                    <VAR ShortName="_ClassName" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="String">
+                        <Value><![CDATA[EDV.EDVIO.CtrlStream@EDVIO.dll]]></Value>
+                    </VAR>
+                    <!--.COM2TCP.Visual.WIN.ctrlCOMx.Bounds-->
+                    <VAR ShortName="Bounds" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Object">
+                        <Value><![CDATA[{X=6,Y=38,Width=616,Height=435}]]></Value>
+                    </VAR>
+                </DOM>
+                <DOM ShortName="ctrlNumber">
+                    <!--.COM2TCP.Visual.WIN.ctrlNumber.@-->
+                    <VAR ShortName="@" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="VariableName">
+                        <Value><![CDATA[COMx.Number]]></Value>
+                    </VAR>
+                    <!--.COM2TCP.Visual.WIN.ctrlNumber._ClassName-->
+                    <VAR ShortName="_ClassName" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="String">
+                        <Value><![CDATA[EDVCtrlVar]]></Value>
+                    </VAR>
+                    <!--.COM2TCP.Visual.WIN.ctrlNumber.Bounds-->
+                    <VAR ShortName="Bounds" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Object">
+                        <Value><![CDATA[{X=4,Y=3,Width=61,Height=16}]]></Value>
+                    </VAR>
+                </DOM>
+                <DOM ShortName="ctrlNumber1">
+                    <!--.COM2TCP.Visual.WIN.ctrlNumber1.@-->
+                    <VAR ShortName="@" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="VariableName">
+                        <Value><![CDATA[COMx.Number]]></Value>
+                    </VAR>
+                    <!--.COM2TCP.Visual.WIN.ctrlNumber1._ClassName-->
+                    <VAR ShortName="_ClassName" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="String">
+                        <Value><![CDATA[EDVCtrlText]]></Value>
+                    </VAR>
+                    <!--.COM2TCP.Visual.WIN.ctrlNumber1.Bounds-->
+                    <VAR ShortName="Bounds" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Object">
+                        <Value><![CDATA[{X=72,Y=1,Width=40,Height=20}]]></Value>
+                    </VAR>
+                </DOM>
+                <DOM ShortName="ctrlTCP">
+                    <!--.COM2TCP.Visual.WIN.ctrlTCP.@-->
+                    <VAR ShortName="@" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="VariableName">
+                        <Value><![CDATA[TCP]]></Value>
+                    </VAR>
+                    <!--.COM2TCP.Visual.WIN.ctrlTCP._ClassName-->
+                    <VAR ShortName="_ClassName" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="String">
+                        <Value><![CDATA[EDV.EDVIO.CtrlStream@EDVIO.dll]]></Value>
+                    </VAR>
+                    <!--.COM2TCP.Visual.WIN.ctrlTCP.Bounds-->
+                    <VAR ShortName="Bounds" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Object">
+                        <Value><![CDATA[{X=630,Y=38,Width=616,Height=435}]]></Value>
+                    </VAR>
+                </DOM>
+            </VAR>
+        </DOM>
+    </VAR>
+</EDV>
