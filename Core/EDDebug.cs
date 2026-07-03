@@ -46,9 +46,20 @@ namespace EDVirtualCOM2TCP
                 return;
             using (StreamWriter w = File.AppendText(Filename))
             {
-                w.WriteLine(DateTime.Now.ToShortDateString() 
-                    + " " + DateTime.Now.ToLongTimeString() 
-                    + "\t" +  msg);
+                w.WriteLine(DateTime.Now.ToShortDateString()
+                    + " " + DateTime.Now.ToLongTimeString()
+                    + "\t" + msg);
+            }
+
+        }
+
+        public static void LogLine(string msg)
+        {
+            if (!Settings.LogEnabled)
+                return;
+            using (StreamWriter w = File.AppendText(Filename))
+            {
+                w.WriteLine(msg);
             }
 
         }

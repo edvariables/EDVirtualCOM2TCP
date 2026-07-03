@@ -94,5 +94,14 @@ namespace EDVirtualCOM2TCP.Properties {
                 return ((string)(this["com0com_download"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int service_delay {
+            get {
+                return ((int)(this["service_delay"]));
+            }
+        }
     }
 }

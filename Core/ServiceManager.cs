@@ -42,7 +42,8 @@ namespace EDVirtualCOM2TCP
                 return;
             string serviceFileName = Path.Combine(Directory.GetParent(Assembly.GetExecutingAssembly().Location).FullName
                 , "EDVirtualCOM2TCP.Service.exe");
-            string parameters = @"create """ + Settings.ServiceName + @""" binPath=""" + serviceFileName + @""" start=auto";// description=""(ED/Calisto) Passerelle Virtual COM <=> Ethernet""";
+            string startMode = "auto";//delayed-
+            string parameters = @"create """ + Settings.ServiceName + @""" binPath=""" + serviceFileName + @""" start="+startMode;// description=""(ED/Calisto) Passerelle Virtual COM <=> Ethernet""";
             ICommandFile.Run(ExeFileName, parameters);
 
             parameters = @"description """ + Settings.ServiceName + @""" ""(ED/Calisto) Passerelle Virtual COM <=> Ethernet""";

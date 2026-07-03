@@ -1,17 +1,18 @@
 ﻿using EDVirtualCOM2TCP;
 using System;
-using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime;
 using System.ServiceProcess;
 using System.Text;
-using System.Threading.Tasks;
 using System.Threading;
+using System.Threading.Tasks;
+using static EDVirtualCOM2TCP.ICommandFile;
 
 namespace EDVirtualCOM2TCP
 {
@@ -37,7 +38,9 @@ namespace EDVirtualCOM2TCP
 
             Com0Com.CreatePair();
 
-            Hub4Com.OpenPorts();
+            Thread.Sleep(1000  * Settings.Service_Delay);
+
+            Hub4Com.OpenPorts( OnHub4ComProcessExited );
         }
         
         protected override void OnStop()
@@ -46,7 +49,13 @@ namespace EDVirtualCOM2TCP
 
             Hub4Com.ClosePorts();
 
+            EDDebug.Log("Service Stop Closed Ports");
+
             Com0Com.RemoveAll();
+
+            EDDebug.Log("Service Stop Removed All");
+
+            EDDebug.Log("Service Stopped...");
         }
 
         private bool Check_settings()
@@ -75,6 +84,20 @@ namespace EDVirtualCOM2TCP
             if (Settings.IP_Port == 0)
                 return false;
             return true;
+        }
+
+        protected void OnHub4ComProcessExited()
+        {
+            EDDebug.Log("Service OnHub4ComProcessExited");
+
+            Com0Com.RemoveAll();
+
+            EDDebug.Log("Service Stop after Closed Ports");
+            ServiceManager.Stop();
+            //this.Stop();
+            EDDebug.Log("Service should be Stopped");
+            //Thread thread=new Thread(this.Stop);
+            //thread.Start(); 
         }
     }
 }

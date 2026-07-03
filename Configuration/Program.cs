@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -19,69 +20,24 @@ namespace EDVirtualCOM2TCP
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            EDDebug.Log("Program " + Assembly.GetExecutingAssembly().FullName);
-            foreach (string arg in args)
+            if( !IsAdministrator())
             {
-                EDDebug.Log("Arg : " + arg);
-                //    switch (arg)
-                //    {
-                //        case "Setup-Install":
-                //            Setup_Install();
-                //            break;
-                //        case "Setup-Commit":
-                //            Setup_Commit();
-                //            break;
-                //        case "Setup-Rollback":
-                //        case "Setup-Uninstall":
-                //            Setup_Uninstall();
-                //            break;
-                //    }
+                MessageBox.Show("Ce module nécessite les droits Administrateur. Ouvrez le programme par un clic-droit, Exécuter en tant qu'administrateur."
+                    , "EDVirtualCOM2TCP"
+                    , MessageBoxButtons.OK
+                    , MessageBoxIcon.Stop);
+                return;
             }
             Application.Run(new FMain());
         }
 
-        //static void Setup_Install()
-        //{
-        //    if (!Com0Com.IsInstalled)
-        //    {
-        //        if (MessageBox.Show("Le composant Com0Com n'est pas installé."
-        //            + "\nVoulez-vous le télécharger ?"
-        //            , "Installation de EDVirtualCOM2TCP"
-        //            , MessageBoxButtons.YesNo
-        //            , MessageBoxIcon.Question)
-        //            == DialogResult.Yes)
-        //        {
-        //            Com0Com.Download();
-
-        //            MessageBox.Show("Quand l'installation de Com0Com sera effectuée, \ncliquez sur Ok pour poursuivre le démarrage."
-        //            , "Installation de EDVirtualCOM2TCP"
-        //            , MessageBoxButtons.OK
-        //            , MessageBoxIcon.Warning);
-
-        //        }
-        //    }
-        //}
-
-        //static void Setup_Commit()
-        //{
-        //    EDDebug.Log("Service : Delete");
-        //    ServiceManager.Delete();
-
-        //    EDDebug.Log("Service : Create");
-        //    ServiceManager.Create();
-
-        //    EDDebug.Log("Service : " + ServiceManager.Status.ToString());
-        //    //Normalement, AppInstaller.Commit devrait avoir fait le boulot
-        //    ServiceManager.Start();
-        //}
-
-        //static void Setup_Uninstall()
-        //{
-        //    EDDebug.Log("Service : Stop");
-        //    ServiceManager.Stop();
-
-        //    EDDebug.Log("Service : Delete");
-        //    ServiceManager.Delete();
-        //}
-    }
+        public static bool IsAdministrator()
+            {
+                using (WindowsIdentity identity = WindowsIdentity.GetCurrent())
+                {
+                    WindowsPrincipal principal = new WindowsPrincipal(identity);
+                    return principal.IsInRole(WindowsBuiltInRole.Administrator);
+                }
+            }
+        }
 }

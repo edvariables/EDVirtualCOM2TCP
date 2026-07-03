@@ -41,6 +41,7 @@ namespace EDVirtualCOM2TCP
             txtHub4ComDir.Text = Settings.Hub4Com_path;
             txtHub4ComOptions.Text = Settings.Hub4Com_options;
             chkLog.Checked = Settings.LogEnabled;
+            numService_Delay.Value = Settings.Service_Delay;
         }
 
         private void Init_Com0Com()
@@ -48,10 +49,15 @@ namespace EDVirtualCOM2TCP
             //Console.WriteLine("Com0Com : " + Com0Com.ExeFileName);
             try
             {
-                txtCom0ComState.Text =String.Join("\n\r\n\r", Com0Com.Busynames());
-                //if(txtCom0ComState.Text.Length>0)
-                //    txtCom0ComState.Text += "\n\r\n\r";
-                //txtCom0ComState.Text += "Disponible : COM" + Com0Com.AvailableCOM().ToString();
+                txtCom0ComState.Text = String.Empty;
+                foreach ( string busyname in Com0Com.Busynames()) {
+                    if (txtCom0ComState.Text.Length > 0)
+                        txtCom0ComState.Text += "\n\r\n\r";
+                    txtCom0ComState.Text += busyname;
+                    if (Com0Com.CreatedPair_COM == busyname) { 
+                        txtCom0ComState.Text += " <=> CNB" + Com0Com.CreatedPair_CNC.ToString();
+                    }
+                }
                 picComOk.Visible=true;
                 picComAlert.Visible = false;
             }
@@ -140,6 +146,8 @@ namespace EDVirtualCOM2TCP
             Settings.Hub4Com_options = txtHub4ComOptions.Text;
 
             Settings.LogEnabled= chkLog.Checked;
+
+            Settings.Service_Delay = (int)numService_Delay.Value ;
 
             Settings.Save();
         }
@@ -269,9 +277,11 @@ namespace EDVirtualCOM2TCP
         {
             try
             {
-                if (!lnkServiceStart.Enabled && !lnkServiceInstall.Visible)
+                if (ServiceManager.Status == ServiceControllerStatus.Running)
                 {
-                    MessageBox.Show("Le service est en cours, les ports de communication ne doivent pas être modifiés.", "EDVirtualCOM2TCP", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    if( MessageBox.Show("Le service est en cours, les ports de communication ne doivent pas être modifiés.", "EDVirtualCOM2TCP"
+                            , MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Stop)
+                        == DialogResult.Abort)
                     return;
                 }
 
@@ -290,10 +300,12 @@ namespace EDVirtualCOM2TCP
         {
             try
             {
-                if (!lnkServiceStart.Enabled && ! lnkServiceInstall.Visible)
+                if (ServiceManager.Status == ServiceControllerStatus.Running)
                 {
-                    MessageBox.Show("Le service est en cours, les ports de communication ne doivent pas être modifiés.", "EDVirtualCOM2TCP", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                    return;
+                    if (MessageBox.Show("Le service est en cours, les ports de communication ne doivent pas être modifiés.", "EDVirtualCOM2TCP"
+                            , MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Stop)
+                        == DialogResult.Abort)
+                        return;
                 }
                 EDDebug.Log("call Com0Com.CreatePair()");
                 Com0Com.CreatePair();
@@ -310,16 +322,20 @@ namespace EDVirtualCOM2TCP
         {
             if (chkHub4Com.Checked == true)
             {
-                if( !lnkServiceStart.Enabled)
+                if( ServiceManager.Status==ServiceControllerStatus.Running )
                 {
-                    MessageBox.Show("Le service est en cours. Lui seul peut ouvrir les ports de communication.", "EDVirtualCOM2TCP", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                    chkHub4Com.Checked = false;
-                    return;
+                    if (MessageBox.Show("Le service est en cours. Lui seul peut ouvrir les ports de communication.", "EDVirtualCOM2TCP"
+                            , MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Stop)
+                        == DialogResult.Abort)
+                    {
+                        chkHub4Com.Checked = false;
+                        return;
+                    }
                 }
                 try
                 {
                     EDDebug.Log("call Hub4Com.OpenPorts()");
-                    if( ! Hub4Com.OpenPorts() )
+                    if( ! Hub4Com.OpenPorts(OnHub4ComProcessExited) )
                         chkHub4Com.Checked = false;
                     else
                         clkOpenPortsCheck_Active = true;
@@ -337,6 +353,11 @@ namespace EDVirtualCOM2TCP
                 Hub4Com.ClosePorts();
             }
 
+        }
+
+        protected void OnHub4ComProcessExited()
+        {
+            chkHub4Com.Checked = false;
         }
 
         private void FMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -432,6 +453,16 @@ namespace EDVirtualCOM2TCP
         private void chkLog_CheckedChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void lnkGitHub_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            NavigateToUrl(((LinkLabel)sender).Text);
+        }
+
+        private void lnkSetup_Download_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            NavigateToUrl(((LinkLabel)sender).Text);
         }
     }
 

@@ -4,24 +4,20 @@
     <!--.COM2TCP-->
     <VAR ShortName="COM2TCP" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Domain">
         <!--.COM2TCP.COMx-->
-        <VAR ShortName="COMx" ClassName="Serial@EDVIO" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Boolean" Control="EDV.EDVIO.CtrlStream@EDVIO.DLL">
-            <Value><![CDATA[False]]></Value>
-        </VAR>
+        <VAR ShortName="COMx" ClassName="Serial@EDVIO" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Boolean" SaveLocation="V" Control="EDV.EDVIO.CtrlStream@EDVIO.DLL" />
         <!--.COM2TCP.edvAppli-->
         <VAR ShortName="edvAppli" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Boolean" SaveLocation="V">
             <Meta><![CDATA[<DESIGNER.LASTPRESENTATION>Window</DESIGNER.LASTPRESENTATION>]]></Meta>
         </VAR>
         <!--.COM2TCP.TCP-->
-        <VAR ShortName="TCP" ClassName="TCP@EDVIO" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Boolean" Control="EDV.EDVIO.CtrlStream@EDVIO.DLL">
-            <Value><![CDATA[False]]></Value>
-        </VAR>
+        <VAR ShortName="TCP" ClassName="TCP@EDVIO" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Boolean" SaveLocation="V" Control="EDV.EDVIO.CtrlStream@EDVIO.DLL" />
         <!--.COM2TCP.Visual-->
         <VAR ShortName="Visual" ClassName="VarVisual" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Visual">
             <Meta><![CDATA[<DESIGNER.LASTPRESENTATION>Window</DESIGNER.LASTPRESENTATION>]]></Meta>
         </VAR>
         <DOM ShortName="COMx">
             <!--.COM2TCP.COMx.Number-->
-            <VAR ShortName="Number" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Byte">
+            <VAR ShortName="Number" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Byte" SaveLocation="U">
                 <Value><![CDATA[6]]></Value>
             </VAR>
             <!--.COM2TCP.COMX.Received-->
@@ -33,9 +29,7 @@
                 <Script><![CDATA["COM" + Number + ",9600,8,n,1"]]></Script>
             </VAR>
             <!--.COM2TCP.COMX.Status-->
-            <VAR ShortName="Status" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="String">
-                <Value><![CDATA[Closed]]></Value>
-            </VAR>
+            <VAR ShortName="Status" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="String" SaveLocation="V" />
         </DOM>
         <DOM ShortName="edvAppli">
             <!--.COM2TCP.edvAppli.ApplicationId-->
@@ -1655,7 +1649,7 @@ function UserLoginCheck(){
                 </VAR>
                 <!--.COM2TCP.edvAppli.Version.Revision-->
                 <VAR ShortName="Revision" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Integer">
-                    <Value><![CDATA[12]]></Value>
+                    <Value><![CDATA[16]]></Value>
                     <!--.COM2TCP.edvAppli.Version.Revision.OnSaving-->
                     <VAR ShortName="OnSaving" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Null">
                         <Script><![CDATA[when(..Save:Checking)
@@ -1861,9 +1855,7 @@ edvctrl(":ctrlHTML").Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyle
                 <Value><![CDATA[127.0.0.1:4441:True]]></Value>
             </VAR>
             <!--.COM2TCP.TCP.Status-->
-            <VAR ShortName="Status" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="String">
-                <Value><![CDATA[Disconnected]]></Value>
-            </VAR>
+            <VAR ShortName="Status" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="String" SaveLocation="V" />
             <!--.COM2TCP.TCP.Tutorials-->
             <VAR ShortName="Tutorials" ClassName="VarFile" AutoReset="0" Securized="0" ReadOnly="1" ValueType="File">
                 <Script><![CDATA[.{Sys}.Path.Scripts + "\\Tutorials\\EDVIO.TcpBridge.edvars"]]></Script>

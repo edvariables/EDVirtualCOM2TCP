@@ -49,6 +49,18 @@ namespace EDVirtualCOM2TCP
             }
         }
 
+        public static int Service_Delay
+        {
+            get
+            {
+                return int.Parse(IniFile.ReadValue("Service_Delay", null, EDVirtualCOM2TCP.Properties.Settings.Default.service_delay.ToString()));
+            }
+            set
+            {
+                IniFile.WriteValue("Service_Delay", value.ToString());
+            }
+        }
+
         public static int COM_num
         {
             get

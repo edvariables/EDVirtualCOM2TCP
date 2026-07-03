@@ -35,9 +35,9 @@ namespace EDVirtualCOM2TCP
         {
             return ICommandFile.Run(ExeFileName, parameters);
         }
-        public static Thread RunAsThread(string parameters)
+        public static Thread RunAsThread(string parameters, ICommandFile.ProcessExited processExited = null)
         {
-            Thread thread = ICommandFile.RunAsThread(ExeFileName, parameters);
+            Thread thread = ICommandFile.RunAsThread(ExeFileName, parameters, processExited);
             if (thread != null)
             {
                 EDDebug.Log("SUCCES OpenPorts");
@@ -45,12 +45,14 @@ namespace EDVirtualCOM2TCP
             }
             else
                 EDDebug.Log("ECHEC OpenPorts");
-                return thread;
+            return thread;
         }
 
-        public static bool OpenPorts()
+        public static bool OpenPorts(ICommandFile.ProcessExited processExited = null)
         {
-            int cncNum = Com0Com.Busynames().Length - 1;
+            int cncNum = Com0Com.CreatedPair_CNC;
+            if (cncNum < 0)
+                cncNum = Com0Com.Busynames().Length - 1;
             if (cncNum < 0)
                 throw new Exception("Aucun port disponible pour Hub4Com.OpenPorts.");
             string options = Settings.Hub4Com_options;
@@ -59,7 +61,7 @@ namespace EDVirtualCOM2TCP
                     + " --use-driver=tcp \"*" + Settings.IP_Address + ":" + Settings.IP_Port
                     + "\"";
 
-            _openPorts_thread = RunAsThread(cmd);
+            _openPorts_thread = RunAsThread(cmd, processExited);
             return _openPorts_thread != null;
         }
 
@@ -83,7 +85,12 @@ namespace EDVirtualCOM2TCP
                 ICommandFile.StopThread( _openPorts_thread );
                 Thread.Sleep(300);
             }
-            finally {  
+            catch(Exception ex)
+            {
+                EDDebug.Log("ClosePorts : " + (ex.InnerException==null ? ex.Message : ex.InnerException.Message));
+            }
+            finally
+            {
                 _openPorts_thread = null;
             }
         }

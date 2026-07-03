@@ -12,12 +12,13 @@ using System.Threading.Tasks;
 
 namespace EDVirtualCOM2TCP
 {
-    internal static class ICommandFile
+    public static class ICommandFile
     {
+        public delegate void ProcessExited(/*string result*/);
 
         private static readonly Hashtable _threadProcesses = new Hashtable();
 
-        public static Thread RunAsThread(string exeFileName, string parameters)
+        public static Thread RunAsThread(string exeFileName, string parameters, ICommandFile.ProcessExited processExited = null)
         {
             Thread thread = new Thread(Run_Callback);
             Process process = new Process();
@@ -25,7 +26,8 @@ namespace EDVirtualCOM2TCP
             {
                 { "exeFileName", exeFileName },
                 { "parameters", parameters },
-                { "process", process }
+                { "process", process },
+                { "processExited", processExited }
             };
             
             thread.Start( args );
@@ -36,19 +38,24 @@ namespace EDVirtualCOM2TCP
         public static void Run_Callback(Object data)
         {
             Hashtable args = (Hashtable)data;
-            Run((string)args["exeFileName"], (string)args["parameters"], (Process)args["process"]);
+            Run((string)args["exeFileName"], (string)args["parameters"], (Process)args["process"], (ICommandFile.ProcessExited)args["processExited"]);
         }
 
         public static string Run(string exeFileName, string parameters)
         {
             return Run(exeFileName, parameters, null);
         }
-        private static string Run(string exeFileName, string parameters, Process cmd)
+        private static string Run(string exeFileName, string parameters, Process cmd, ICommandFile.ProcessExited processExited = null)
         {
             if( ! File.Exists(exeFileName))
                 throw new Exception("Fichier introuvable : " + exeFileName);
-            
-            if(cmd == null)
+
+            string com0com = "\""
+                + exeFileName + "\""
+                + " " + parameters;
+            EDDebug.Log("Run > " + com0com);
+
+            if (cmd == null)
                 cmd = new Process();
             cmd.StartInfo.FileName = exeFileName;
             cmd.StartInfo.WorkingDirectory = Directory.GetParent(cmd.StartInfo.FileName).FullName;
@@ -57,45 +64,71 @@ namespace EDVirtualCOM2TCP
             cmd.StartInfo.RedirectStandardOutput = true;
             cmd.StartInfo.CreateNoWindow = true;
             cmd.StartInfo.UseShellExecute = false;
+
+
+            StringBuilder result = new StringBuilder();
+            //cmd.OutputDataReceived += (sender, args) => Console.WriteLine("XXXXXXX received output: {0}", args.Data);
+            cmd.OutputDataReceived += (sender, args) => result.AppendLine(result.Length < 1024 * 1024 ? args.Data : "");
+            //DataReceivedEventHandler value = (sender, args) =>
+            //{
+            //    if (result.Length < 1024 * 1024)
+            //    {
+            //        result.AppendLine(args.Data);
+            //        EDDebug.LogLine(args.Data);
+            //    }
+            //};
             cmd.Start();
 
-            string com0com = "\""
-                + exeFileName + "\""
-                + " " + parameters;
-            EDDebug.Log("Run > " + com0com);
+            cmd.BeginOutputReadLine();
 
             cmd.StandardInput.Flush();
             cmd.StandardInput.Close();
-            cmd.WaitForExit();
-            
-            string result = cmd.StandardOutput.ReadToEnd();
-            EDDebug.Log("Result > " + result);
 
-            return result;
+            cmd.WaitForExit();
+            cmd.CancelOutputRead();
+
+            EDDebug.LogLine("Return >" + result.ToString());
+            if (processExited != null)
+                processExited.Invoke();
+            return result.ToString();
         }
 
         public static bool StopThread(Thread thread)
         {
-            if (!_threadProcesses.ContainsKey(thread.GetHashCode()))
-                return false;
-            Process process = ((Process)_threadProcesses[thread.GetHashCode()]);
-            if (!process.HasExited)
-                try
-                {
-                    process.Kill();
-                }
-                catch { }
             try
             {
-                thread.Abort();
+                int hashCode = thread.GetHashCode();
+
+                if (!_threadProcesses.ContainsKey(thread.GetHashCode()))
+                    return false;
+                Process process = ((Process)_threadProcesses[thread.GetHashCode()]);
+                if (!process.HasExited)
+                    try
+                    {
+                        process.Kill();
+                    }
+                    catch { }
+                try
+                {
+                    thread.Abort();
+                }
+                finally
+                {
+                    try
+                    {
+                        _threadProcesses.Remove(thread.GetHashCode());
+                    }
+                    catch { }
+                }
             }
-            finally
+            catch (Exception ex)
             {
-                _threadProcesses.Remove(thread.GetHashCode());
+                EDDebug.Log("StopThread : " + (ex.InnerException == null ? ex.Message : ex.InnerException.Message));
+                return false;
             }
+
             return true;
         }
-
         public static bool IsProcessRunning(Thread thread)
         {
             if (!_threadProcesses.ContainsKey(thread.GetHashCode()))

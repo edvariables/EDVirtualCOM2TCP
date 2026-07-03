@@ -6,12 +6,23 @@ using System.IO;
 using System.Linq;
 using System.Security.Policy;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace EDVirtualCOM2TCP
 {
+    /**
+     * TODO : Ce module réinitialise Com0Com sans tenir compte d'autres usages sur l'ordinateur
+     * 
+     * */
+    /**
+     * 
+     * */
     public static class Com0Com
     {
+        public static int CreatedPair_CNC = -1;
+        public static string CreatedPair_COM = String.Empty;
+
         public static string ExeFileName
         {
             get
@@ -30,20 +41,35 @@ namespace EDVirtualCOM2TCP
             string cmd = "busynames COM?*";
 
             string result = Run(cmd);
-            return result.Replace("\r", String.Empty).TrimEnd('\n').Split('\n');
+            result = result.Replace("\r", String.Empty).TrimEnd('\n');
+            if( result.Length == 0) 
+                return Array.Empty<string>();
+            return result.Split('\n');
         }
 
         public static bool CreatePair()
         {
             int availableCom = AvailableCOM();
             int index = Busynames().Length;
-            string cmd = "--silent install " + index + " PortName=COM" + availableCom.ToString() + ",EmuBR=yes -";
-            EDDebug.Log("> " + cmd);
+            do
+            {
+                string cmd = "--silent install " + index + " PortName=COM" + availableCom.ToString() + ",EmuBR=yes -";
+                EDDebug.Log("> " + cmd);
 
-            string result = Run(cmd);
+                string result = Run(cmd);
+                if( ! result.Contains("is already used")
+                    && result.Contains(" logged as "))
+                {
+                    Match match=Regex.Match(result, @"^\s*CNCA(?<cnc>\d+)\sPortName=(?<com>COM\d+)");
+                    if (match.Success)
+                    {
+                        CreatedPair_CNC = int.Parse(match.Groups["cnc"].Value);
+                        CreatedPair_COM = match.Groups["com"].Value;
+                        return true;
+                    }
 
-            EDDebug.Log(result);
-
+                }
+            } while (index++ < 127);
             return false;
         }
 
@@ -51,12 +77,15 @@ namespace EDVirtualCOM2TCP
         {
             string[] busynames = Busynames();
             string coms = String.Join(" ", busynames);
-            for (int i = 0; i < busynames.Length; i++)
+            int killMore = 1;//TODO Bloque si on a COM3 COM5 COM9
+            for (int i = 0; i < busynames.Length + killMore; i++)
             {
                 string cmd = "--silent remove " + i.ToString();
                 string result = Run(cmd);
             }
 
+            CreatedPair_CNC = -1;
+            CreatedPair_COM = String.Empty;
             return true;
         }
 
