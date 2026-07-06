@@ -20,6 +20,7 @@ namespace EDVirtualCOM2TCP
             Init_Service_States();
             Init_Inputs();
             Init_Com0Com();
+            FormControlsAccess();
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -40,7 +41,6 @@ namespace EDVirtualCOM2TCP
             txtCOM_num.Text = Settings.COM_num.ToString();
             txtCom0ComDir.Text = Settings.Com0Com_path;
             txtHub4ComDir.Text = Settings.Hub4Com_path;
-            txtHub4ComOptions.Text = Settings.Hub4Com_options;
             optHub4Com.Checked = Settings.Bridge_Hub4Com;
             optInterrnalBridge.Checked = !optHub4Com.Checked;
             chkCreateCOM.Checked = Settings.Com0Com_CreateCOM;
@@ -53,17 +53,39 @@ namespace EDVirtualCOM2TCP
             //Console.WriteLine("Com0Com : " + Com0Com.ExeFileName);
             try
             {
+                Dictionary<string, bool> portNames = new Dictionary<string, bool>();
+                foreach(string portName in SerialPort.GetPortNames())
+                {
+                    portNames.Add(portName, false);
+                }
                 txtCom0ComState.Text = String.Empty;
                 foreach ( string busyname in Com0Com.Busynames()) {
                     if (txtCom0ComState.Text.Length > 0)
                         txtCom0ComState.Text += "\n\r\n\r";
                     txtCom0ComState.Text += busyname;
-                    if (Com0Com.CreatedPair_COM == busyname) { 
-                        if(Settings.Bridge_Internal)
+                    if ( ! portNames.Keys.Contains(busyname))
+                    {
+                        txtCom0ComState.Text += "*";
+                    }
+                    else
+                        portNames[busyname] = true;
+                    if (Com0Com.CreatedPair_COM == busyname)
+                    {
+                        if (Settings.Bridge_Internal)
                             txtCom0ComState.Text += " <=> COM" + (Com0Com.CreatedPair_COMNum + 1).ToString();
                         else
                             txtCom0ComState.Text += " <=> CNB" + Com0Com.CreatedPair_CNC.ToString();
                     }
+                }
+                foreach (string portName in portNames.Keys)
+                {
+                    if (portNames[portName] == false)
+                    {
+                        if (txtCom0ComState.Text.Length > 0)
+                            txtCom0ComState.Text += "\n\r\n\r";
+                        txtCom0ComState.Text += "+" + portName;
+                    }
+
                 }
                 picComOk.Visible=true;
                 picComAlert.Visible = false;
@@ -151,7 +173,6 @@ namespace EDVirtualCOM2TCP
 
             Settings.Com0Com_path =txtCom0ComDir.Text;
             Settings.Hub4Com_path = txtHub4ComDir.Text;
-            Settings.Hub4Com_options = txtHub4ComOptions.Text;
 
             Settings.LogEnabled= chkLog.Checked;
 
@@ -503,6 +524,30 @@ namespace EDVirtualCOM2TCP
         private void lnkSetup_Download_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             NavigateToUrl(((LinkLabel)sender).Text);
+        }
+
+        private void optInterrnalBridge_CheckedChanged(object sender, EventArgs e)
+        {
+            FormControlsAccess();
+        }
+
+        private void optHub4Com_CheckedChanged(object sender, EventArgs e)
+        {
+            FormControlsAccess();
+        }
+
+        private void chkCreateCOM_CheckedChanged(object sender, EventArgs e)
+        {
+            FormControlsAccess();
+        }
+
+        private void FormControlsAccess()
+        {
+            lblCom0ComPath.Enabled = optHub4Com.Checked || chkCreateCOM.Checked;
+
+            txtHub4ComDir.Enabled = optHub4Com.Checked;
+
+            chkCreateCOM.Enabled = ! optHub4Com.Checked;
         }
     }
 

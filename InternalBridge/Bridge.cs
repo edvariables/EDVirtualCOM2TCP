@@ -156,7 +156,7 @@ namespace EDVirtualCOM2TCP
                 // COM => TCP
                 BinaryWriter BWclient = new BinaryWriter(tcpStream);
                 Byte[] cncBytes = new byte[cnc.ReadBufferSize];
-                cnc.DataReceived += (object sender, SerialDataReceivedEventArgs e) =>
+                cnc.DataReceived += (sender, e) =>
                 {
                     try
                     {

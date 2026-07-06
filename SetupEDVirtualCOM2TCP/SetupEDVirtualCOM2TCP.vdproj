@@ -39,6 +39,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_7F1E09EE46F8669DB7C69726FF768728"
+        "OwnerKey" = "8:_F68B7330D479447DA68D50FA5D3CA859"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_7F4A31D086324CE1C784DB09D4359BA4"
         "OwnerKey" = "8:_F68B7330D479447DA68D50FA5D3CA859"
         "MsmSig" = "8:_UNDEFINED"
@@ -47,6 +53,12 @@
         {
         "MsmKey" = "8:_7F4A31D086324CE1C784DB09D4359BA4"
         "OwnerKey" = "8:_21B26A16B516077E1AE8A01DEEDA1BB2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_7F4A31D086324CE1C784DB09D4359BA4"
+        "OwnerKey" = "8:_7F1E09EE46F8669DB7C69726FF768728"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -77,6 +89,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_21B26A16B516077E1AE8A01DEEDA1BB2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_7F1E09EE46F8669DB7C69726FF768728"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -246,7 +264,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:EDVirtualCOM2TCP.Service, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:EDVirtualCOM2TCP.Service, Version=1.0.0.2, Culture=neutral, PublicKeyToken=598e6c9cd123de30, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_21B26A16B516077E1AE8A01DEEDA1BB2"
@@ -333,11 +351,42 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7F1E09EE46F8669DB7C69726FF768728"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:EDVirtualCOM2TCP.InternalBridge, Version=1.0.0.0, Culture=neutral, PublicKeyToken=598e6c9cd123de30, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_7F1E09EE46F8669DB7C69726FF768728"
+                    {
+                    "Name" = "8:EDVirtualCOM2TCP.InternalBridge.exe"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:EDVirtualCOM2TCP.InternalBridge.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_A8FD348A97A544A5BCD7A7001E4B42BF"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7F4A31D086324CE1C784DB09D4359BA4"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:EDVirtualCOM2TCP.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:EDVirtualCOM2TCP.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=598e6c9cd123de30, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_7F4A31D086324CE1C784DB09D4359BA4"
@@ -507,7 +556,7 @@
         "ARPHELPLINK" = "8:"
         "Title" = "8:EDVirtualCOM2TCP"
         "Subject" = "8:"
-        "ARPCONTACT" = "8:ed@edvariables.ovh"
+        "ARPCONTACT" = "8:admin@edvariables.net"
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:(ED/Calisto) Passerelle Virtual COM <=> Ethernet"
         "ARPURLINFOABOUT" = "8:"

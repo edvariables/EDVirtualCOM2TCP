@@ -40,6 +40,8 @@ namespace EDVirtualCOM2TCP
             this.tabsCtrl = new System.Windows.Forms.TabControl();
             this.tabGeneral = new System.Windows.Forms.TabPage();
             this.grpCom0Com = new System.Windows.Forms.GroupBox();
+            this.chkCreateCOM = new System.Windows.Forms.CheckBox();
+            this.txtHub4ComDir = new System.Windows.Forms.TextBox();
             this.optInterrnalBridge = new System.Windows.Forms.RadioButton();
             this.optHub4Com = new System.Windows.Forms.RadioButton();
             this.picComAlert = new System.Windows.Forms.PictureBox();
@@ -47,13 +49,12 @@ namespace EDVirtualCOM2TCP
             this.picComOk = new System.Windows.Forms.PictureBox();
             this.txtCOM_num = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.txtHub4ComOptions = new System.Windows.Forms.TextBox();
-            this.txtHub4ComDir = new System.Windows.Forms.TextBox();
             this.chkActivate = new System.Windows.Forms.CheckBox();
             this.lnkCom0ComCreate = new System.Windows.Forms.LinkLabel();
             this.lnkCom0ComRemoveAll = new System.Windows.Forms.LinkLabel();
             this.lnkRefreshCom0Com = new System.Windows.Forms.LinkLabel();
             this.txtCom0ComDir = new System.Windows.Forms.TextBox();
+            this.lblCom0ComPath = new System.Windows.Forms.Label();
             this.txtCom0ComState = new System.Windows.Forms.TextBox();
             this.grpIP = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -85,8 +86,8 @@ namespace EDVirtualCOM2TCP
             this.label7 = new System.Windows.Forms.Label();
             this.lnkHub4Com = new System.Windows.Forms.LinkLabel();
             this.lnkCom0Com = new System.Windows.Forms.LinkLabel();
-            this.label5 = new System.Windows.Forms.Label();
-            this.chkCreateCOM = new System.Windows.Forms.CheckBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.tabsCtrl.SuspendLayout();
             this.tabGeneral.SuspendLayout();
             this.grpCom0Com.SuspendLayout();
@@ -172,31 +173,50 @@ namespace EDVirtualCOM2TCP
             this.grpCom0Com.Controls.Add(this.picComOk);
             this.grpCom0Com.Controls.Add(this.txtCOM_num);
             this.grpCom0Com.Controls.Add(this.label9);
-            this.grpCom0Com.Controls.Add(this.txtHub4ComOptions);
             this.grpCom0Com.Controls.Add(this.chkActivate);
             this.grpCom0Com.Controls.Add(this.lnkCom0ComCreate);
             this.grpCom0Com.Controls.Add(this.lnkCom0ComRemoveAll);
             this.grpCom0Com.Controls.Add(this.lnkRefreshCom0Com);
             this.grpCom0Com.Controls.Add(this.txtCom0ComDir);
-            this.grpCom0Com.Controls.Add(this.label5);
+            this.grpCom0Com.Controls.Add(this.lblCom0ComPath);
             this.grpCom0Com.Controls.Add(this.txtCom0ComState);
             this.grpCom0Com.Location = new System.Drawing.Point(12, 200);
             this.grpCom0Com.Name = "grpCom0Com";
-            this.grpCom0Com.Size = new System.Drawing.Size(322, 271);
+            this.grpCom0Com.Size = new System.Drawing.Size(322, 273);
             this.grpCom0Com.TabIndex = 6;
             this.grpCom0Com.TabStop = false;
-            this.grpCom0Com.Text = "      Com0Com et Hub4Com";
+            this.grpCom0Com.Text = "      COMs virtuels et Passerelle";
+            // 
+            // chkCreateCOM
+            // 
+            this.chkCreateCOM.AutoSize = true;
+            this.chkCreateCOM.Location = new System.Drawing.Point(133, 80);
+            this.chkCreateCOM.Name = "chkCreateCOM";
+            this.chkCreateCOM.Size = new System.Drawing.Size(116, 17);
+            this.chkCreateCOM.TabIndex = 25;
+            this.chkCreateCOM.Text = "Générer des COMs";
+            this.chkCreateCOM.UseVisualStyleBackColor = true;
+            this.chkCreateCOM.CheckedChanged += new System.EventHandler(this.chkCreateCOM_CheckedChanged);
+            // 
+            // txtHub4ComDir
+            // 
+            this.txtHub4ComDir.Location = new System.Drawing.Point(74, 54);
+            this.txtHub4ComDir.Name = "txtHub4ComDir";
+            this.txtHub4ComDir.Size = new System.Drawing.Size(222, 20);
+            this.txtHub4ComDir.TabIndex = 19;
+            this.toolTip1.SetToolTip(this.txtHub4ComDir, "Sous-répertoire ou chemin contenant hub4com.exe");
             // 
             // optInterrnalBridge
             // 
             this.optInterrnalBridge.AutoSize = true;
-            this.optInterrnalBridge.Location = new System.Drawing.Point(5, 143);
+            this.optInterrnalBridge.Location = new System.Drawing.Point(6, 79);
             this.optInterrnalBridge.Margin = new System.Windows.Forms.Padding(2);
             this.optInterrnalBridge.Name = "optInterrnalBridge";
             this.optInterrnalBridge.Size = new System.Drawing.Size(108, 17);
             this.optInterrnalBridge.TabIndex = 24;
             this.optInterrnalBridge.Text = "Passerelle interne";
             this.optInterrnalBridge.UseVisualStyleBackColor = true;
+            this.optInterrnalBridge.CheckedChanged += new System.EventHandler(this.optInterrnalBridge_CheckedChanged);
             // 
             // optHub4Com
             // 
@@ -207,6 +227,7 @@ namespace EDVirtualCOM2TCP
             this.optHub4Com.TabIndex = 23;
             this.optHub4Com.Text = "Hub4Com";
             this.optHub4Com.UseVisualStyleBackColor = true;
+            this.optHub4Com.CheckedChanged += new System.EventHandler(this.optHub4Com_CheckedChanged);
             // 
             // picComAlert
             // 
@@ -233,7 +254,7 @@ namespace EDVirtualCOM2TCP
             // picComOk
             // 
             this.picComOk.Image = ((System.Drawing.Image)(resources.GetObject("picComOk.Image")));
-            this.picComOk.Location = new System.Drawing.Point(3, -1);
+            this.picComOk.Location = new System.Drawing.Point(3, 0);
             this.picComOk.Name = "picComOk";
             this.picComOk.Size = new System.Drawing.Size(19, 20);
             this.picComOk.TabIndex = 7;
@@ -242,7 +263,7 @@ namespace EDVirtualCOM2TCP
             // 
             // txtCOM_num
             // 
-            this.txtCOM_num.Location = new System.Drawing.Point(264, 4);
+            this.txtCOM_num.Location = new System.Drawing.Point(264, 0);
             this.txtCOM_num.Name = "txtCOM_num";
             this.txtCOM_num.Size = new System.Drawing.Size(34, 20);
             this.txtCOM_num.TabIndex = 21;
@@ -252,33 +273,17 @@ namespace EDVirtualCOM2TCP
             // 
             this.label9.AutoSize = true;
             this.label9.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label9.Location = new System.Drawing.Point(208, 6);
+            this.label9.Location = new System.Drawing.Point(208, 2);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(53, 13);
             this.label9.TabIndex = 20;
             this.label9.Text = "Port mini :";
             // 
-            // txtHub4ComOptions
-            // 
-            this.txtHub4ComOptions.AcceptsReturn = true;
-            this.txtHub4ComOptions.Location = new System.Drawing.Point(74, 80);
-            this.txtHub4ComOptions.Multiline = true;
-            this.txtHub4ComOptions.Name = "txtHub4ComOptions";
-            this.txtHub4ComOptions.Size = new System.Drawing.Size(222, 56);
-            this.txtHub4ComOptions.TabIndex = 19;
-            // 
-            // txtHub4ComDir
-            // 
-            this.txtHub4ComDir.Location = new System.Drawing.Point(74, 54);
-            this.txtHub4ComDir.Name = "txtHub4ComDir";
-            this.txtHub4ComDir.Size = new System.Drawing.Size(222, 20);
-            this.txtHub4ComDir.TabIndex = 19;
-            // 
             // chkActivate
             // 
             this.chkActivate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkActivate.AutoSize = true;
-            this.chkActivate.Location = new System.Drawing.Point(238, 252);
+            this.chkActivate.Location = new System.Drawing.Point(238, 254);
             this.chkActivate.Name = "chkActivate";
             this.chkActivate.Size = new System.Drawing.Size(59, 17);
             this.chkActivate.TabIndex = 17;
@@ -291,7 +296,7 @@ namespace EDVirtualCOM2TCP
             this.lnkCom0ComCreate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lnkCom0ComCreate.Image = ((System.Drawing.Image)(resources.GetObject("lnkCom0ComCreate.Image")));
             this.lnkCom0ComCreate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lnkCom0ComCreate.Location = new System.Drawing.Point(86, 248);
+            this.lnkCom0ComCreate.Location = new System.Drawing.Point(86, 250);
             this.lnkCom0ComCreate.Name = "lnkCom0ComCreate";
             this.lnkCom0ComCreate.Size = new System.Drawing.Size(66, 23);
             this.lnkCom0ComCreate.TabIndex = 16;
@@ -305,7 +310,7 @@ namespace EDVirtualCOM2TCP
             this.lnkCom0ComRemoveAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lnkCom0ComRemoveAll.Image = ((System.Drawing.Image)(resources.GetObject("lnkCom0ComRemoveAll.Image")));
             this.lnkCom0ComRemoveAll.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lnkCom0ComRemoveAll.Location = new System.Drawing.Point(10, 248);
+            this.lnkCom0ComRemoveAll.Location = new System.Drawing.Point(10, 250);
             this.lnkCom0ComRemoveAll.Name = "lnkCom0ComRemoveAll";
             this.lnkCom0ComRemoveAll.Size = new System.Drawing.Size(74, 23);
             this.lnkCom0ComRemoveAll.TabIndex = 15;
@@ -319,7 +324,7 @@ namespace EDVirtualCOM2TCP
             this.lnkRefreshCom0Com.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lnkRefreshCom0Com.Image = ((System.Drawing.Image)(resources.GetObject("lnkRefreshCom0Com.Image")));
             this.lnkRefreshCom0Com.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lnkRefreshCom0Com.Location = new System.Drawing.Point(158, 248);
+            this.lnkRefreshCom0Com.Location = new System.Drawing.Point(158, 250);
             this.lnkRefreshCom0Com.Name = "lnkRefreshCom0Com";
             this.lnkRefreshCom0Com.Size = new System.Drawing.Size(71, 23);
             this.lnkRefreshCom0Com.TabIndex = 14;
@@ -334,6 +339,16 @@ namespace EDVirtualCOM2TCP
             this.txtCom0ComDir.Name = "txtCom0ComDir";
             this.txtCom0ComDir.Size = new System.Drawing.Size(222, 20);
             this.txtCom0ComDir.TabIndex = 13;
+            this.toolTip1.SetToolTip(this.txtCom0ComDir, "Répertoire de l\'installation de com0com");
+            // 
+            // lblCom0ComPath
+            // 
+            this.lblCom0ComPath.AutoSize = true;
+            this.lblCom0ComPath.Location = new System.Drawing.Point(10, 31);
+            this.lblCom0ComPath.Name = "lblCom0ComPath";
+            this.lblCom0ComPath.Size = new System.Drawing.Size(61, 13);
+            this.lblCom0ComPath.TabIndex = 12;
+            this.lblCom0ComPath.Text = "Com0Com :";
             // 
             // txtCom0ComState
             // 
@@ -341,11 +356,11 @@ namespace EDVirtualCOM2TCP
             this.txtCom0ComState.BackColor = System.Drawing.SystemColors.ControlLight;
             this.txtCom0ComState.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtCom0ComState.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCom0ComState.Location = new System.Drawing.Point(10, 171);
+            this.txtCom0ComState.Location = new System.Drawing.Point(10, 103);
             this.txtCom0ComState.Multiline = true;
             this.txtCom0ComState.Name = "txtCom0ComState";
             this.txtCom0ComState.ReadOnly = true;
-            this.txtCom0ComState.Size = new System.Drawing.Size(283, 74);
+            this.txtCom0ComState.Size = new System.Drawing.Size(288, 144);
             this.txtCom0ComState.TabIndex = 11;
             // 
             // grpIP
@@ -440,7 +455,7 @@ namespace EDVirtualCOM2TCP
             // lnkServiceRemove
             // 
             this.lnkServiceRemove.AutoSize = true;
-            this.lnkServiceRemove.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            this.lnkServiceRemove.LinkColor = System.Drawing.Color.SteelBlue;
             this.lnkServiceRemove.Location = new System.Drawing.Point(266, 58);
             this.lnkServiceRemove.Name = "lnkServiceRemove";
             this.lnkServiceRemove.Size = new System.Drawing.Size(54, 13);
@@ -544,6 +559,7 @@ namespace EDVirtualCOM2TCP
             this.tabInstallation.Controls.Add(this.lnkSetup_Download);
             this.tabInstallation.Controls.Add(this.lnkGitHub);
             this.tabInstallation.Controls.Add(this.chkLog);
+            this.tabInstallation.Controls.Add(this.label6);
             this.tabInstallation.Controls.Add(this.label10);
             this.tabInstallation.Controls.Add(this.label8);
             this.tabInstallation.Controls.Add(this.label7);
@@ -552,7 +568,7 @@ namespace EDVirtualCOM2TCP
             this.tabInstallation.Location = new System.Drawing.Point(4, 22);
             this.tabInstallation.Name = "tabInstallation";
             this.tabInstallation.Padding = new System.Windows.Forms.Padding(3);
-            this.tabInstallation.Size = new System.Drawing.Size(354, 500);
+            this.tabInstallation.Size = new System.Drawing.Size(354, 479);
             this.tabInstallation.TabIndex = 1;
             this.tabInstallation.Text = "Installation";
             this.tabInstallation.UseVisualStyleBackColor = true;
@@ -560,7 +576,7 @@ namespace EDVirtualCOM2TCP
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(194, 400);
+            this.label14.Location = new System.Drawing.Point(194, 435);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(53, 13);
             this.label14.TabIndex = 9;
@@ -568,7 +584,7 @@ namespace EDVirtualCOM2TCP
             // 
             // numService_Delay
             // 
-            this.numService_Delay.Location = new System.Drawing.Point(141, 400);
+            this.numService_Delay.Location = new System.Drawing.Point(141, 435);
             this.numService_Delay.Name = "numService_Delay";
             this.numService_Delay.Size = new System.Drawing.Size(45, 20);
             this.numService_Delay.TabIndex = 8;
@@ -576,7 +592,7 @@ namespace EDVirtualCOM2TCP
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(13, 401);
+            this.label13.Location = new System.Drawing.Point(13, 436);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(105, 13);
             this.label13.TabIndex = 7;
@@ -626,7 +642,7 @@ namespace EDVirtualCOM2TCP
             // chkLog
             // 
             this.chkLog.AutoSize = true;
-            this.chkLog.Location = new System.Drawing.Point(14, 421);
+            this.chkLog.Location = new System.Drawing.Point(14, 456);
             this.chkLog.Name = "chkLog";
             this.chkLog.Size = new System.Drawing.Size(54, 17);
             this.chkLog.TabIndex = 3;
@@ -636,13 +652,12 @@ namespace EDVirtualCOM2TCP
             // 
             // label10
             // 
-            this.label10.Location = new System.Drawing.Point(13, 205);
+            this.label10.Location = new System.Drawing.Point(13, 196);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(309, 46);
+            this.label10.Size = new System.Drawing.Size(309, 136);
             this.label10.TabIndex = 2;
-            this.label10.Text = "L\'arrêt ou la désinstallation du service alors que les ports sont utilisés (Burea" +
-    "u d\'accès à distance ouvert, par exple) peut provoquer un problème de réinitiali" +
-    "sation.";
+            this.label10.Text = resources.GetString("label10.Text");
+            this.label10.UseMnemonic = false;
             // 
             // label8
             // 
@@ -686,24 +701,15 @@ namespace EDVirtualCOM2TCP
             this.lnkCom0Com.Text = "https://sourceforge.net/projects/com0com/files/latest/download";
             this.lnkCom0Com.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkCom0Com_LinkClicked);
             // 
-            // label5
+            // label6
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(10, 31);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(48, 13);
-            this.label5.TabIndex = 12;
-            this.label5.Text = "Chemin :";
-            // 
-            // chkCreateCOM
-            // 
-            this.chkCreateCOM.AutoSize = true;
-            this.chkCreateCOM.Location = new System.Drawing.Point(132, 144);
-            this.chkCreateCOM.Name = "chkCreateCOM";
-            this.chkCreateCOM.Size = new System.Drawing.Size(116, 17);
-            this.chkCreateCOM.TabIndex = 25;
-            this.chkCreateCOM.Text = "Générer des COMs";
-            this.chkCreateCOM.UseVisualStyleBackColor = true;
+            this.label6.Location = new System.Drawing.Point(12, 341);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(309, 46);
+            this.label6.TabIndex = 2;
+            this.label6.Text = "L\'arrêt ou la désinstallation du service alors que les ports sont utilisés (Burea" +
+    "u d\'accès à distance ouvert, par exple) peut provoquer un problème de réinitiali" +
+    "sation.";
             // 
             // FMain
             // 
@@ -786,7 +792,6 @@ namespace EDVirtualCOM2TCP
         private PictureBox picComOk;
         private TextBox txtCOM_num;
         private Label label9;
-        private TextBox txtHub4ComOptions;
         private TextBox txtHub4ComDir;
         private CheckBox chkActivate;
         private LinkLabel lnkCom0ComCreate;
@@ -795,6 +800,8 @@ namespace EDVirtualCOM2TCP
         private TextBox txtCom0ComDir;
         private TextBox txtCom0ComState;
         private CheckBox chkCreateCOM;
-        private Label label5;
+        private Label lblCom0ComPath;
+        private Label label6;
+        private ToolTip toolTip1;
     }
 }

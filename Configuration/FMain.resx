@@ -123,6 +123,9 @@
   <metadata name="clkOpenPortsCheck.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>122, 17</value>
   </metadata>
+  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>280, 17</value>
+  </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="picComAlert.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -217,6 +220,9 @@
         gg==
 </value>
   </data>
+  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>280, 17</value>
+  </metadata>
   <data name="picServiceAlert.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
@@ -296,6 +302,15 @@
         aeIAMJqmVV0J+r/0S9F/n+2WP5R7lFWgUsQBsRhxZo3FGhP1l2mfVV+gngAVxgEYGAAwNfxrpH3YigAA
         AABJRU5ErkJggg==
 </value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>3 modes de fonctionnements :
+- Com0Com &amp; Hub4Com
+	Génèrent des ports virtuels et établit une passerelle avec une adresse IP.
+- Com0Com &amp; Passerelle interne
+	Génèrent des ports virtuels et établit une passerelle avec une adresse IP.
+- COMs virtuels existants &amp; Passerelle interne
+	Utilisent une paire de ports virtuels installés avec SerialTool, par exemple, et établit une passerelle avec une adresse IP.</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
