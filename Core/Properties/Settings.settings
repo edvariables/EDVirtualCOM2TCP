@@ -29,5 +29,8 @@
     <Setting Name="service_delay" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">1</Value>
     </Setting>
+    <Setting Name="bridge_mode" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Internal</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

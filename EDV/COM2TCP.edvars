@@ -18,10 +18,12 @@
         <DOM ShortName="COMx">
             <!--.COM2TCP.COMx.Number-->
             <VAR ShortName="Number" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Byte" SaveLocation="U">
-                <Value><![CDATA[6]]></Value>
+                <Value><![CDATA[5]]></Value>
             </VAR>
             <!--.COM2TCP.COMX.Received-->
-            <VAR ShortName="Received" ClassName="" AutoReset="0" Securized="0" ReadOnly="1" ValueType="Text" />
+            <VAR ShortName="Received" ClassName="" AutoReset="0" Securized="0" ReadOnly="1" ValueType="Text">
+                <Value><![CDATA[4]]></Value>
+            </VAR>
             <!--.COM2TCP.COMX.Send-->
             <VAR ShortName="Send" ClassName="" AutoReset="1" Securized="0" ReadOnly="0" ValueType="Text" />
             <!--.COM2TCP.COMX.Settings-->
@@ -29,7 +31,9 @@
                 <Script><![CDATA["COM" + Number + ",9600,8,n,1"]]></Script>
             </VAR>
             <!--.COM2TCP.COMX.Status-->
-            <VAR ShortName="Status" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="String" SaveLocation="V" />
+            <VAR ShortName="Status" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="String">
+                <Value><![CDATA[Opened]]></Value>
+            </VAR>
         </DOM>
         <DOM ShortName="edvAppli">
             <!--.COM2TCP.edvAppli.ApplicationId-->
@@ -1649,7 +1653,7 @@ function UserLoginCheck(){
                 </VAR>
                 <!--.COM2TCP.edvAppli.Version.Revision-->
                 <VAR ShortName="Revision" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Integer">
-                    <Value><![CDATA[16]]></Value>
+                    <Value><![CDATA[18]]></Value>
                     <!--.COM2TCP.edvAppli.Version.Revision.OnSaving-->
                     <VAR ShortName="OnSaving" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Null">
                         <Script><![CDATA[when(..Save:Checking)
@@ -1844,9 +1848,11 @@ edvctrl(":ctrlHTML").Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyle
             </DOM>
         </DOM>
         <DOM ShortName="TCP">
+            <!--.COM2TCP.TCP.Check-->
+            <VAR ShortName="Check" ClassName="" AutoReset="1" Securized="0" ReadOnly="0" ValueType="Boolean" />
             <!--.COM2TCP.TCP.Received-->
             <VAR ShortName="Received" ClassName="" AutoReset="0" Securized="0" ReadOnly="1" ValueType="Text">
-                <Value><![CDATA[00);]]></Value>
+                <Value><![CDATA[2]]></Value>
             </VAR>
             <!--.COM2TCP.TCP.Send-->
             <VAR ShortName="Send" ClassName="" AutoReset="1" Securized="0" ReadOnly="0" ValueType="Text" />
@@ -1855,11 +1861,22 @@ edvctrl(":ctrlHTML").Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyle
                 <Value><![CDATA[127.0.0.1:4441:True]]></Value>
             </VAR>
             <!--.COM2TCP.TCP.Status-->
-            <VAR ShortName="Status" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="String" SaveLocation="V" />
+            <VAR ShortName="Status" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="String">
+                <Value><![CDATA[Connected]]></Value>
+            </VAR>
             <!--.COM2TCP.TCP.Tutorials-->
             <VAR ShortName="Tutorials" ClassName="VarFile" AutoReset="0" Securized="0" ReadOnly="1" ValueType="File">
                 <Script><![CDATA[.{Sys}.Path.Scripts + "\\Tutorials\\EDVIO.TcpBridge.edvars"]]></Script>
             </VAR>
+            <DOM ShortName="Check">
+                <!--.COM2TCP.TCP.Check.OnChanging-->
+                <VAR ShortName="OnChanging" ClassName="" AutoReset="0" Securized="0" ReadOnly="1" ValueType="Null">
+                    <Script><![CDATA[when(..:Changing) {
+	edvInfo = ...:Value;
+}
+null;]]></Script>
+                </VAR>
+            </DOM>
             <DOM ShortName="SETTINGS">
                 <!--.COM2TCP.TCP.SETTINGS.Address-->
                 <VAR ShortName="Address" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="String">
@@ -1882,7 +1899,7 @@ edvctrl(":ctrlHTML").Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyle
         <DOM ShortName="Visual">
             <!--.COM2TCP.Visual.WIN-->
             <VAR ShortName="WIN" ClassName="WinForm@EDVVisual" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Boolean">
-                <Value><![CDATA[False]]></Value>
+                <Value><![CDATA[True]]></Value>
                 <!--.COM2TCP.Visual.WIN.btnCloseAll-->
                 <VAR ShortName="btnCloseAll" ClassName="" AutoReset="1" Securized="0" ReadOnly="0" ValueType="Boolean" />
                 <!--.COM2TCP.Visual.WIN.btnOpenAll-->
@@ -1951,6 +1968,20 @@ null;]]></Script>
                         <Value><![CDATA[Tout ouvrir]]></Value>
                     </VAR>
                 </DOM>
+                <DOM ShortName="ctrlCheck">
+                    <!--.COM2TCP.Visual.WIN.ctrlCheck.@-->
+                    <VAR ShortName="@" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="VariableName">
+                        <Value><![CDATA[TCP.Check]]></Value>
+                    </VAR>
+                    <!--.COM2TCP.Visual.WIN.ctrlCheck._ClassName-->
+                    <VAR ShortName="_ClassName" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="String">
+                        <Value><![CDATA[EDVCtrlButton]]></Value>
+                    </VAR>
+                    <!--.COM2TCP.Visual.WIN.ctrlCheck.Bounds-->
+                    <VAR ShortName="Bounds" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Object">
+                        <Value><![CDATA[{X=636,Y=3,Width=75,Height=23}]]></Value>
+                    </VAR>
+                </DOM>
                 <DOM ShortName="ctrlCOMx">
                     <!--.COM2TCP.Visual.WIN.ctrlCOMx.@-->
                     <VAR ShortName="@" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="VariableName">
@@ -1991,6 +2022,20 @@ null;]]></Script>
                     <!--.COM2TCP.Visual.WIN.ctrlNumber1.Bounds-->
                     <VAR ShortName="Bounds" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Object">
                         <Value><![CDATA[{X=72,Y=1,Width=40,Height=20}]]></Value>
+                    </VAR>
+                </DOM>
+                <DOM ShortName="ctrlSave">
+                    <!--.COM2TCP.Visual.WIN.ctrlSave.@-->
+                    <VAR ShortName="@" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="VariableName">
+                        <Value><![CDATA[edvAppli.Save]]></Value>
+                    </VAR>
+                    <!--.COM2TCP.Visual.WIN.ctrlSave._ClassName-->
+                    <VAR ShortName="_ClassName" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="String">
+                        <Value><![CDATA[EDVCtrlButton]]></Value>
+                    </VAR>
+                    <!--.COM2TCP.Visual.WIN.ctrlSave.Bounds-->
+                    <VAR ShortName="Bounds" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Object">
+                        <Value><![CDATA[{X=425,Y=12,Width=75,Height=23}]]></Value>
                     </VAR>
                 </DOM>
                 <DOM ShortName="ctrlTCP">

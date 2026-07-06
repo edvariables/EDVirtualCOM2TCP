@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Security.Policy;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -22,6 +23,7 @@ namespace EDVirtualCOM2TCP
     {
         public static int CreatedPair_CNC = -1;
         public static string CreatedPair_COM = String.Empty;
+        public static int CreatedPair_COMNum = -1;
 
         public static string ExeFileName
         {
@@ -50,21 +52,35 @@ namespace EDVirtualCOM2TCP
         public static bool CreatePair()
         {
             int availableCom = AvailableCOM();
+            if( ! Settings.Com0Com_CreateCOM)
+            {
+                CreatedPair_CNC = -1;
+                CreatedPair_COMNum = availableCom - 2;
+                CreatedPair_COM = "COM" + CreatedPair_COMNum.ToString();
+                return true;
+            }
+
             int index = Busynames().Length;
             do
             {
-                string cmd = "--silent install " + index + " PortName=COM" + availableCom.ToString() + ",EmuBR=yes -";
+                string cmd = "--silent install " + index + " PortName=COM" + availableCom.ToString();
+                if (Settings.Bridge_Hub4Com)
+                    cmd += ",EmuBR=yes -";
+                else
+                    cmd += ",EmuBR=no PortName=COM" + (availableCom + 1).ToString();
                 EDDebug.Log("> " + cmd);
 
                 string result = Run(cmd);
                 if( ! result.Contains("is already used")
                     && result.Contains(" logged as "))
                 {
-                    Match match=Regex.Match(result, @"^\s*CNCA(?<cnc>\d+)\sPortName=(?<com>COM\d+)");
+                    Match match=Regex.Match(result, @"^\s*CNCA(?<cnc>\d+)\sPortName=COM(?<com>\d+)");
                     if (match.Success)
                     {
                         CreatedPair_CNC = int.Parse(match.Groups["cnc"].Value);
-                        CreatedPair_COM = match.Groups["com"].Value;
+                        CreatedPair_COMNum = int.Parse(match.Groups["com"].Value);
+                        CreatedPair_COM = "COM" + CreatedPair_COMNum.ToString();
+
                         return true;
                     }
 
@@ -86,6 +102,7 @@ namespace EDVirtualCOM2TCP
 
             CreatedPair_CNC = -1;
             CreatedPair_COM = String.Empty;
+            CreatedPair_COMNum = -1;
             return true;
         }
 
@@ -96,8 +113,9 @@ namespace EDVirtualCOM2TCP
             {
                 foreach(string busyname in Busynames())
                 {
-                    if (int.Parse(busyname.Substring(3)) >= comNum)
-                        comNum++;
+                    int usedNum = int.Parse(busyname.Substring(3));
+                    if (usedNum >= comNum)
+                        comNum = usedNum + 1;
                 }
             }
             catch (Exception)

@@ -139,6 +139,10 @@
       <Name>Core</Name>
       <Private>True</Private>
     </ProjectReference>
+    <ProjectReference Include="..\InternalBridge\InternalBridge.csproj">
+      <Project>{cd0f4dfa-874d-429d-b58e-e07ffd8f9de0}</Project>
+      <Name>InternalBridge</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Service\Service.csproj">
       <Project>{6df63314-f724-49e8-b8cf-c02373b9e8b6}</Project>
       <Name>Service</Name>

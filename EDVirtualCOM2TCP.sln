@@ -9,7 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Configuration", "Configuration\Configuration.csproj", "{B2878511-87D7-43F2-8494-16A8F08BA6CE}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SetupEDVirtualCOM2TCP", "SetupEDVirtualCOM2TCP\SetupEDVirtualCOM2TCP.vdproj", "{19014CAE-109C-D9A2-C596-FEA28DE4B279}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "SetupEDVirtualCOM2TCP\SetupEDVirtualCOM2TCP.vdproj", "{19014CAE-109C-D9A2-C596-FEA28DE4B279}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternalBridge", "InternalBridge\InternalBridge.csproj", "{CD0F4DFA-874D-429D-B58E-E07FFD8F9DE0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +33,10 @@ Global
 		{B2878511-87D7-43F2-8494-16A8F08BA6CE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{19014CAE-109C-D9A2-C596-FEA28DE4B279}.Debug|Any CPU.ActiveCfg = Debug
 		{19014CAE-109C-D9A2-C596-FEA28DE4B279}.Release|Any CPU.ActiveCfg = Release
+		{CD0F4DFA-874D-429D-B58E-E07FFD8F9DE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD0F4DFA-874D-429D-B58E-E07FFD8F9DE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD0F4DFA-874D-429D-B58E-E07FFD8F9DE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD0F4DFA-874D-429D-B58E-E07FFD8F9DE0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

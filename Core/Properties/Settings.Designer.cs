@@ -103,5 +103,14 @@ namespace EDVirtualCOM2TCP.Properties {
                 return ((int)(this["service_delay"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Internal")]
+        public string bridge_mode {
+            get {
+                return ((string)(this["bridge_mode"]));
+            }
+        }
     }
 }

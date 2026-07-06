@@ -40,6 +40,14 @@ namespace EDVirtualCOM2TCP
 
         }
 
+        public static void Log(string msg, params object[] args)
+        {
+            for (int i = 0; i < args.Length; i++)
+            {
+                msg = msg.Replace("{" + i.ToString() + "}", args[i].ToString());
+            }
+            Log(msg);
+        }
         public static void Log(string msg)
         {
             if (!Settings.LogEnabled)

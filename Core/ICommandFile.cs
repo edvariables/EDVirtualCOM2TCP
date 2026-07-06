@@ -14,7 +14,7 @@ namespace EDVirtualCOM2TCP
 {
     public static class ICommandFile
     {
-        public delegate void ProcessExited(/*string result*/);
+        public delegate void ProcessExited();
 
         private static readonly Hashtable _threadProcesses = new Hashtable();
 
@@ -67,16 +67,9 @@ namespace EDVirtualCOM2TCP
 
 
             StringBuilder result = new StringBuilder();
-            //cmd.OutputDataReceived += (sender, args) => Console.WriteLine("XXXXXXX received output: {0}", args.Data);
+            
             cmd.OutputDataReceived += (sender, args) => result.AppendLine(result.Length < 1024 * 1024 ? args.Data : "");
-            //DataReceivedEventHandler value = (sender, args) =>
-            //{
-            //    if (result.Length < 1024 * 1024)
-            //    {
-            //        result.AppendLine(args.Data);
-            //        EDDebug.LogLine(args.Data);
-            //    }
-            //};
+            
             cmd.Start();
 
             cmd.BeginOutputReadLine();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO.Ports;
 using System.Linq;
 using System.ServiceProcess;
 using System.Text;
@@ -40,6 +41,9 @@ namespace EDVirtualCOM2TCP
             txtCom0ComDir.Text = Settings.Com0Com_path;
             txtHub4ComDir.Text = Settings.Hub4Com_path;
             txtHub4ComOptions.Text = Settings.Hub4Com_options;
+            optHub4Com.Checked = Settings.Bridge_Hub4Com;
+            optInterrnalBridge.Checked = !optHub4Com.Checked;
+            chkCreateCOM.Checked = Settings.Com0Com_CreateCOM;
             chkLog.Checked = Settings.LogEnabled;
             numService_Delay.Value = Settings.Service_Delay;
         }
@@ -55,7 +59,10 @@ namespace EDVirtualCOM2TCP
                         txtCom0ComState.Text += "\n\r\n\r";
                     txtCom0ComState.Text += busyname;
                     if (Com0Com.CreatedPair_COM == busyname) { 
-                        txtCom0ComState.Text += " <=> CNB" + Com0Com.CreatedPair_CNC.ToString();
+                        if(Settings.Bridge_Internal)
+                            txtCom0ComState.Text += " <=> COM" + (Com0Com.CreatedPair_COMNum + 1).ToString();
+                        else
+                            txtCom0ComState.Text += " <=> CNB" + Com0Com.CreatedPair_CNC.ToString();
                     }
                 }
                 picComOk.Visible=true;
@@ -140,7 +147,8 @@ namespace EDVirtualCOM2TCP
             Settings.IP_Address = txtIP_Address.Text;
             Settings.IP_Port = int.Parse(txtIP_Port.Text);
             Settings.COM_num = int.Parse(txtCOM_num.Text);
-            
+            Settings.Com0Com_CreateCOM=chkCreateCOM.Checked;
+
             Settings.Com0Com_path =txtCom0ComDir.Text;
             Settings.Hub4Com_path = txtHub4ComDir.Text;
             Settings.Hub4Com_options = txtHub4ComOptions.Text;
@@ -163,7 +171,7 @@ namespace EDVirtualCOM2TCP
 
         private void lnkServiceStart_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            chkHub4Com.Checked = false;
+            chkActivate.Checked = false;
             clkServiceState.Enabled = false;
             ServiceController sc = new ServiceController(Settings.ServiceName);
 
@@ -318,9 +326,9 @@ namespace EDVirtualCOM2TCP
             Init_Com0Com();
         }
 
-        private void chkHub4Com_CheckedChanged(object sender, EventArgs e)
+        private void chkActivate_CheckedChanged(object sender, EventArgs e)
         {
-            if (chkHub4Com.Checked == true)
+            if (chkActivate.Checked == true)
             {
                 if( ServiceManager.Status==ServiceControllerStatus.Running )
                 {
@@ -328,42 +336,69 @@ namespace EDVirtualCOM2TCP
                             , MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Stop)
                         == DialogResult.Abort)
                     {
-                        chkHub4Com.Checked = false;
+                        chkActivate.Checked = false;
                         return;
                     }
                 }
-                try
-                {
-                    EDDebug.Log("call Hub4Com.OpenPorts()");
-                    if( ! Hub4Com.OpenPorts(OnHub4ComProcessExited) )
-                        chkHub4Com.Checked = false;
-                    else
-                        clkOpenPortsCheck_Active = true;
-                }
-                catch(Exception ex)
-                {
-                    EDDebug.Log(ex.Message);
-                    MessageBox.Show(ex.Message,"EDVirtualCOM2TCP [Hub4Com.OpenPorts]",MessageBoxButtons.OK,MessageBoxIcon.Error);
-                    chkHub4Com.Checked = false;
-                }
+                if( Settings.Bridge_Hub4Com)
+                    try
+                    {
+                        EDDebug.Log("call Hub4Com.OpenPorts()");
+                        if (!Hub4Com.OpenPorts(OnBridgeProcessExited))
+                            chkActivate.Checked = false;
+                        else
+                            clkOpenPortsCheck_Active = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        EDDebug.Log(ex.Message);
+                        MessageBox.Show(ex.Message, "EDVirtualCOM2TCP [Hub4Com.OpenPorts]", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        chkActivate.Checked = false;
+                    }
+                else
+                    try
+                    {
+                        EDDebug.Log("call InternalBridge.OpenPorts()");
+                        if (!InternalBridge.OpenPorts(OnBridgeProcessExited))
+                            chkActivate.Checked = false;
+                        else
+                            clkOpenPortsCheck_Active = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        EDDebug.Log(ex.Message);
+                        MessageBox.Show(ex.Message, "EDVirtualCOM2TCP [Hub4Com.OpenPorts]", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        chkActivate.Checked = false;
+                    }
             }
             else
             {
-                EDDebug.Log("call Hub4Com.ClosePorts()");
-                Hub4Com.ClosePorts();
+                EDDebug.Log("call ClosePorts()");
+
+                if (Settings.Bridge_Hub4Com)
+                    Hub4Com.ClosePorts();
+                else
+                    InternalBridge.ClosePorts();
             }
 
         }
 
-        protected void OnHub4ComProcessExited()
+        protected void OnBridgeProcessExited()
         {
-            chkHub4Com.Checked = false;
+            try
+            {
+                chkActivate.Checked = false;
+            }
+            catch(Exception ex)
+            {
+                EDDebug.Log(ex.Message);
+            }
         }
 
         private void FMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if(chkHub4Com.Checked)
-                chkHub4Com.Checked = false;
+            if(chkActivate.Checked)
+                chkActivate.Checked = false;
         }
 
         private void clkOpenPortsCheck_Tick(object sender, EventArgs e)
@@ -375,10 +410,15 @@ namespace EDVirtualCOM2TCP
             }
             clkOpenPortsCheck_Active = false;
             //IsProcessRunning en Thread asynchrone
-            if (chkHub4Com.Checked && !Hub4Com.IsProcessRunning)
+            bool isProcessRunning;
+            if (Settings.Bridge_Hub4Com)
+                isProcessRunning = Hub4Com.IsProcessRunning;
+            else
+                isProcessRunning = InternalBridge.IsProcessRunning;
+            if (chkActivate.Checked && !isProcessRunning)
             {
-                EDDebug.Log("NOT Hub4Com.IsProcessRunning");
-                chkHub4Com.Checked = false;
+                EDDebug.Log("NOT IsProcessRunning");
+                chkActivate.Checked = false;
             }
         }
 

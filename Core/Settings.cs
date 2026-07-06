@@ -73,6 +73,44 @@ namespace EDVirtualCOM2TCP
             }
         }
 
+        public static string Bridge_Mode
+        {
+            get
+            {
+                return IniFile.ReadValue("Bridge_Mode", null, EDVirtualCOM2TCP.Properties.Settings.Default.bridge_mode);
+            }
+            set
+            {
+                IniFile.WriteValue("Bridge_Mode", value);
+            }
+        }
+        public static bool Bridge_Hub4Com
+        {
+            get
+            {
+                return Bridge_Mode == "Hub4Com";
+            }
+        }
+        public static bool Bridge_Internal
+        {
+            get
+            {
+                return Bridge_Mode == "Internal";
+            }
+        }
+
+        public static bool Com0Com_CreateCOM
+        {
+            get
+            {
+                return bool.Parse(IniFile.ReadValue("Com0Com_CreateCOM", null, true.ToString()));
+            }
+            set
+            {
+                IniFile.WriteValue("Com0Com_CreateCOM", value.ToString());
+            }
+        }
+
         public static string Com0Com_path
         {
             get

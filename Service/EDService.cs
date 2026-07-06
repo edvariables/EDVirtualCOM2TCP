@@ -40,14 +40,20 @@ namespace EDVirtualCOM2TCP
 
             Thread.Sleep(1000  * Settings.Service_Delay);
 
-            Hub4Com.OpenPorts( OnHub4ComProcessExited );
+            if( Settings.Bridge_Hub4Com)
+                Hub4Com.OpenPorts( OnBridgeProcessExited );
+            else
+                InternalBridge.OpenPorts(OnBridgeProcessExited);
         }
         
         protected override void OnStop()
         {
             EDDebug.Log("Service OnStop");
 
-            Hub4Com.ClosePorts();
+            if (Settings.Bridge_Hub4Com)
+                Hub4Com.ClosePorts();
+            else
+                InternalBridge.ClosePorts();
 
             EDDebug.Log("Service Stop Closed Ports");
 
@@ -86,9 +92,9 @@ namespace EDVirtualCOM2TCP
             return true;
         }
 
-        protected void OnHub4ComProcessExited()
+        protected void OnBridgeProcessExited()
         {
-            EDDebug.Log("Service OnHub4ComProcessExited");
+            EDDebug.Log("Service OnBridgeProcessExited");
 
             Com0Com.RemoveAll();
 
