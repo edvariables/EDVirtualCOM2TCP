@@ -94,10 +94,8 @@ namespace EDVirtualCOM2TCP
 
             EDDebug.Log("Service Stop after Closed Ports");
             ServiceManager.Stop();
-            //this.Stop();
+            
             EDDebug.Log("Service should be Stopped");
-            //Thread thread=new Thread(this.Stop);
-            //thread.Start(); 
         }
     }
 }
