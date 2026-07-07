@@ -178,6 +178,8 @@ namespace EDVirtualCOM2TCP
 
             Settings.Service_Delay = (int)numService_Delay.Value ;
 
+            Settings.Bridge_Mode = optHub4Com.Checked ? "Hub4Com" : "Internal";
+
             Settings.Save();
         }
 

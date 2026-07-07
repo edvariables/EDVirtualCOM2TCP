@@ -29,14 +29,25 @@ namespace EDVirtualCOM2TCP
                 { "process", process },
                 { "processExited", processExited }
             };
-            
-            thread.Start( args );
 
-            _threadProcesses.Add( thread.GetHashCode(), process);
-            return thread;
+            EDDebug.Log("thread.Start > {0} {1}", exeFileName, parameters);
+
+            try
+            {
+                thread.Start(args);
+
+                _threadProcesses.Add(thread.GetHashCode(), process);
+                return thread;
+            }
+            catch (Exception ex)
+            {
+                EDDebug.Log("RunAsThread : {0}", ex.ToString());
+                return null;
+            }
         }
         public static void Run_Callback(Object data)
         {
+            EDDebug.Log("Run_Callback");
             Hashtable args = (Hashtable)data;
             Run((string)args["exeFileName"], (string)args["parameters"], (Process)args["process"], (ICommandFile.ProcessExited)args["processExited"]);
         }
@@ -47,8 +58,11 @@ namespace EDVirtualCOM2TCP
         }
         private static string Run(string exeFileName, string parameters, Process cmd, ICommandFile.ProcessExited processExited = null)
         {
-            if( ! File.Exists(exeFileName))
+            if( !File.Exists(exeFileName))
+            {
+                EDDebug.Log("Run : Fichier introuvable : {0}", exeFileName);
                 throw new Exception("Fichier introuvable : " + exeFileName);
+            }
 
             string com0com = "\""
                 + exeFileName + "\""

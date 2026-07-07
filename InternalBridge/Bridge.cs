@@ -35,6 +35,7 @@ namespace EDVirtualCOM2TCP
             TCP_port = TCP.Length>1 ? int.Parse(TCP[1]) : 0;
 
             Console.WriteLine("Appli <=> {0} <=> {1} <=> {2}:{3} <=> Tcp device", COM, CNC, TCP_address, TCP_port);
+            EDDebug.Log("Appli <=> {0} <=> {1} <=> {2}:{3} <=> Tcp device", COM, CNC, TCP_address, TCP_port);
 
             return true;
         }

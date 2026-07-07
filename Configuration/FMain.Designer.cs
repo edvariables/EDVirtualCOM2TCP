@@ -192,9 +192,9 @@ namespace EDVirtualCOM2TCP
             this.chkCreateCOM.AutoSize = true;
             this.chkCreateCOM.Location = new System.Drawing.Point(133, 80);
             this.chkCreateCOM.Name = "chkCreateCOM";
-            this.chkCreateCOM.Size = new System.Drawing.Size(116, 17);
+            this.chkCreateCOM.Size = new System.Drawing.Size(147, 17);
             this.chkCreateCOM.TabIndex = 25;
-            this.chkCreateCOM.Text = "Générer des COMs";
+            this.chkCreateCOM.Text = "Générer des COM virtuels";
             this.chkCreateCOM.UseVisualStyleBackColor = true;
             this.chkCreateCOM.CheckedChanged += new System.EventHandler(this.chkCreateCOM_CheckedChanged);
             // 

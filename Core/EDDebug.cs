@@ -10,7 +10,7 @@ namespace EDVirtualCOM2TCP
 {
     public static class EDDebug
     {
-
+        private static StringBuilder _log_failed = null;
         private static string Filename
         {
             get
@@ -50,15 +50,30 @@ namespace EDVirtualCOM2TCP
         }
         public static void Log(string msg)
         {
-            if (!Settings.LogEnabled)
+            if ( ! Settings.LogEnabled)
                 return;
-            using (StreamWriter w = File.AppendText(Filename))
+            try
             {
-                w.WriteLine(DateTime.Now.ToShortDateString()
+                using (StreamWriter w = File.AppendText(Filename))
+                {
+                    if (_log_failed != null)
+                    {
+                        w.WriteLine(_log_failed.ToString());
+                        _log_failed = null;
+                    }
+                    w.WriteLine(DateTime.Now.ToShortDateString()
                     + " " + DateTime.Now.ToLongTimeString()
                     + "\t" + msg);
+                }
             }
-
+            catch(Exception ex) {
+                if (_log_failed == null)
+                    _log_failed = new StringBuilder();
+                _log_failed.AppendLine(DateTime.Now.ToShortDateString()
+                        + " " + DateTime.Now.ToLongTimeString()
+                        + "\t" + "EDDebug.Log failed : " + ex.Message);
+                _log_failed.AppendLine(msg);
+            }
         }
 
         public static void LogLine(string msg)
