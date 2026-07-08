@@ -34,11 +34,15 @@ namespace EDVirtualCOM2TCP
                 throw new Exception("Le paramétrage est incomplet");
             }
 
-            Com0Com.RemoveAll();
+            if (Settings.Bridge_Hub4Com || Settings.Com0Com_CreateCOM)
+            {
+                Com0Com.RemoveAll();
 
-            Com0Com.CreatePair();
+                Com0Com.CreatePair();
+            }
 
-            Thread.Sleep(1000  * Settings.Service_Delay);
+            if(Settings.Service_Delay > 0)
+                Thread.Sleep(1000  * Settings.Service_Delay);
 
             if( Settings.Bridge_Hub4Com)
                 Hub4Com.OpenPorts( OnBridgeProcessExited );
@@ -57,9 +61,10 @@ namespace EDVirtualCOM2TCP
 
             EDDebug.Log("Service Stop Closed Ports");
 
-            Com0Com.RemoveAll();
-
-            EDDebug.Log("Service Stop Removed All");
+            if (Settings.Bridge_Hub4Com || Settings.Com0Com_CreateCOM)
+            {
+                Com0Com.RemoveAll();
+            }
 
             EDDebug.Log("Service Stopped...");
         }

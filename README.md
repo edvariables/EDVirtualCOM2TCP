@@ -1,18 +1,19 @@
 # EDVirtualCOM2TCP
 Generate a Virtual COM and connect it to an IP address. For Windows, .Net 4.8.
 
-Needs https://sourceforge.net/projects/com0com/ 
-
-https://sourceforge.net/projects/com0com/files/latest/download
-
+Can need 
+- com0com
+https://sourceforge.net/projects/com0com/files/
+Version 3.0 is not compatible to Windows 11. Use version 2.2.
+- Hub4Com
 https://sourceforge.net/projects/com0com/files/hub4com /.../hub4com-...-386.zip
-
 
 # Sources :
 https://github.com/edvariables/EDVirtualCOM2TCP
 
 #Download
 https://edv.edvariables.net/download/EDVirtualCOM2TCP/
+Setup seems incompatible with Windows 11 : download directory .zip file.
 
 ---------
 ED 2026
@@ -27,8 +28,10 @@ admin@edvariables.net
 	
 - Com0Com & Passerelle interne
 	Génèrent des ports virtuels et établit une passerelle avec une adresse IP.
-
+	Ne nécessite pas de Hub4Com.
+	
 - COMs virtuels existants & Passerelle interne
-	Utilisent une paire de ports virtuels installés avec SerialTool, par exemple, et établit une passerelle avec une adresse IP.
+	Utilisent une paire de ports virtuels, installée avec SerialTool par exemple, et établit une passerelle avec une adresse IP.
+	Ne nécessite ni Com0Com ni Hub4Com.
 	
 	

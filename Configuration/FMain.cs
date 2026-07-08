@@ -21,6 +21,7 @@ namespace EDVirtualCOM2TCP
             Init_Inputs();
             Init_Com0Com();
             FormControlsAccess();
+            btnSave.Enabled = false;
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -53,37 +54,59 @@ namespace EDVirtualCOM2TCP
             //Console.WriteLine("Com0Com : " + Com0Com.ExeFileName);
             try
             {
-                Dictionary<string, bool> portNames = new Dictionary<string, bool>();
-                foreach(string portName in SerialPort.GetPortNames())
+                Dictionary<string, string> portNames = Com0Com.PortNames();
+                Dictionary<string, bool> portsBusy = new Dictionary<string, bool>();
+                foreach(string portName in portNames.Keys)
                 {
-                    portNames.Add(portName, false);
+                    portsBusy.Add(portName, false);
                 }
                 txtCom0ComState.Text = String.Empty;
-                foreach ( string busyname in Com0Com.Busynames()) {
+                foreach ( string busyname in Com0Com.BusyNames())
+                {
+                    if (portsBusy.Keys.Contains(busyname)
+                    && portsBusy[busyname])
+                        continue;
+                    
                     if (txtCom0ComState.Text.Length > 0)
                         txtCom0ComState.Text += "\n\r\n\r";
                     txtCom0ComState.Text += busyname;
-                    if ( ! portNames.Keys.Contains(busyname))
+                    if (!portNames.ContainsKey(busyname))
                     {
-                        txtCom0ComState.Text += "*";
+                        txtCom0ComState.Text += " ?";
                     }
                     else
-                        portNames[busyname] = true;
+                    {
+                        portsBusy[busyname] = true;
+                        if (Com0Com.CreatedPair_COM != busyname)
+                            txtCom0ComState.Text += " (" + portNames[busyname] + ")";
+                    }
                     if (Com0Com.CreatedPair_COM == busyname)
                     {
                         if (Settings.Bridge_Internal)
-                            txtCom0ComState.Text += " <=> COM" + (Com0Com.CreatedPair_COMNum + 1).ToString();
+                        {
+                            string next_com = "COM" + (Com0Com.CreatedPair_COMNum + 1).ToString();
+                            if (!portsBusy.Keys.Contains(next_com))
+                            {
+                                txtCom0ComState.Text += " <=> " + next_com + " ?!";
+                            }
+                            else
+                            {
+                                txtCom0ComState.Text += " <=> " + next_com;
+                                portsBusy[next_com] = true;
+                            }
+                        }
                         else
                             txtCom0ComState.Text += " <=> CNB" + Com0Com.CreatedPair_CNC.ToString();
+                        txtCom0ComState.Text += " <=> TCP";
                     }
                 }
                 foreach (string portName in portNames.Keys)
                 {
-                    if (portNames[portName] == false)
+                    if (portsBusy[portName] == false)
                     {
                         if (txtCom0ComState.Text.Length > 0)
                             txtCom0ComState.Text += "\n\r\n\r";
-                        txtCom0ComState.Text += "+" + portName;
+                        txtCom0ComState.Text += "+" + portName + " (" + portNames[portName] + ")";
                     }
 
                 }
@@ -181,6 +204,8 @@ namespace EDVirtualCOM2TCP
             Settings.Bridge_Mode = optHub4Com.Checked ? "Hub4Com" : "Internal";
 
             Settings.Save();
+
+            btnSave.Enabled = false;
         }
 
         private void txtIP_Port_TextChanged(object sender, EventArgs e)
@@ -189,7 +214,11 @@ namespace EDVirtualCOM2TCP
             {
                 MessageBox.Show("Le port doit être un nombre entier.");
                 ((TextBox)sender).Focus();
+
+                btnSave.Enabled = false;
             }
+            else
+                btnSave.Enabled = true;
         }
 
         private void lnkServiceStart_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -301,6 +330,9 @@ namespace EDVirtualCOM2TCP
 
         private void lnkRefreshCom0Com_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            if (!Save_Inputs(true))
+                return;
+
             Init_Com0Com();
         }
 
@@ -327,10 +359,29 @@ namespace EDVirtualCOM2TCP
             Init_Com0Com();
         }
 
+        private bool Save_Inputs(bool if_need, bool askUser = true)
+        {
+            if (btnSave.Enabled || if_need==false)
+            {
+                if (if_need
+                    && btnSave.Enabled && askUser
+                    && MessageBox.Show("Voulez vous enregistrer les modifications avant ?", "EDVirtualCOM2TCP"
+                        , MessageBoxButtons.OKCancel, MessageBoxIcon.Stop)
+                        == DialogResult.Cancel)
+                    return false;
+                Save_Inputs();
+
+            }
+            return true;
+        }
+
         private void lnkCom0ComCreate_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             try
             {
+                if (!Save_Inputs(true))
+                    return;
+
                 if (ServiceManager.Status == ServiceControllerStatus.Running)
                 {
                     if (MessageBox.Show("Le service est en cours, les ports de communication ne doivent pas être modifiés.", "EDVirtualCOM2TCP"
@@ -353,7 +404,13 @@ namespace EDVirtualCOM2TCP
         {
             if (chkActivate.Checked == true)
             {
-                if( ServiceManager.Status==ServiceControllerStatus.Running )
+                if (!Save_Inputs(true))
+                {
+                    chkActivate.Checked = false;
+                    return;
+                }
+
+                if ( ServiceManager.Status==ServiceControllerStatus.Running )
                 {
                     if (MessageBox.Show("Le service est en cours. Lui seul peut ouvrir les ports de communication.", "EDVirtualCOM2TCP"
                             , MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Stop)
@@ -505,7 +562,12 @@ namespace EDVirtualCOM2TCP
             {
                 MessageBox.Show("Le port doit être un nombre entier.");
                 ((TextBox)sender).Focus();
+
+                btnSave.Enabled = false;
             }
+            else
+                btnSave.Enabled = true;
+
         }
 
         private void lnkCom0ComOpenG_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -515,7 +577,7 @@ namespace EDVirtualCOM2TCP
 
         private void chkLog_CheckedChanged(object sender, EventArgs e)
         {
-
+            btnSave.Enabled = true;
         }
 
         private void lnkGitHub_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -546,10 +608,46 @@ namespace EDVirtualCOM2TCP
         private void FormControlsAccess()
         {
             lblCom0ComPath.Enabled = optHub4Com.Checked || chkCreateCOM.Checked;
+            txtCom0ComDir.Enabled = lblCom0ComPath.Enabled;
+            btnBrowserCom0ComPath.Enabled = lblCom0ComPath.Enabled;
+            lnkCom0ComOpenG.Visible = lblCom0ComPath.Enabled;
 
             txtHub4ComDir.Enabled = optHub4Com.Checked;
+            btnBrowserHub4ComPath.Enabled = txtHub4ComDir.Enabled;
 
             chkCreateCOM.Enabled = ! optHub4Com.Checked;
+
+            btnSave.Enabled = true;
+        }
+
+        private void btnBrowserCom0ComPath_Click(object sender, EventArgs e)
+        {
+            folderBrowserDialog1.SelectedPath= Environment.ExpandEnvironmentVariables(txtCom0ComDir.Text);
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            {
+                txtCom0ComDir.Text = folderBrowserDialog1.SelectedPath;
+                btnSave.Enabled = true;
+            }
+        }
+
+        private void btnBrowserHub4ComPath_Click(object sender, EventArgs e)
+        {
+            folderBrowserDialog1.SelectedPath = Environment.ExpandEnvironmentVariables(txtHub4ComDir.Text);
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            {
+                txtHub4ComDir.Text = folderBrowserDialog1.SelectedPath;
+                btnSave.Enabled = true;
+            }
+        }
+
+        private void txtIP_Address_TextChanged(object sender, EventArgs e)
+        {
+            btnSave.Enabled = true;
+        }
+
+        private void numService_Delay_ValueChanged(object sender, EventArgs e)
+        {
+            btnSave.Enabled = true;
         }
     }
 

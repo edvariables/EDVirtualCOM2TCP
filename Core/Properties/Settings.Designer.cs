@@ -88,7 +88,7 @@ namespace EDVirtualCOM2TCP.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://sourceforge.net/projects/com0com/files/latest/download")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://sourceforge.net/projects/com0com/files/")]
         public string com0com_download {
             get {
                 return ((string)(this["com0com_download"]));

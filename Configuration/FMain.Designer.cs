@@ -40,6 +40,8 @@ namespace EDVirtualCOM2TCP
             this.tabsCtrl = new System.Windows.Forms.TabControl();
             this.tabGeneral = new System.Windows.Forms.TabPage();
             this.grpCom0Com = new System.Windows.Forms.GroupBox();
+            this.btnBrowserHub4ComPath = new System.Windows.Forms.Button();
+            this.btnBrowserCom0ComPath = new System.Windows.Forms.Button();
             this.chkCreateCOM = new System.Windows.Forms.CheckBox();
             this.txtHub4ComDir = new System.Windows.Forms.TextBox();
             this.optInterrnalBridge = new System.Windows.Forms.RadioButton();
@@ -81,13 +83,16 @@ namespace EDVirtualCOM2TCP
             this.lnkSetup_Download = new System.Windows.Forms.LinkLabel();
             this.lnkGitHub = new System.Windows.Forms.LinkLabel();
             this.chkLog = new System.Windows.Forms.CheckBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.lnkHub4Com = new System.Windows.Forms.LinkLabel();
             this.lnkCom0Com = new System.Windows.Forms.LinkLabel();
-            this.label6 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
             this.tabsCtrl.SuspendLayout();
             this.tabGeneral.SuspendLayout();
             this.grpCom0Com.SuspendLayout();
@@ -116,6 +121,7 @@ namespace EDVirtualCOM2TCP
             // btnSave
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSave.Enabled = false;
             this.btnSave.Location = new System.Drawing.Point(370, 447);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(73, 29);
@@ -164,6 +170,8 @@ namespace EDVirtualCOM2TCP
             // 
             this.grpCom0Com.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpCom0Com.Controls.Add(this.btnBrowserHub4ComPath);
+            this.grpCom0Com.Controls.Add(this.btnBrowserCom0ComPath);
             this.grpCom0Com.Controls.Add(this.chkCreateCOM);
             this.grpCom0Com.Controls.Add(this.txtHub4ComDir);
             this.grpCom0Com.Controls.Add(this.optInterrnalBridge);
@@ -187,6 +195,28 @@ namespace EDVirtualCOM2TCP
             this.grpCom0Com.TabStop = false;
             this.grpCom0Com.Text = "      COMs virtuels et Passerelle";
             // 
+            // btnBrowserHub4ComPath
+            // 
+            this.btnBrowserHub4ComPath.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnBrowserHub4ComPath.Location = new System.Drawing.Point(276, 54);
+            this.btnBrowserHub4ComPath.Name = "btnBrowserHub4ComPath";
+            this.btnBrowserHub4ComPath.Size = new System.Drawing.Size(21, 19);
+            this.btnBrowserHub4ComPath.TabIndex = 27;
+            this.btnBrowserHub4ComPath.Text = "...";
+            this.btnBrowserHub4ComPath.UseVisualStyleBackColor = true;
+            this.btnBrowserHub4ComPath.Click += new System.EventHandler(this.btnBrowserHub4ComPath_Click);
+            // 
+            // btnBrowserCom0ComPath
+            // 
+            this.btnBrowserCom0ComPath.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnBrowserCom0ComPath.Location = new System.Drawing.Point(276, 29);
+            this.btnBrowserCom0ComPath.Name = "btnBrowserCom0ComPath";
+            this.btnBrowserCom0ComPath.Size = new System.Drawing.Size(21, 19);
+            this.btnBrowserCom0ComPath.TabIndex = 26;
+            this.btnBrowserCom0ComPath.Text = "...";
+            this.btnBrowserCom0ComPath.UseVisualStyleBackColor = true;
+            this.btnBrowserCom0ComPath.Click += new System.EventHandler(this.btnBrowserCom0ComPath_Click);
+            // 
             // chkCreateCOM
             // 
             this.chkCreateCOM.AutoSize = true;
@@ -202,7 +232,7 @@ namespace EDVirtualCOM2TCP
             // 
             this.txtHub4ComDir.Location = new System.Drawing.Point(74, 54);
             this.txtHub4ComDir.Name = "txtHub4ComDir";
-            this.txtHub4ComDir.Size = new System.Drawing.Size(222, 20);
+            this.txtHub4ComDir.Size = new System.Drawing.Size(199, 20);
             this.txtHub4ComDir.TabIndex = 19;
             this.toolTip1.SetToolTip(this.txtHub4ComDir, "Sous-répertoire ou chemin contenant hub4com.exe");
             // 
@@ -337,7 +367,7 @@ namespace EDVirtualCOM2TCP
             // 
             this.txtCom0ComDir.Location = new System.Drawing.Point(74, 28);
             this.txtCom0ComDir.Name = "txtCom0ComDir";
-            this.txtCom0ComDir.Size = new System.Drawing.Size(222, 20);
+            this.txtCom0ComDir.Size = new System.Drawing.Size(199, 20);
             this.txtCom0ComDir.TabIndex = 13;
             this.toolTip1.SetToolTip(this.txtCom0ComDir, "Répertoire de l\'installation de com0com");
             // 
@@ -414,6 +444,7 @@ namespace EDVirtualCOM2TCP
             this.txtIP_Address.Name = "txtIP_Address";
             this.txtIP_Address.Size = new System.Drawing.Size(86, 20);
             this.txtIP_Address.TabIndex = 2;
+            this.txtIP_Address.TextChanged += new System.EventHandler(this.txtIP_Address_TextChanged);
             // 
             // label2
             // 
@@ -554,6 +585,8 @@ namespace EDVirtualCOM2TCP
             this.tabInstallation.Controls.Add(this.label14);
             this.tabInstallation.Controls.Add(this.numService_Delay);
             this.tabInstallation.Controls.Add(this.label13);
+            this.tabInstallation.Controls.Add(this.label5);
+            this.tabInstallation.Controls.Add(this.label15);
             this.tabInstallation.Controls.Add(this.label12);
             this.tabInstallation.Controls.Add(this.label11);
             this.tabInstallation.Controls.Add(this.lnkSetup_Download);
@@ -576,7 +609,7 @@ namespace EDVirtualCOM2TCP
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(194, 435);
+            this.label14.Location = new System.Drawing.Point(194, 437);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(53, 13);
             this.label14.TabIndex = 9;
@@ -588,6 +621,7 @@ namespace EDVirtualCOM2TCP
             this.numService_Delay.Name = "numService_Delay";
             this.numService_Delay.Size = new System.Drawing.Size(45, 20);
             this.numService_Delay.TabIndex = 8;
+            this.numService_Delay.ValueChanged += new System.EventHandler(this.numService_Delay_ValueChanged);
             // 
             // label13
             // 
@@ -600,12 +634,12 @@ namespace EDVirtualCOM2TCP
             // 
             // label12
             // 
-            this.label12.Location = new System.Drawing.Point(11, 98);
+            this.label12.Location = new System.Drawing.Point(11, 95);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(309, 38);
             this.label12.TabIndex = 6;
-            this.label12.Text = "Cette application monopolise Com0Com et Hub4Com. Aucune autre application ne peut" +
-    " les utiliser sur cet ordinateur.";
+            this.label12.Text = "Cette application monopolise Com0Com. Aucune autre application ne peut l\'utiliser" +
+    " sur cet ordinateur.";
             // 
             // label11
             // 
@@ -650,9 +684,19 @@ namespace EDVirtualCOM2TCP
             this.chkLog.UseVisualStyleBackColor = true;
             this.chkLog.CheckedChanged += new System.EventHandler(this.chkLog_CheckedChanged);
             // 
+            // label6
+            // 
+            this.label6.Location = new System.Drawing.Point(12, 364);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(309, 46);
+            this.label6.TabIndex = 2;
+            this.label6.Text = "L\'arrêt ou la désinstallation du service alors que les ports sont utilisés (Burea" +
+    "u d\'accès à distance ouvert, par exple) peut provoquer un problème de réinitiali" +
+    "sation.";
+            // 
             // label10
             // 
-            this.label10.Location = new System.Drawing.Point(13, 196);
+            this.label10.Location = new System.Drawing.Point(13, 219);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(309, 136);
             this.label10.TabIndex = 2;
@@ -673,7 +717,7 @@ namespace EDVirtualCOM2TCP
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(12, 22);
+            this.label7.Location = new System.Drawing.Point(12, 10);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(70, 13);
             this.label7.TabIndex = 1;
@@ -693,23 +737,31 @@ namespace EDVirtualCOM2TCP
             // lnkCom0Com
             // 
             this.lnkCom0Com.AutoSize = true;
-            this.lnkCom0Com.Location = new System.Drawing.Point(11, 36);
+            this.lnkCom0Com.Location = new System.Drawing.Point(11, 24);
             this.lnkCom0Com.Name = "lnkCom0Com";
-            this.lnkCom0Com.Size = new System.Drawing.Size(314, 13);
+            this.lnkCom0Com.Size = new System.Drawing.Size(238, 13);
             this.lnkCom0Com.TabIndex = 0;
             this.lnkCom0Com.TabStop = true;
-            this.lnkCom0Com.Text = "https://sourceforge.net/projects/com0com/files/latest/download";
+            this.lnkCom0Com.Text = "https://sourceforge.net/projects/com0com/files/";
             this.lnkCom0Com.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkCom0Com_LinkClicked);
             // 
-            // label6
+            // label5
             // 
-            this.label6.Location = new System.Drawing.Point(12, 341);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(309, 46);
-            this.label6.TabIndex = 2;
-            this.label6.Text = "L\'arrêt ou la désinstallation du service alors que les ports sont utilisés (Burea" +
-    "u d\'accès à distance ouvert, par exple) peut provoquer un problème de réinitiali" +
-    "sation.";
+            this.label5.Location = new System.Drawing.Point(12, 39);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(318, 34);
+            this.label5.TabIndex = 6;
+            this.label5.Text = "Un problème de compatibilité de la version 3.0 avec Windows 11 devrait vous faire" +
+    " choisir la version 2.2";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(13, 196);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(254, 13);
+            this.label15.TabIndex = 6;
+            this.label15.Text = "Si le Setup ne fonctionne pas, téléchargez le dossier";
             // 
             // FMain
             // 
@@ -803,5 +855,10 @@ namespace EDVirtualCOM2TCP
         private Label lblCom0ComPath;
         private Label label6;
         private ToolTip toolTip1;
+        private Button btnBrowserCom0ComPath;
+        private FolderBrowserDialog folderBrowserDialog1;
+        private Button btnBrowserHub4ComPath;
+        private Label label5;
+        private Label label15;
     }
 }

@@ -52,7 +52,7 @@ namespace EDVirtualCOM2TCP
         {
             int cncNum = Com0Com.CreatedPair_CNC;
             if (cncNum < 0)
-                cncNum = Com0Com.Busynames().Length - 1;
+                cncNum = Com0Com.BusyNames().Length - 1;
             if (cncNum < 0)
                 throw new Exception("Aucun port disponible pour Hub4Com.OpenPorts.");
             string options = Settings.Hub4Com_options;

@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Ports;
 using System.Linq;
+using System.Management;
 using System.Reflection;
 using System.Security.Policy;
 using System.Text;
@@ -38,21 +40,50 @@ namespace EDVirtualCOM2TCP
             return ICommandFile.Run(ExeFileName, parameters);
         }
 
-        public static string[] Busynames()
+        public static string[] BusyNames()
         {
+            if (Settings.Bridge_Internal && !Settings.Com0Com_CreateCOM) 
+                return GetPortNames();
+
             string cmd = "busynames COM?*";
 
             string result = Run(cmd);
             result = result.Replace("\r", String.Empty).TrimEnd('\n');
-            if( result.Length == 0) 
+            if (result.Length == 0)
                 return Array.Empty<string>();
             return result.Split('\n');
+        }
+
+        public static string[] GetPortNames()
+        {
+            return SerialPort.GetPortNames();
+        }
+
+        public static Dictionary<string, string> PortNames()
+        {
+            using (var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_PnPEntity WHERE Caption like '%(COM%'"))
+            {
+                var portnames = GetPortNames();
+                var ports = searcher.Get().Cast<ManagementBaseObject>().ToList().Select(p => p["Caption"].ToString());
+
+                var portList = portnames.Select(n => ports.FirstOrDefault(s => s.Contains(n))).ToArray();
+
+                Dictionary<string, string> portNamesDic = new Dictionary<string, string>();
+
+                for (int i = 0; i < portList.Length; i++)
+                {
+                    portNamesDic.Add(portnames[i], portList[i]);
+                }
+
+                return portNamesDic;
+            }
+            //return SerialPort.GetPortNames();
         }
 
         public static bool CreatePair()
         {
             int availableCom = AvailableCOM();
-            if( ! Settings.Com0Com_CreateCOM)
+            if( Settings.Bridge_Internal && ! Settings.Com0Com_CreateCOM )
             {
                 CreatedPair_CNC = -1;
                 CreatedPair_COMNum = availableCom - 2;
@@ -60,7 +91,7 @@ namespace EDVirtualCOM2TCP
                 return true;
             }
 
-            int index = Busynames().Length;
+            int index = BusyNames().Length;
             do
             {
                 string cmd = "--silent install " + index + " PortName=COM" + availableCom.ToString();
@@ -91,7 +122,7 @@ namespace EDVirtualCOM2TCP
 
         public static bool RemoveAll()
         {
-            string[] busynames = Busynames();
+            string[] busynames = BusyNames();
             string coms = String.Join(" ", busynames);
             int killMore = 1;//TODO Bloque si on a COM3 COM5 COM9
             for (int i = 0; i < busynames.Length + killMore; i++)
@@ -111,7 +142,7 @@ namespace EDVirtualCOM2TCP
             int comNum = Settings.COM_num;
             try
             {
-                foreach(string busyname in Busynames())
+                foreach(string busyname in BusyNames())
                 {
                     int usedNum = int.Parse(busyname.Substring(3));
                     if (usedNum >= comNum)

@@ -138,7 +138,7 @@ namespace EDVirtualCOM2TCP
         }
         public static bool IsProcessRunning(Thread thread)
         {
-            if (!_threadProcesses.ContainsKey(thread.GetHashCode()))
+            if (thread == null || !_threadProcesses.ContainsKey(thread.GetHashCode()))
                 return false;
             Process process = ((Process)_threadProcesses[thread.GetHashCode()]);
             bool hasExited = true;
