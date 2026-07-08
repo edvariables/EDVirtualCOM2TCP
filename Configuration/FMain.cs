@@ -342,7 +342,7 @@ namespace EDVirtualCOM2TCP
             {
                 if (ServiceManager.Status == ServiceControllerStatus.Running)
                 {
-                    if( MessageBox.Show("Le service est en cours, les ports de communication ne doivent pas être modifiés.", "EDVirtualCOM2TCP"
+                    if( MessageBox.Show("Le service est en cours, les ports de communication ne doivent pas être modifiés.", Settings.ServiceName
                             , MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Stop)
                         == DialogResult.Abort)
                     return;
@@ -365,7 +365,7 @@ namespace EDVirtualCOM2TCP
             {
                 if (if_need
                     && btnSave.Enabled && askUser
-                    && MessageBox.Show("Voulez vous enregistrer les modifications avant ?", "EDVirtualCOM2TCP"
+                    && MessageBox.Show("Voulez vous enregistrer les modifications avant ?", Settings.ServiceName
                         , MessageBoxButtons.OKCancel, MessageBoxIcon.Stop)
                         == DialogResult.Cancel)
                     return false;
@@ -384,7 +384,7 @@ namespace EDVirtualCOM2TCP
 
                 if (ServiceManager.Status == ServiceControllerStatus.Running)
                 {
-                    if (MessageBox.Show("Le service est en cours, les ports de communication ne doivent pas être modifiés.", "EDVirtualCOM2TCP"
+                    if (MessageBox.Show("Le service est en cours, les ports de communication ne doivent pas être modifiés.", Settings.ServiceName
                             , MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Stop)
                         == DialogResult.Abort)
                         return;
@@ -412,7 +412,7 @@ namespace EDVirtualCOM2TCP
 
                 if ( ServiceManager.Status==ServiceControllerStatus.Running )
                 {
-                    if (MessageBox.Show("Le service est en cours. Lui seul peut ouvrir les ports de communication.", "EDVirtualCOM2TCP"
+                    if (MessageBox.Show("Le service est en cours. Lui seul peut ouvrir les ports de communication.", Settings.ServiceName
                             , MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Stop)
                         == DialogResult.Abort)
                     {

@@ -30,11 +30,61 @@ namespace EDVirtualCOM2TCP
         }
 
         /**
+         * Get section|setting
+         * */
+        private static string GetCacheKey(string setting, string section)
+        {
+            return (section == null ? "" : section) + "|" + setting;
+        }
+
+        /**
+         * Get section|setting
+         * */
+        private static string[] ParseCacheKey(string cacheKey)
+        {
+
+            string[] path = cacheKey.Split('|');
+            if (path.Length == 1)
+            {
+                path.Append(cacheKey);
+                path[0] = null;
+            }
+            else if (path[0] == "")
+                path[0] = null;
+            return path;
+        }
+
+        /**
+         * Save
+         * */
+        public static void Save()
+        {
+
+            EDVirtualCOM2TCP.Properties.Settings.Default.Save();
+
+            foreach (string cacheKey in _saveValues.Keys)
+            {
+                object value = _saveValues[cacheKey];
+                string[] path = ParseCacheKey(cacheKey);
+                IniFile.WriteValue(path[1], value == null ? "" : value.ToString(), path[0]);
+            }
+            ClearCache();
+        }
+
+        public static void ClearCache(bool saveValues = true, bool values = true)
+        {
+            if (saveValues)
+                _saveValues.Clear();
+            if (values)
+                _values.Clear(); //safely
+        }
+
+        /**
          * Get value from INI, Settings or Cache
          * */
         public static object GetValue(string setting, string section = null, object default_value = null)
         {
-            string key = (section == null ? "" : section) + "|" + setting;
+            string key = GetCacheKey(section, setting);
             if (_useCache
                 && _values.ContainsKey(key) )
                 return _values[key].ToString();
@@ -51,7 +101,7 @@ namespace EDVirtualCOM2TCP
         {
             if (_useCache)
             {
-                string key = (section == null ? "" : section) + "|" + setting;
+                string key = GetCacheKey(section, setting);
                 if (_values.ContainsKey(key))
                     _values[key] = set_value;
                 else if (set_value != null)
@@ -65,6 +115,13 @@ namespace EDVirtualCOM2TCP
                 IniFile.WriteValue(setting, set_value == null ? "" : set_value.ToString(), section);
         }
 
+        /*********
+         * 
+         * Properties
+         * 
+         * *******/
+        
+        
         public static string IP_Address
         {
             get
@@ -219,28 +276,6 @@ namespace EDVirtualCOM2TCP
             {
                 SetValue("LogEnabled", null, value.ToString());
             }
-        }
-
-        public static void Save()
-        {
-            
-            EDVirtualCOM2TCP.Properties.Settings.Default.Save();
-
-            foreach(string setting in _saveValues.Keys)
-            {
-                object value = _saveValues[setting];
-                string[] path = setting.Split('|');
-                if (path.Length == 1)
-                {
-                    path.Append(setting);
-                    path[0] = null;
-                }
-                else if(path[0] == "")
-                    path[0] = null;
-                IniFile.WriteValue(path[1], value == null ? "" : value.ToString(), path[0]);
-            }
-            _saveValues.Clear();
-            _values.Clear(); //safely
         }
     }
 }
