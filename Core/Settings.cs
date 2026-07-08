@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using static System.Collections.Specialized.BitVector32;
 
 
 /**
@@ -16,7 +18,9 @@ namespace EDVirtualCOM2TCP
 {
     public static class Settings
     {
-
+        private static Hashtable _values = new Hashtable();
+        private static Hashtable _saveValues = new Hashtable();
+        private static readonly bool _useCache = true;
         public static string ServiceName
         {
             get
@@ -25,15 +29,51 @@ namespace EDVirtualCOM2TCP
             }
         }
 
+        /**
+         * Get value from INI, Settings or Cache
+         * */
+        public static object GetValue(string setting, string section = null, object default_value = null)
+        {
+            string key = (section == null ? "" : section) + "|" + setting;
+            if (_useCache
+                && _values.ContainsKey(key) )
+                return _values[key].ToString();
+            object value = IniFile.ReadValue(setting, section, default_value == null ? "" : default_value.ToString());
+            if (_useCache
+                && ! _values.ContainsKey(key))
+                _values.Add(key, value);
+            return value;
+        }
+        /**
+         * Set value
+         * */
+        public static void SetValue( string setting, string section = null, object set_value = null)
+        {
+            if (_useCache)
+            {
+                string key = (section == null ? "" : section) + "|" + setting;
+                if (_values.ContainsKey(key))
+                    _values[key] = set_value;
+                else if (set_value != null)
+                    _values.Add(key, set_value);
+                if (_saveValues.ContainsKey(key))
+                    _saveValues[key] = set_value;
+                else if (set_value != null)
+                    _saveValues.Add(key, set_value);
+            }
+            else
+                IniFile.WriteValue(setting, set_value == null ? "" : set_value.ToString(), section);
+        }
+
         public static string IP_Address
         {
             get
             {
-                return IniFile.ReadValue("IP_Address", null, EDVirtualCOM2TCP.Properties.Settings.Default.IP_Address);
+                return GetValue("IP_Address", null, EDVirtualCOM2TCP.Properties.Settings.Default.IP_Address).ToString();
             }
             set
             {
-                IniFile.WriteValue("IP_Address", value);
+                SetValue("IP_Address", null, value);
             }
         }
 
@@ -41,11 +81,11 @@ namespace EDVirtualCOM2TCP
         {
             get
             {
-                return int.Parse(IniFile.ReadValue("IP_Port", null, EDVirtualCOM2TCP.Properties.Settings.Default.IP_Port.ToString()));
+                return int.Parse(GetValue("IP_Port", null, EDVirtualCOM2TCP.Properties.Settings.Default.IP_Port).ToString());
             }
             set
             {
-                IniFile.WriteValue("IP_Port", value.ToString());
+                SetValue("IP_Port", null, value.ToString());
             }
         }
 
@@ -53,11 +93,11 @@ namespace EDVirtualCOM2TCP
         {
             get
             {
-                return int.Parse(IniFile.ReadValue("Service_Delay", null, EDVirtualCOM2TCP.Properties.Settings.Default.service_delay.ToString()));
+                return int.Parse(GetValue("Service_Delay", null, EDVirtualCOM2TCP.Properties.Settings.Default.service_delay).ToString());
             }
             set
             {
-                IniFile.WriteValue("Service_Delay", value.ToString());
+                SetValue("Service_Delay", null, value.ToString());
             }
         }
 
@@ -65,11 +105,11 @@ namespace EDVirtualCOM2TCP
         {
             get
             {
-                return int.Parse(IniFile.ReadValue("COM_num", null, EDVirtualCOM2TCP.Properties.Settings.Default.COM_num.ToString()));
+                return int.Parse(GetValue("COM_num", null, EDVirtualCOM2TCP.Properties.Settings.Default.COM_num).ToString());
             }
             set
             {
-                IniFile.WriteValue("COM_num", value.ToString());
+                SetValue("COM_num", null, value.ToString());
             }
         }
 
@@ -77,11 +117,11 @@ namespace EDVirtualCOM2TCP
         {
             get
             {
-                return IniFile.ReadValue("Bridge_Mode", null, EDVirtualCOM2TCP.Properties.Settings.Default.bridge_mode);
+                return GetValue("Bridge_Mode", null, EDVirtualCOM2TCP.Properties.Settings.Default.bridge_mode).ToString();
             }
             set
             {
-                IniFile.WriteValue("Bridge_Mode", value);
+                SetValue("Bridge_Mode", null, value);
             }
         }
         public static bool Bridge_Hub4Com
@@ -103,11 +143,11 @@ namespace EDVirtualCOM2TCP
         {
             get
             {
-                return bool.Parse(IniFile.ReadValue("Com0Com_CreateCOM", null, true.ToString()));
+                return bool.Parse(GetValue("Com0Com_CreateCOM", null, true).ToString());
             }
             set
             {
-                IniFile.WriteValue("Com0Com_CreateCOM", value.ToString());
+                SetValue("Com0Com_CreateCOM", null, value.ToString());
             }
         }
 
@@ -115,11 +155,11 @@ namespace EDVirtualCOM2TCP
         {
             get
             {
-                return IniFile.ReadValue("Com0Com_path", null, EDVirtualCOM2TCP.Properties.Settings.Default.com0com_path);
+                return GetValue("Com0Com_path", null, EDVirtualCOM2TCP.Properties.Settings.Default.com0com_path).ToString();
             }
             set
             {
-                IniFile.WriteValue("Com0Com_path", value);
+                SetValue("Com0Com_path", null, value);
             }
         }
 
@@ -127,11 +167,11 @@ namespace EDVirtualCOM2TCP
         {
             get
             {
-                return IniFile.ReadValue("Hub4Com_path", null, EDVirtualCOM2TCP.Properties.Settings.Default.hub4com_path);
+                return GetValue("Hub4Com_path", null, EDVirtualCOM2TCP.Properties.Settings.Default.hub4com_path).ToString();
             }
             set
             {
-                IniFile.WriteValue("Hub4Com_path", value);
+                SetValue("Hub4Com_path", null, value);
             }
         }
 
@@ -139,11 +179,11 @@ namespace EDVirtualCOM2TCP
         {
             get
             {
-                return IniFile.ReadValue("Hub4Com_options", null, EDVirtualCOM2TCP.Properties.Settings.Default.hub4com_options);
+                return GetValue("Hub4Com_options", null, EDVirtualCOM2TCP.Properties.Settings.Default.hub4com_options).ToString();
             }
             set
             {
-                IniFile.WriteValue("Hub4Com_options", value);
+                SetValue("Hub4Com_options", null, value);
             }
         }
 
@@ -151,39 +191,56 @@ namespace EDVirtualCOM2TCP
         {
             get
             {
-                return IniFile.ReadValue("Hub4Com_Download", null, EDVirtualCOM2TCP.Properties.Settings.Default.hub4com_download);
+                return GetValue("Hub4Com_Download", null, EDVirtualCOM2TCP.Properties.Settings.Default.hub4com_download).ToString();
             }
             set
             {
-                IniFile.WriteValue("Hub4Com_Download", value);
+                SetValue("Hub4Com_Download", null, value);
             }
         }
         public static string Com0Com_Download
         {
             get
             {
-                return IniFile.ReadValue("Com0Com_Download", null, EDVirtualCOM2TCP.Properties.Settings.Default.com0com_download);
+                return GetValue("Com0Com_Download", null, EDVirtualCOM2TCP.Properties.Settings.Default.com0com_download).ToString();
             }
             set
             {
-                IniFile.WriteValue("Com0Com_Download", value);
+                SetValue("Com0Com_Download", null, value);
             }
         }
         public static bool LogEnabled
         {
             get
             {
-                return bool.Parse(IniFile.ReadValue("LogEnabled", null, true.ToString()));
+                return bool.Parse(GetValue("LogEnabled", null, true).ToString());
             }
             set
             {
-                IniFile.WriteValue("LogEnabled", value.ToString());
+                SetValue("LogEnabled", null, value.ToString());
             }
         }
 
         public static void Save()
         {
+            
             EDVirtualCOM2TCP.Properties.Settings.Default.Save();
+
+            foreach(string setting in _saveValues.Keys)
+            {
+                object value = _saveValues[setting];
+                string[] path = setting.Split('|');
+                if (path.Length == 1)
+                {
+                    path.Append(setting);
+                    path[0] = null;
+                }
+                else if(path[0] == "")
+                    path[0] = null;
+                IniFile.WriteValue(path[1], value == null ? "" : value.ToString(), path[0]);
+            }
+            _saveValues.Clear();
+            _values.Clear(); //safely
         }
     }
 }
