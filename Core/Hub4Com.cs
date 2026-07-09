@@ -8,10 +8,23 @@ using System.Threading;
 
 namespace EDVirtualCOM2TCP
 {
-    public static class Hub4Com
+    public class Hub4Com : ICommandFile
     {
-        private static Thread _openPorts_thread;
-        public static string ExeFileName
+
+        private Thread _openPorts_thread;
+
+        private static Hub4Com _instance;
+        public static Hub4Com Instance
+        {
+            get
+            {
+                if (_instance == null)
+                    _instance = new Hub4Com();
+                return _instance;
+            }
+        }
+
+        public override string ExeFileName
         {
             get
             {
@@ -31,24 +44,7 @@ namespace EDVirtualCOM2TCP
             }
         }
 
-        public static string Run(string parameters)
-        {
-            return ICommandFile.Run(ExeFileName, parameters);
-        }
-        public static Thread RunAsThread(string parameters, ICommandFile.ProcessExited processExited = null)
-        {
-            Thread thread = ICommandFile.RunAsThread(ExeFileName, parameters, processExited);
-            if (thread != null)
-            {
-                EDDebug.Log("SUCCES OpenPorts");
-                Thread.Sleep(300);
-            }
-            else
-                EDDebug.Log("ECHEC OpenPorts");
-            return thread;
-        }
-
-        public static bool OpenPorts(ICommandFile.ProcessExited processExited = null)
+        public bool OpenPorts(ICommandFile.ProcessExited processExited = null)
         {
             int cncNum = Com0Com.CreatedPair_CNC;
             if (cncNum < 0)
@@ -60,19 +56,11 @@ namespace EDVirtualCOM2TCP
                     + " \"\\\\.\\CNCB" + cncNum.ToString() + "\""
                     + " --use-driver=tcp \"*" + Settings.IP_Address + ":" + Settings.IP_Port
                     + "\"";
-
             _openPorts_thread = RunAsThread(cmd, processExited);
             return _openPorts_thread != null;
         }
 
-        public static bool IsProcessRunning
-        {
-            get {
-                return ICommandFile.IsProcessRunning(_openPorts_thread);
-            }
-        }
-
-        public static void ClosePorts()
+        public void ClosePorts()
         {
             if (_openPorts_thread == null)
             {
@@ -82,7 +70,7 @@ namespace EDVirtualCOM2TCP
             try
             {
                 EDDebug.Log("ClosePorts ICommandFile.StopThread");
-                ICommandFile.StopThread( _openPorts_thread );
+                base.StopThread(_openPorts_thread);
                 Thread.Sleep(300);
             }
             catch(Exception ex)
@@ -92,6 +80,14 @@ namespace EDVirtualCOM2TCP
             finally
             {
                 _openPorts_thread = null;
+            }
+        }
+
+        public override bool IsProcessRunning
+        {
+            get
+            {
+                return base.IsThreadProcessRunning(_openPorts_thread);
             }
         }
     }

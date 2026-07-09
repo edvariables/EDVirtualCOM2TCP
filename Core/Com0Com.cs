@@ -21,23 +21,27 @@ namespace EDVirtualCOM2TCP
     /**
      * 
      * */
-    public static class Com0Com
+    public class Com0Com : ICommandFile
     {
         public static int CreatedPair_CNC = -1;
         public static string CreatedPair_COM = String.Empty;
         public static int CreatedPair_COMNum = -1;
-
-        public static string ExeFileName
+        private static Com0Com _instance;
+        public static Com0Com Instance
         {
             get
             {
-                return Path.Combine( Environment.ExpandEnvironmentVariables(Settings.Com0Com_path), "setupc.exe");
+                if (_instance == null)
+                    _instance = new Com0Com();
+                return _instance;
             }
         }
-
-        public static string Run(string parameters)
+        public override string ExeFileName
         {
-            return ICommandFile.Run(ExeFileName, parameters);
+            get
+            {
+                return Path.Combine(Environment.ExpandEnvironmentVariables(Settings.Com0Com_path), "setupc.exe");
+            }
         }
 
         public static string[] BusyNames()
@@ -47,7 +51,7 @@ namespace EDVirtualCOM2TCP
 
             string cmd = "busynames COM?*";
 
-            string result = Run(cmd);
+            string result = Instance.Run(cmd);
             result = result.Replace("\r", String.Empty).TrimEnd('\n');
             if (result.Length == 0)
                 return Array.Empty<string>();
@@ -101,7 +105,7 @@ namespace EDVirtualCOM2TCP
                     cmd += ",EmuBR=no PortName=COM" + (availableCom + 1).ToString();
                 EDDebug.Log("> " + cmd);
 
-                string result = Run(cmd);
+                string result = Instance.Run(cmd);
                 if( ! result.Contains("is already used")
                     && result.Contains(" logged as "))
                 {
@@ -128,7 +132,7 @@ namespace EDVirtualCOM2TCP
             for (int i = 0; i < busynames.Length + killMore; i++)
             {
                 string cmd = "--silent remove " + i.ToString();
-                string result = Run(cmd);
+                string result = Instance.Run(cmd);
             }
 
             CreatedPair_CNC = -1;
@@ -160,7 +164,7 @@ namespace EDVirtualCOM2TCP
         {
             get
             {
-                return File.Exists(ExeFileName);
+                return File.Exists(Instance.ExeFileName);
             }
         }
 

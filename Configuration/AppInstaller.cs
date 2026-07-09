@@ -23,7 +23,10 @@ namespace EDVirtualCOM2TCP
         public override void Install(IDictionary stateSaver)
         {
             EDDebug.Log("AppInstaller : Install");
-
+            foreach (System.Collections.DictionaryEntry o in this.Context.Parameters)
+            {
+                EDDebug.LogLine("Context.Parameters : {0} = {1}", o.Key.ToString(), o.Value.ToString());
+            }
             base.Install(stateSaver);
 
             if (!Com0Com.IsInstalled)
@@ -45,25 +48,40 @@ namespace EDVirtualCOM2TCP
                 }
             }
 
-            EDDebug.Log("Service Install : Delete");
-            ServiceManager.Delete();
+            if (this.Context.Parameters.ContainsKey("install_service")
+            && this.Context.Parameters["install_service"] == "INSTALL_SERVICE")
+            {
+                EDDebug.Log("Service Install : Delete");
+                ServiceManager.Delete();
 
-            EDDebug.Log("Service Install : Create");
-            ServiceManager.Create();
-
-            EDDebug.Log("Service Install : " + ServiceManager.Status.ToString());
-            ServiceManager.Start();
+                EDDebug.Log("Service Install : Create");
+                ServiceManager.Create();
+            }
+            if (this.Context.Parameters.ContainsKey("start_service")
+            && this.Context.Parameters["start_service"] == "START_SERVICE")
+            {
+                EDDebug.Log("Service Install : " + ServiceManager.Status.ToString());
+                ServiceManager.Start();
+            }
         }
 
         public override void Commit(IDictionary savedState)
         {
             EDDebug.Log("AppInstaller : Commit");
+            foreach (System.Collections.DictionaryEntry o in this.Context.Parameters)
+            {
+                EDDebug.LogLine("Context.Parameters : {0} = {1}", o.Key.ToString(), o.Value.ToString());
+            }
 
             base.Commit(savedState);
 
-            Thread thread = new Thread(StartApp);
-            thread.Start();
-            Thread.Sleep(2000);
+            if (this.Context.Parameters.ContainsKey("start_app")
+            && this.Context.Parameters["start_app"] == "START_APP")
+            {
+                Thread thread = new Thread(StartApp);
+                thread.Start();
+                Thread.Sleep(2000);
+            }
         }
 
         private void StartApp()

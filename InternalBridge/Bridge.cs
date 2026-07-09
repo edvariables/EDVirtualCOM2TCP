@@ -40,15 +40,6 @@ namespace EDVirtualCOM2TCP
             return true;
         }
 
-        void Start_Async()
-        {
-            _runningThread = new Thread(Start);
-
-            _runningThread.Start();
-
-            
-        }
-
         public void Start()
         {
             //SerialPort com=new SerialPort();
@@ -127,28 +118,13 @@ namespace EDVirtualCOM2TCP
                                 }
                             }
                             else
-                                Thread.Sleep(100);
-
-                            //if (false && tcpStream.DataAvailable)
-                            //{
-                            //    tcpStream.Read(bytes, 0, nBytes);
-                            //    cnc.Write(bytes, 0, nBytes);
-
-                            //string msg = Encoding.ASCII.GetString(bytes); //the message incoming
-                            //Console.WriteLine("{0} > {1}", "TCP", msg);
-
-                            //    string str = BRclient.ReadString();
-                            //if (str.Length > 0)
-                            //{
-                            //    Console.WriteLine("{0} > {1}", "TCP", str);
-                            //    cnc.Write(str);
-                            //}
-                            //}
+                                Thread.Sleep(100);//TODO
                         }
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(" TCP error: {0}. Closing.", ex.Message.ToString()); 
+                        Console.WriteLine(" TCP error: {0}. Closing.", ex.Message.ToString());
+                        EDDebug.Log(" TCP error: {0}. Closing.", ex.Message.ToString()); 
                         TunnelAlive = false;
                     }
                 }).Start();
@@ -176,29 +152,10 @@ namespace EDVirtualCOM2TCP
                     catch (Exception ex)
                     {
                         Console.WriteLine("Write to TCP error: {0}. Closing.", ex.Message.ToString());
+                        EDDebug.Log("Write to TCP error: {0}. Closing.", ex.Message.ToString());
                         TunnelAlive = false;
                     }
                 };
-
-                //new Task(() =>
-                //{
-                //    try
-                //    {
-                //        while (TunnelAlive)
-                //        {
-                //            string str = cnc.ReadExisting();
-                //            if (str.Length > 0)
-                //            {
-                //                Console.WriteLine("{0} > {1}", "COM", str);
-                //                BWclient.Write(str);
-                //            }
-                //        }
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        Console.WriteLine(" CNC error: {0}. Closing.", ex.Message.ToString());
-                //        TunnelAlive = false; }
-                //}).Start();
             }
             catch (Exception ex)
             {
@@ -216,7 +173,7 @@ namespace EDVirtualCOM2TCP
                 {
                     int retry_delay = 5;
                     Console.WriteLine("Déconnexion TCP. Nouvelle tentative dans {0} s...", retry_delay);
-                    EDDebug.Log("Déconnexion TCP. Nouvelle tentative dans " + retry_delay.ToString());
+                    EDDebug.Log("Déconnexion TCP. Nouvelle tentative dans {0} s...", retry_delay);
                     Thread.Sleep(1000 * retry_delay);
                     break;
                 }

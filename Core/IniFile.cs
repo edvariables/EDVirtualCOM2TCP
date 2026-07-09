@@ -69,7 +69,7 @@ namespace EDVirtualCOM2TCP
 
         public bool KeyExists(string Key, string Section = null)
         {
-            return Read(Key, Section).Length > 0;
+            return Read(Key, Section ?? EXE).Length > 0;
         }
     }
 }

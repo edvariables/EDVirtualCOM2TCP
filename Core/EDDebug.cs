@@ -76,10 +76,14 @@ namespace EDVirtualCOM2TCP
             }
         }
 
-        public static void LogLine(string msg)
+        public static void LogLine(string msg, params object[] args)
         {
             if (!Settings.LogEnabled)
                 return;
+            for (int i = 0; i < args.Length; i++)
+            {
+                msg = msg.Replace("{" + i.ToString() + "}", args[i].ToString());
+            }
             using (StreamWriter w = File.AppendText(Filename))
             {
                 w.WriteLine(msg);

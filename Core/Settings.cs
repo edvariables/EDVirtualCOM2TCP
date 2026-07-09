@@ -32,7 +32,7 @@ namespace EDVirtualCOM2TCP
         /**
          * Get section|setting
          * */
-        private static string GetCacheKey(string setting, string section)
+        private static string GetCacheKey(string section, string setting)
         {
             return (section == null ? "" : section) + "|" + setting;
         }

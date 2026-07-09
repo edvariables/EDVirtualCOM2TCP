@@ -18,6 +18,21 @@ namespace EDVirtualCOM2TCP
 {
     public partial class EDVirtualCOM2TCP_Service : ServiceBase
     {
+        private Hub4Com Hub4Com
+        {
+            get
+            {
+                return Hub4Com.Instance;
+            }
+        }
+        private InternalBridge InternalBridge
+        {
+            get
+            {
+                return InternalBridge.Instance;
+            }
+        }
+
         public EDVirtualCOM2TCP_Service()
         {
             InitializeComponent();

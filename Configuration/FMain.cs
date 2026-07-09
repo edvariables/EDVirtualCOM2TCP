@@ -23,6 +23,20 @@ namespace EDVirtualCOM2TCP
             FormControlsAccess();
             btnSave.Enabled = false;
         }
+        private Hub4Com Hub4Com
+        {
+            get
+            {
+                return Hub4Com.Instance;
+            }
+        }
+        private InternalBridge InternalBridge
+        {
+            get
+            {
+                return InternalBridge.Instance;
+            }
+        }
 
         private void btnClose_Click(object sender, EventArgs e)
         {

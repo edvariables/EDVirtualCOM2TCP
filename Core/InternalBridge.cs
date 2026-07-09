@@ -9,10 +9,22 @@ using System.Threading.Tasks;
 
 namespace EDVirtualCOM2TCP
 {
-    public static class InternalBridge
+    public class InternalBridge:ICommandFile
     {
-        private static Thread _openPorts_thread;
-        public static string ExeFileName
+
+        private static InternalBridge _instance;
+        public static InternalBridge Instance
+        {
+            get
+            {
+                if (_instance == null)
+                    _instance = new InternalBridge();
+                return _instance;
+            }
+        }
+
+        private Thread _openPorts_thread;
+        public override string ExeFileName
         {
             get
             {
@@ -20,30 +32,13 @@ namespace EDVirtualCOM2TCP
                 fileName = Path.Combine(Directory.GetParent(Assembly.GetExecutingAssembly().Location).FullName, fileName);
                 if (!File.Exists(fileName))
                 {
-                    throw new Exception("Fichier Hub4Com introuvable : " + fileName);
+                    throw new Exception("Fichier EDVirtualCOM2TCP.InternalBridge.exe introuvable : " + fileName);
                 }
                 return fileName;
             }
         }
 
-        public static string Run(string parameters)
-        {
-            return ICommandFile.Run(ExeFileName, parameters);
-        }
-        public static Thread RunAsThread(string parameters, ICommandFile.ProcessExited processExited = null)
-        {
-            Thread thread = ICommandFile.RunAsThread(ExeFileName, parameters, processExited);
-            if (thread != null)
-            {
-                EDDebug.Log("SUCCES InternalBridge.OpenPorts");
-                Thread.Sleep(300);
-            }
-            else
-                EDDebug.Log("ECHEC InternalBridge.OpenPorts");
-            return thread;
-        }
-
-        public static bool OpenPorts(ICommandFile.ProcessExited processExited = null)
+        public bool OpenPorts(ICommandFile.ProcessExited processExited = null)
         {
             int com = Com0Com.CreatedPair_COMNum;
             if (com <= 0)
@@ -57,15 +52,7 @@ namespace EDVirtualCOM2TCP
             return _openPorts_thread != null;
         }
 
-        public static bool IsProcessRunning
-        {
-            get
-            {
-                return ICommandFile.IsProcessRunning(_openPorts_thread);
-            }
-        }
-
-        public static void ClosePorts()
+        public void ClosePorts()
         {
             if (_openPorts_thread == null)
             {
@@ -75,7 +62,7 @@ namespace EDVirtualCOM2TCP
             try
             {
                 EDDebug.Log("ClosePorts ICommandFile.StopThread");
-                ICommandFile.StopThread(_openPorts_thread);
+                base.StopThread(_openPorts_thread);
                 Thread.Sleep(300);
             }
             catch (Exception ex)
@@ -85,6 +72,14 @@ namespace EDVirtualCOM2TCP
             finally
             {
                 _openPorts_thread = null;
+            }
+        }
+
+        public override bool IsProcessRunning
+        {
+            get
+            {
+                return base.IsThreadProcessRunning(_openPorts_thread);
             }
         }
     }

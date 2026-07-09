@@ -10,13 +10,24 @@ using System.ServiceProcess;
 
 namespace EDVirtualCOM2TCP
 {
-    public static class ServiceManager
+    public class ServiceManager:ICommandFile
     {
-        //        sc.exe create "FileMonitorService" binPath= "C:\Services\FileMonitor\MyWindowsService.exe" start= auto
+        //sc.exe create "FileMonitorService" binPath= "C:\Services\FileMonitor\MyWindowsService.exe" start= auto
         //sc.exe description "FileMonitorService" "Monitors directory for file changes"
         //sc.exe start "FileMonitorService"
 
-        public static string ExeFileName
+        private static ServiceManager _instance;
+        protected static ServiceManager Instance
+        {
+            get
+            {
+                if (_instance == null)
+                    _instance = new ServiceManager();
+                return _instance;
+            }
+        }
+
+        public override string ExeFileName
         {
             get
             {
@@ -44,10 +55,10 @@ namespace EDVirtualCOM2TCP
                 , "EDVirtualCOM2TCP.Service.exe");
             string startMode = "auto";//delayed-
             string parameters = @"create """ + Settings.ServiceName + @""" binPath=""" + serviceFileName + @""" start="+startMode;// description=""(ED/Calisto) Passerelle Virtual COM <=> Ethernet""";
-            ICommandFile.Run(ExeFileName, parameters);
+            Instance.Run(parameters);
 
             parameters = @"description """ + Settings.ServiceName + @""" ""(ED/Calisto) Passerelle Virtual COM <=> Ethernet""";
-            ICommandFile.Run(ExeFileName, parameters);
+            Instance.Run(parameters);
         }
 
         /**
@@ -56,7 +67,7 @@ namespace EDVirtualCOM2TCP
         public static void Delete()
         {
             string parameters = @"delete """ + Settings.ServiceName + @"""";
-            ICommandFile.Run(ExeFileName, parameters);
+            Instance.Run(parameters);
         }
 
         /**
