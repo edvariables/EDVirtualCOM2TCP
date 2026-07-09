@@ -11,7 +11,7 @@ https://sourceforge.net/projects/com0com/files/hub4com /.../hub4com-...-386.zip
 # Sources :
 https://github.com/edvariables/EDVirtualCOM2TCP
 
-#Download
+# Download
 https://edv.edvariables.net/download/EDVirtualCOM2TCP/
 Setup seems incompatible with Windows 11 : download directory .zip file.
 
