@@ -13,7 +13,9 @@ https://github.com/edvariables/EDVirtualCOM2TCP
 
 # Download
 https://edv.edvariables.net/download/EDVirtualCOM2TCP/
+
 Setup seems incompatible with Windows 11 : download directory .zip file.
+https://edv.edvariables.net/download/EDVirtualCOM2TCP/EDVirtualCOM2TCP.zip
 
 ---------
 ED 2026
