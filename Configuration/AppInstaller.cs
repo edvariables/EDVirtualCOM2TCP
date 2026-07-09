@@ -23,17 +23,20 @@ namespace EDVirtualCOM2TCP
         public override void Install(IDictionary stateSaver)
         {
             EDDebug.Log("AppInstaller : Install");
+            base.Install(stateSaver);
+
             foreach (System.Collections.DictionaryEntry o in this.Context.Parameters)
             {
                 EDDebug.LogLine("Context.Parameters : {0} = {1}", o.Key.ToString(), o.Value.ToString());
             }
-            base.Install(stateSaver);
 
             if (!Com0Com.IsInstalled)
             {
                 if (MessageBox.Show("Le composant Com0Com n'est pas installé."
+                    + "\nIl est indispensable pour générer des ports virtuels."
                     + "\nVoulez-vous le télécharger ?"
-                    , "Installation de EDVirtualCOM2TCP"
+                    + "\n(Attention, la version 3.0 est incompatible avec Windows 11 mais la v2.2 suffit.)"
+                    , "Installation de " + Settings.ServiceName
                     , MessageBoxButtons.YesNo
                     , MessageBoxIcon.Question)
                     == DialogResult.Yes)
@@ -41,7 +44,7 @@ namespace EDVirtualCOM2TCP
                     Com0Com.Download();
 
                     MessageBox.Show("Quand l'installation de Com0Com sera effectuée, \ncliquez sur Ok pour poursuivre le démarrage."
-                    , "Installation de EDVirtualCOM2TCP"
+                    , "Installation de " + Settings.ServiceName
                     , MessageBoxButtons.OK
                     , MessageBoxIcon.Warning);
 
@@ -68,12 +71,12 @@ namespace EDVirtualCOM2TCP
         public override void Commit(IDictionary savedState)
         {
             EDDebug.Log("AppInstaller : Commit");
+            base.Commit(savedState);
+
             foreach (System.Collections.DictionaryEntry o in this.Context.Parameters)
             {
                 EDDebug.LogLine("Context.Parameters : {0} = {1}", o.Key.ToString(), o.Value.ToString());
             }
-
-            base.Commit(savedState);
 
             if (this.Context.Parameters.ContainsKey("start_app")
             && this.Context.Parameters["start_app"] == "START_APP")

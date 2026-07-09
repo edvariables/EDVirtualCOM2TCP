@@ -28,14 +28,14 @@ namespace EDVirtualCOM2TCP
                     , MessageBoxIcon.Stop);
                 return;
             }
-            if (args.Length>0)
-            {
-                EDDebug.Log("App arguments : {0}", args.Length);
-                foreach (string arg in args)
-                {
-                    EDDebug.Log(arg);
-                }
-            }
+            //if (args.Length>0)
+            //{
+            //    EDDebug.Log("App arguments : {0}", args.Length);
+            //    foreach (string arg in args)
+            //    {
+            //        EDDebug.Log(arg);
+            //    }
+            //}
             Application.Run(new FMain());
         }
 
