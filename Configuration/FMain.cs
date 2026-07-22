@@ -61,6 +61,10 @@ namespace EDVirtualCOM2TCP
             chkCreateCOM.Checked = Settings.Com0Com_CreateCOM;
             chkLog.Checked = Settings.LogEnabled;
             numService_Delay.Value = Settings.Service_Delay;
+            chkTCPCheckSend.Checked = Settings.TCP_Check_Send_Enabled;
+            txtTCPCheckSend.Text = Settings.TCP_Check_Send;
+            chkTCPConnnectOnCOM.Checked = Settings.TCP_Connnect_OnCOM;
+            txtTCPConnnectOnCOMDelay.Value = Settings.TCP_Disconnect_Delay/1000;
         }
 
         private void Init_Com0Com()
@@ -70,17 +74,17 @@ namespace EDVirtualCOM2TCP
             {
                 Dictionary<string, string> portNames = Com0Com.PortNames();
                 Dictionary<string, bool> portsBusy = new Dictionary<string, bool>();
-                foreach(string portName in portNames.Keys)
+                foreach (string portName in portNames.Keys)
                 {
                     portsBusy.Add(portName, false);
                 }
                 txtCom0ComState.Text = String.Empty;
-                foreach ( string busyname in Com0Com.BusyNames())
+                foreach (string busyname in Com0Com.BusyNames())
                 {
                     if (portsBusy.Keys.Contains(busyname)
                     && portsBusy[busyname])
                         continue;
-                    
+
                     if (txtCom0ComState.Text.Length > 0)
                         txtCom0ComState.Text += "\n\r\n\r";
                     txtCom0ComState.Text += busyname;
@@ -124,12 +128,12 @@ namespace EDVirtualCOM2TCP
                     }
 
                 }
-                picComOk.Visible=true;
+                picComOk.Visible = true;
                 picComAlert.Visible = false;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                txtCom0ComState.Text =ex.Message;
+                txtCom0ComState.Text = ex.Message;
                 picComOk.Visible = false;
                 picComAlert.Visible = true;
             }
@@ -206,16 +210,21 @@ namespace EDVirtualCOM2TCP
             Settings.IP_Address = txtIP_Address.Text;
             Settings.IP_Port = int.Parse(txtIP_Port.Text);
             Settings.COM_num = int.Parse(txtCOM_num.Text);
-            Settings.Com0Com_CreateCOM=chkCreateCOM.Checked;
+            Settings.Com0Com_CreateCOM = chkCreateCOM.Checked;
 
-            Settings.Com0Com_path =txtCom0ComDir.Text;
+            Settings.Com0Com_path = txtCom0ComDir.Text;
             Settings.Hub4Com_path = txtHub4ComDir.Text;
 
-            Settings.LogEnabled= chkLog.Checked;
+            Settings.LogEnabled = chkLog.Checked;
 
-            Settings.Service_Delay = (int)numService_Delay.Value ;
+            Settings.Service_Delay = (int)numService_Delay.Value;
 
             Settings.Bridge_Mode = optHub4Com.Checked ? "Hub4Com" : "Internal";
+
+            Settings.TCP_Check_Send_Enabled = chkTCPCheckSend.Checked;
+            Settings.TCP_Check_Send = txtTCPCheckSend.Text;
+            Settings.TCP_Connnect_OnCOM = chkTCPConnnectOnCOM.Checked;
+            Settings.TCP_Disconnect_Delay = (int)txtTCPConnnectOnCOMDelay.Value*1000;
 
             Settings.Save();
 
@@ -256,7 +265,7 @@ namespace EDVirtualCOM2TCP
             }
             catch (Exception ex)
             {
-                if(ex.InnerException != null)
+                if (ex.InnerException != null)
                     lblServiceState.Text = ex.InnerException.Message;
                 else
                     lblServiceState.Text = ex.Message;
@@ -356,10 +365,10 @@ namespace EDVirtualCOM2TCP
             {
                 if (ServiceManager.Status == ServiceControllerStatus.Running)
                 {
-                    if( MessageBox.Show("Le service est en cours, les ports de communication ne doivent pas être modifiés.", Settings.ServiceName
+                    if (MessageBox.Show("Le service est en cours, les ports de communication ne doivent pas être modifiés.", Settings.ServiceName
                             , MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Stop)
                         == DialogResult.Abort)
-                    return;
+                        return;
                 }
 
                 EDDebug.Log("call Com0Com.RemoveAll()");
@@ -375,7 +384,7 @@ namespace EDVirtualCOM2TCP
 
         private bool Save_Inputs(bool if_need, bool askUser = true)
         {
-            if (btnSave.Enabled || if_need==false)
+            if (btnSave.Enabled || if_need == false)
             {
                 if (if_need
                     && btnSave.Enabled && askUser
@@ -424,7 +433,7 @@ namespace EDVirtualCOM2TCP
                     return;
                 }
 
-                if ( ServiceManager.Status==ServiceControllerStatus.Running )
+                if (ServiceManager.Status == ServiceControllerStatus.Running)
                 {
                     if (MessageBox.Show("Le service est en cours. Lui seul peut ouvrir les ports de communication.", Settings.ServiceName
                             , MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Stop)
@@ -434,7 +443,7 @@ namespace EDVirtualCOM2TCP
                         return;
                     }
                 }
-                if( Settings.Bridge_Hub4Com)
+                if (Settings.Bridge_Hub4Com)
                     try
                     {
                         EDDebug.Log("call Hub4Com.OpenPorts()");
@@ -483,7 +492,7 @@ namespace EDVirtualCOM2TCP
             {
                 chkActivate.Checked = false;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 EDDebug.Log(ex.Message);
             }
@@ -491,7 +500,7 @@ namespace EDVirtualCOM2TCP
 
         private void FMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if(chkActivate.Checked)
+            if (chkActivate.Checked)
                 chkActivate.Checked = false;
         }
 
@@ -543,8 +552,8 @@ namespace EDVirtualCOM2TCP
             lnkServiceRemove.Location = lnkServiceInstall.Location;
             lnkCom0Com.Text = Settings.Com0Com_Download;
             lnkHub4Com.Text = Settings.Hub4Com_Download;
-            picServiceAlert.Location= picServiceOk.Location;
-            picComAlert.Location=picComOk.Location;
+            picServiceAlert.Location = picServiceOk.Location;
+            picComAlert.Location = picComOk.Location;
         }
 
         private void lnkServiceRemove_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -629,14 +638,14 @@ namespace EDVirtualCOM2TCP
             txtHub4ComDir.Enabled = optHub4Com.Checked;
             btnBrowserHub4ComPath.Enabled = txtHub4ComDir.Enabled;
 
-            chkCreateCOM.Enabled = ! optHub4Com.Checked;
+            chkCreateCOM.Enabled = !optHub4Com.Checked;
 
             btnSave.Enabled = true;
         }
 
         private void btnBrowserCom0ComPath_Click(object sender, EventArgs e)
         {
-            folderBrowserDialog1.SelectedPath= Environment.ExpandEnvironmentVariables(txtCom0ComDir.Text);
+            folderBrowserDialog1.SelectedPath = Environment.ExpandEnvironmentVariables(txtCom0ComDir.Text);
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
                 txtCom0ComDir.Text = folderBrowserDialog1.SelectedPath;
@@ -661,6 +670,23 @@ namespace EDVirtualCOM2TCP
 
         private void numService_Delay_ValueChanged(object sender, EventArgs e)
         {
+            btnSave.Enabled = true;
+        }
+
+        private void chkTCPConnnectOnCOM_CheckedChanged(object sender, EventArgs e)
+        {
+            btnSave.Enabled = true;
+        }
+
+        private void txtTCPConnnectOnCOMDelay_ValueChanged(object sender, EventArgs e)
+        {
+
+            btnSave.Enabled = true;
+        }
+
+        private void txtTCPCheckSend_TextChanged(object sender, EventArgs e)
+        {
+
             btnSave.Enabled = true;
         }
     }

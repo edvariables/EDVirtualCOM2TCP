@@ -112,5 +112,80 @@ namespace EDVirtualCOM2TCP.Properties {
                 return ((string)(this["bridge_mode"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int TCP_Reconnect_Delay {
+            get {
+                return ((int)(this["TCP_Reconnect_Delay"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int COM_Reconnect_Delay {
+            get {
+                return ((int)(this["COM_Reconnect_Delay"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("READ<CRLF>")]
+        public string TCP_Check_Send {
+            get {
+                return ((string)(this["TCP_Check_Send"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool TCP_Connnect_OnCOM {
+            get {
+                return ((bool)(this["TCP_Connnect_OnCOM"]));
+            }
+            set {
+                this["TCP_Connnect_OnCOM"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("30000")]
+        public int TCP_Disconnect_Delay {
+            get {
+                return ((int)(this["TCP_Disconnect_Delay"]));
+            }
+            set {
+                this["TCP_Disconnect_Delay"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3000")]
+        public int TCP_Check_Timeout {
+            get {
+                return ((int)(this["TCP_Check_Timeout"]));
+            }
+            set {
+                this["TCP_Check_Timeout"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool TCP_Check_Send_Enabled {
+            get {
+                return ((bool)(this["TCP_Check_Send_Enabled"]));
+            }
+            set {
+                this["TCP_Check_Send_Enabled"] = value;
+            }
+        }
     }
 }

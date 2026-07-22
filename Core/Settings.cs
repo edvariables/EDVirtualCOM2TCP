@@ -277,5 +277,82 @@ namespace EDVirtualCOM2TCP
                 SetValue("LogEnabled", null, value.ToString());
             }
         }
+        public static int TCP_Reconnect_Delay
+        {
+            get
+            {
+                return int.Parse(GetValue("TCP_Reconnect_Delay", null, EDVirtualCOM2TCP.Properties.Settings.Default.TCP_Reconnect_Delay).ToString());
+            }
+            set
+            {
+                SetValue("TCP_Reconnect_Delay", null, value.ToString());
+            }
+        }
+        public static int COM_Reconnect_Delay
+        {
+            get
+            {
+                return int.Parse(GetValue("COM_Reconnect_Delay", null, EDVirtualCOM2TCP.Properties.Settings.Default.COM_Reconnect_Delay).ToString());
+            }
+            set
+            {
+                SetValue("COM_Reconnect_Delay", null, value.ToString());
+            }
+        }
+        public static int TCP_Disconnect_Delay
+        {
+            get
+            {
+                return int.Parse(GetValue("TCP_Disconnect_Delay", null, EDVirtualCOM2TCP.Properties.Settings.Default.TCP_Disconnect_Delay).ToString());
+            }
+            set
+            {
+                SetValue("TCP_Disconnect_Delay", null, value.ToString());
+            }
+        }
+        public static bool TCP_Connnect_OnCOM
+        {
+            get
+            {
+                return bool.Parse(GetValue("TCP_Connnect_OnCOM", null, EDVirtualCOM2TCP.Properties.Settings.Default.TCP_Connnect_OnCOM).ToString());
+            }
+            set
+            {
+                SetValue("TCP_Connnect_OnCOM", null, value.ToString());
+            }
+        }
+        public static bool TCP_Check_Send_Enabled
+        {
+            get
+            {
+                return bool.Parse(GetValue("TCP_Check_Send_Enabled", null, EDVirtualCOM2TCP.Properties.Settings.Default.TCP_Check_Send_Enabled).ToString());
+            }
+            set
+            {
+                SetValue("TCP_Check_Send_Enabled", null, value.ToString());
+            }
+        }
+        public static string TCP_Check_Send
+        {
+            get
+            {
+                return GetValue("TCP_Check_Send", null, EDVirtualCOM2TCP.Properties.Settings.Default.TCP_Check_Send).ToString();
+            }
+            set
+            {
+                SetValue("TCP_Check_Send", null, value);
+            }
+        }
+        public static int TCP_Check_Timeout
+        {
+            get
+            {
+                return int.Parse(GetValue("TCP_Check_Timeout", null, EDVirtualCOM2TCP.Properties.Settings.Default.TCP_Check_Timeout).ToString());
+            }
+            set
+            {
+                SetValue("TCP_Check_Timeout", null, value.ToString());
+            }
+        }
     }
 }

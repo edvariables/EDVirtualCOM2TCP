@@ -18,11 +18,11 @@
         <DOM ShortName="COMx">
             <!--.COM2TCP.COMx.Number-->
             <VAR ShortName="Number" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="Byte" SaveLocation="U">
-                <Value><![CDATA[5]]></Value>
+                <Value><![CDATA[3]]></Value>
             </VAR>
             <!--.COM2TCP.COMX.Received-->
             <VAR ShortName="Received" ClassName="" AutoReset="0" Securized="0" ReadOnly="1" ValueType="Text">
-                <Value><![CDATA[lmk!!!!!!!!!k]]></Value>
+                <Value><![CDATA[rte]]></Value>
             </VAR>
             <!--.COM2TCP.COMX.Send-->
             <VAR ShortName="Send" ClassName="" AutoReset="1" Securized="0" ReadOnly="0" ValueType="Text" />
@@ -1653,7 +1653,7 @@ function UserLoginCheck(){
                 </VAR>
                 <!--.COM2TCP.edvAppli.Version.Revision-->
                 <VAR ShortName="Revision" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Integer">
-                    <Value><![CDATA[19]]></Value>
+                    <Value><![CDATA[20]]></Value>
                     <!--.COM2TCP.edvAppli.Version.Revision.OnSaving-->
                     <VAR ShortName="OnSaving" ClassName="" AutoReset="0" Securized="1" ReadOnly="1" ValueType="Null">
                         <Script><![CDATA[when(..Save:Checking)
@@ -1852,7 +1852,7 @@ edvctrl(":ctrlHTML").Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyle
             <VAR ShortName="Check" ClassName="" AutoReset="1" Securized="0" ReadOnly="0" ValueType="Boolean" />
             <!--.COM2TCP.TCP.Received-->
             <VAR ShortName="Received" ClassName="" AutoReset="0" Securized="0" ReadOnly="1" ValueType="Text">
-                <Value><![CDATA[h]]></Value>
+                <Value><![CDATA[a]]></Value>
             </VAR>
             <!--.COM2TCP.TCP.Send-->
             <VAR ShortName="Send" ClassName="" AutoReset="1" Securized="0" ReadOnly="0" ValueType="Text" />
@@ -1862,7 +1862,7 @@ edvctrl(":ctrlHTML").Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyle
             </VAR>
             <!--.COM2TCP.TCP.Status-->
             <VAR ShortName="Status" ClassName="" AutoReset="0" Securized="0" ReadOnly="0" ValueType="String">
-                <Value><![CDATA[Waiting]]></Value>
+                <Value><![CDATA[Disconnected]]></Value>
             </VAR>
             <!--.COM2TCP.TCP.Tutorials-->
             <VAR ShortName="Tutorials" ClassName="VarFile" AutoReset="0" Securized="0" ReadOnly="1" ValueType="File">
@@ -1873,6 +1873,19 @@ edvctrl(":ctrlHTML").Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyle
                 <VAR ShortName="OnChanging" ClassName="" AutoReset="0" Securized="0" ReadOnly="1" ValueType="Null">
                     <Script><![CDATA[when(..:Changing) {
 	edvInfo = ...:Value;
+}
+null;]]></Script>
+                </VAR>
+            </DOM>
+            <DOM ShortName="Received">
+                <!--.COM2TCP.TCP.Received.OnChanging-->
+                <VAR ShortName="OnChanging" ClassName="" AutoReset="0" Securized="0" ReadOnly="1" ValueType="Null">
+                    <Script><![CDATA[when(..:Changing) {
+	if(..=="READ\n\r"){
+		edvInfo = ..;
+	..Send="OK received";
+	//..="";
+	}
 }
 null;]]></Script>
                 </VAR>

@@ -78,6 +78,8 @@ namespace EDVirtualCOM2TCP
             this.label14 = new System.Windows.Forms.Label();
             this.numService_Delay = new System.Windows.Forms.NumericUpDown();
             this.label13 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.lnkSetup_Download = new System.Windows.Forms.LinkLabel();
@@ -91,8 +93,12 @@ namespace EDVirtualCOM2TCP
             this.lnkCom0Com = new System.Windows.Forms.LinkLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
+            this.chkTCPCheckSend = new System.Windows.Forms.CheckBox();
+            this.txtTCPCheckSend = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.chkTCPConnnectOnCOM = new System.Windows.Forms.CheckBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.txtTCPConnnectOnCOMDelay = new System.Windows.Forms.NumericUpDown();
             this.tabsCtrl.SuspendLayout();
             this.tabGeneral.SuspendLayout();
             this.grpCom0Com.SuspendLayout();
@@ -104,6 +110,7 @@ namespace EDVirtualCOM2TCP
             ((System.ComponentModel.ISupportInitialize)(this.picServiceOk)).BeginInit();
             this.tabInstallation.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numService_Delay)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTCPConnnectOnCOMDelay)).BeginInit();
             this.SuspendLayout();
             // 
             // btnClose
@@ -582,6 +589,11 @@ namespace EDVirtualCOM2TCP
             // 
             // tabInstallation
             // 
+            this.tabInstallation.Controls.Add(this.label17);
+            this.tabInstallation.Controls.Add(this.txtTCPConnnectOnCOMDelay);
+            this.tabInstallation.Controls.Add(this.chkTCPConnnectOnCOM);
+            this.tabInstallation.Controls.Add(this.label16);
+            this.tabInstallation.Controls.Add(this.txtTCPCheckSend);
             this.tabInstallation.Controls.Add(this.label14);
             this.tabInstallation.Controls.Add(this.numService_Delay);
             this.tabInstallation.Controls.Add(this.label13);
@@ -591,6 +603,7 @@ namespace EDVirtualCOM2TCP
             this.tabInstallation.Controls.Add(this.label11);
             this.tabInstallation.Controls.Add(this.lnkSetup_Download);
             this.tabInstallation.Controls.Add(this.lnkGitHub);
+            this.tabInstallation.Controls.Add(this.chkTCPCheckSend);
             this.tabInstallation.Controls.Add(this.chkLog);
             this.tabInstallation.Controls.Add(this.label6);
             this.tabInstallation.Controls.Add(this.label10);
@@ -609,7 +622,7 @@ namespace EDVirtualCOM2TCP
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(194, 437);
+            this.label14.Location = new System.Drawing.Point(194, 396);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(53, 13);
             this.label14.TabIndex = 9;
@@ -617,7 +630,7 @@ namespace EDVirtualCOM2TCP
             // 
             // numService_Delay
             // 
-            this.numService_Delay.Location = new System.Drawing.Point(141, 435);
+            this.numService_Delay.Location = new System.Drawing.Point(141, 394);
             this.numService_Delay.Name = "numService_Delay";
             this.numService_Delay.Size = new System.Drawing.Size(45, 20);
             this.numService_Delay.TabIndex = 8;
@@ -626,26 +639,44 @@ namespace EDVirtualCOM2TCP
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(13, 436);
+            this.label13.Location = new System.Drawing.Point(13, 395);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(105, 13);
             this.label13.TabIndex = 7;
             this.label13.Text = "Délai de démarrage :";
             // 
+            // label5
+            // 
+            this.label5.Location = new System.Drawing.Point(12, 39);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(318, 34);
+            this.label5.TabIndex = 6;
+            this.label5.Text = "Un problème de compatibilité de la version 3.0 avec Windows 11 devrait vous faire" +
+    " choisir la version 2.2";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(13, 179);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(254, 13);
+            this.label15.TabIndex = 6;
+            this.label15.Text = "Si le Setup ne fonctionne pas, téléchargez le dossier";
+            // 
             // label12
             // 
-            this.label12.Location = new System.Drawing.Point(11, 95);
+            this.label12.Location = new System.Drawing.Point(11, 87);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(309, 38);
             this.label12.TabIndex = 6;
-            this.label12.Text = "Cette application monopolise Com0Com. Aucune autre application ne peut l\'utiliser" +
+            this.label12.Text = "Notre application monopolise Com0Com. Aucune autre application ne peut l\'utiliser" +
     " sur cet ordinateur.";
             // 
             // label11
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(11, 142);
+            this.label11.Location = new System.Drawing.Point(11, 125);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(126, 13);
             this.label11.TabIndex = 5;
@@ -654,7 +685,7 @@ namespace EDVirtualCOM2TCP
             // lnkSetup_Download
             // 
             this.lnkSetup_Download.AutoSize = true;
-            this.lnkSetup_Download.Location = new System.Drawing.Point(11, 173);
+            this.lnkSetup_Download.Location = new System.Drawing.Point(11, 156);
             this.lnkSetup_Download.Name = "lnkSetup_Download";
             this.lnkSetup_Download.Size = new System.Drawing.Size(436, 13);
             this.lnkSetup_Download.TabIndex = 4;
@@ -665,7 +696,7 @@ namespace EDVirtualCOM2TCP
             // lnkGitHub
             // 
             this.lnkGitHub.AutoSize = true;
-            this.lnkGitHub.Location = new System.Drawing.Point(11, 156);
+            this.lnkGitHub.Location = new System.Drawing.Point(11, 139);
             this.lnkGitHub.Name = "lnkGitHub";
             this.lnkGitHub.Size = new System.Drawing.Size(254, 13);
             this.lnkGitHub.TabIndex = 4;
@@ -676,7 +707,7 @@ namespace EDVirtualCOM2TCP
             // chkLog
             // 
             this.chkLog.AutoSize = true;
-            this.chkLog.Location = new System.Drawing.Point(14, 456);
+            this.chkLog.Location = new System.Drawing.Point(276, 394);
             this.chkLog.Name = "chkLog";
             this.chkLog.Size = new System.Drawing.Size(54, 17);
             this.chkLog.TabIndex = 3;
@@ -686,7 +717,7 @@ namespace EDVirtualCOM2TCP
             // 
             // label6
             // 
-            this.label6.Location = new System.Drawing.Point(12, 364);
+            this.label6.Location = new System.Drawing.Point(13, 340);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(309, 46);
             this.label6.TabIndex = 2;
@@ -696,7 +727,7 @@ namespace EDVirtualCOM2TCP
             // 
             // label10
             // 
-            this.label10.Location = new System.Drawing.Point(13, 219);
+            this.label10.Location = new System.Drawing.Point(13, 199);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(309, 136);
             this.label10.TabIndex = 2;
@@ -745,23 +776,61 @@ namespace EDVirtualCOM2TCP
             this.lnkCom0Com.Text = "https://sourceforge.net/projects/com0com/files/";
             this.lnkCom0Com.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkCom0Com_LinkClicked);
             // 
-            // label5
+            // chkTCPCheckSend
             // 
-            this.label5.Location = new System.Drawing.Point(12, 39);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(318, 34);
-            this.label5.TabIndex = 6;
-            this.label5.Text = "Un problème de compatibilité de la version 3.0 avec Windows 11 devrait vous faire" +
-    " choisir la version 2.2";
+            this.chkTCPCheckSend.AutoSize = true;
+            this.chkTCPCheckSend.Location = new System.Drawing.Point(16, 421);
+            this.chkTCPCheckSend.Name = "chkTCPCheckSend";
+            this.chkTCPCheckSend.Size = new System.Drawing.Size(138, 17);
+            this.chkTCPCheckSend.TabIndex = 3;
+            this.chkTCPCheckSend.Text = "Test de connexion TCP";
+            this.chkTCPCheckSend.UseVisualStyleBackColor = true;
+            this.chkTCPCheckSend.CheckedChanged += new System.EventHandler(this.chkLog_CheckedChanged);
             // 
-            // label15
+            // txtTCPCheckSend
             // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(13, 196);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(254, 13);
-            this.label15.TabIndex = 6;
-            this.label15.Text = "Si le Setup ne fonctionne pas, téléchargez le dossier";
+            this.txtTCPCheckSend.Location = new System.Drawing.Point(157, 419);
+            this.txtTCPCheckSend.Name = "txtTCPCheckSend";
+            this.txtTCPCheckSend.Size = new System.Drawing.Size(100, 20);
+            this.txtTCPCheckSend.TabIndex = 10;
+            this.txtTCPCheckSend.TextChanged += new System.EventHandler(this.txtTCPCheckSend_TextChanged);
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(263, 424);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(94, 13);
+            this.label16.TabIndex = 11;
+            this.label16.Text = "<CRLF>, <CR>, ...";
+            // 
+            // chkTCPConnnectOnCOM
+            // 
+            this.chkTCPConnnectOnCOM.AutoSize = true;
+            this.chkTCPConnnectOnCOM.Location = new System.Drawing.Point(15, 447);
+            this.chkTCPConnnectOnCOM.Name = "chkTCPConnnectOnCOM";
+            this.chkTCPConnnectOnCOM.Size = new System.Drawing.Size(182, 17);
+            this.chkTCPConnnectOnCOM.TabIndex = 12;
+            this.chkTCPConnnectOnCOM.Text = "Déconnexion en attente de COM";
+            this.chkTCPConnnectOnCOM.UseVisualStyleBackColor = true;
+            this.chkTCPConnnectOnCOM.CheckedChanged += new System.EventHandler(this.chkTCPConnnectOnCOM_CheckedChanged);
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(253, 447);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(53, 13);
+            this.label17.TabIndex = 14;
+            this.label17.Text = "secondes";
+            // 
+            // txtTCPConnnectOnCOMDelay
+            // 
+            this.txtTCPConnnectOnCOMDelay.Location = new System.Drawing.Point(200, 445);
+            this.txtTCPConnnectOnCOMDelay.Name = "txtTCPConnnectOnCOMDelay";
+            this.txtTCPConnnectOnCOMDelay.Size = new System.Drawing.Size(45, 20);
+            this.txtTCPConnnectOnCOMDelay.TabIndex = 13;
+            this.txtTCPConnnectOnCOMDelay.ValueChanged += new System.EventHandler(this.txtTCPConnnectOnCOMDelay_ValueChanged);
             // 
             // FMain
             // 
@@ -794,6 +863,7 @@ namespace EDVirtualCOM2TCP
             this.tabInstallation.ResumeLayout(false);
             this.tabInstallation.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numService_Delay)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTCPConnnectOnCOMDelay)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -860,5 +930,11 @@ namespace EDVirtualCOM2TCP
         private Button btnBrowserHub4ComPath;
         private Label label5;
         private Label label15;
+        private CheckBox chkTCPCheckSend;
+        private CheckBox chkTCPConnnectOnCOM;
+        private Label label16;
+        private TextBox txtTCPCheckSend;
+        private Label label17;
+        private NumericUpDown txtTCPConnnectOnCOMDelay;
     }
 }

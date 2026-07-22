@@ -52,7 +52,7 @@ namespace EDVirtualCOM2TCP
             }
 
             if (this.Context.Parameters.ContainsKey("install_service")
-            && this.Context.Parameters["install_service"] == "INSTALL_SERVICE")
+            && this.Context.Parameters["install_service"] != "")
             {
                 EDDebug.Log("Service Install : Delete");
                 ServiceManager.Delete();
@@ -61,7 +61,7 @@ namespace EDVirtualCOM2TCP
                 ServiceManager.Create();
             }
             if (this.Context.Parameters.ContainsKey("start_service")
-            && this.Context.Parameters["start_service"] == "START_SERVICE")
+            && this.Context.Parameters["start_service"] != "")
             {
                 EDDebug.Log("Service Install : " + ServiceManager.Status.ToString());
                 ServiceManager.Start();
@@ -79,7 +79,7 @@ namespace EDVirtualCOM2TCP
             }
 
             if (this.Context.Parameters.ContainsKey("start_app")
-            && this.Context.Parameters["start_app"] == "START_APP")
+            && this.Context.Parameters["start_app"] != "")
             {
                 Thread thread = new Thread(StartApp);
                 thread.Start();
